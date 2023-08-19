@@ -1,3 +1,6 @@
+#Metodo de simplificacion de Quine McCluskey
+#Jaider Alberto Rendón Moreno
+
 def diferencias(mint1, mint2):
     contador = 0
     index = 0
