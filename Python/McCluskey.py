@@ -1,10 +1,6 @@
 #Metodo de simplificacion de Quine McCluskey
 #Jaider Alberto Rendón Moreno
 
-# Algoritmo de Quinne McCluskey para minimización de expresiones lógicas
-# Author: Suman Adhikari
-# Traduction: Fernando Arturo Medina Molina.
-
 def mul(x,y): # Multiplica 2 mintérminos
     res = []
     for i in x:
