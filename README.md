@@ -2,4 +2,4 @@
 ---
 ### _De momento proyectos personales_
 ---
-![giphy](https://github.com/VOIDX66/Projects_void/assets/70232955/493082d2-c466-4324-b990-3846af36992a)
+![giphy](https://github.com/VOIDX66/Projects_void/assets/70232955/a0e303d9-90a0-4330-aa44-ef7331a359b0)
