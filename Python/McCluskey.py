@@ -67,7 +67,7 @@ def buscar_dos_implicantes(tabla):
         if len(tabla[i]) == 2: #Dos implicante en la columna
             dos_implicantes.append(i) if i not in dos_implicantes else None
     return dos_implicantes
-
+#------------------------------------------------------------------------------------------------------------------------
 print('Por favor ingrese los términos separados por un espacio')
 mt = [int(i) for i in input("Ingrese los mintérminos ").strip().split()]
 mt.sort()
