@@ -24,16 +24,6 @@ def buscaMinterminos(a): # Función para encontrar a los mintérminos mezclados.
         x.pop(0)
     return temp
 
-def compara(a,b): # Función para checar si dos mintérminos difieren en un bit
-    c = 0
-    for i in range(len(a)):
-        if a[i] != b[i]:
-            mismatch_index = i
-            c += 1
-            if c>1:
-                return (False,None)
-    return (True,mismatch_index)
-
 def diferencias(mint1, mint2):
     contador = 0
     index = 0
