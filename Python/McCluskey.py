@@ -1,26 +1,6 @@
 #Metodo de simplificacion de Quine McCluskey
 #Jaider Alberto Rendón Moreno
 
-def mul(x,y): # Multiplica 2 mintérminos
-    res = []
-    for i in x:
-        if i+"'" in y or (len(i)==2 and i[0] in y):
-            return []
-        else:
-            res.append(i)
-    for i in y:
-        if i not in res:
-            res.append(i)
-    return res
-
-def multiplica(x,y): # Multiplica 2 expresiones
-    res = []
-    for i in x:
-        for j in y:
-            tmp = multiplica(i,j)
-            res.append(tmp) if len(tmp) != 0 else None
-    return res
-
 def recorta(x): # Recorta la lista
     elementos_recortados = []
     for i in x:
@@ -194,9 +174,6 @@ elif len(independientes) == 1:
 
 
 complemento = list(complemento.difference(quitar))
-
-
-
 
 formula_final = complemento+implicantes_unicos
 formato_ecuacion = []
