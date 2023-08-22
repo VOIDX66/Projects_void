@@ -1,28 +1,77 @@
 #Metodo de simplificacion de Quine McCluskey
 #Jaider Alberto Rendón Moreno
 
-def recorta(x): # Recorta la lista
+"""
+    recorta(lista)
+
+    Concatena todos los elementos dentro de una lista y retorna una lista nueva 
+
+    Argumentos:
+    lista (list): La lista de entrada.
+
+    Retorna:
+    elementos_recortados (list): Una nueva lista con los elementos de la lista de entrada concatenados.
+
+    Ejemplo
+
+    Entrada:
+
+        lista = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+        result = recorta(lista)
+        print(result)
+
+    Salida:
+
+        [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    """
+def recorta(lista):
     elementos_recortados = []
-    for i in x:
-        elementos_recortados.extend(x[i])
+    for i in lista:
+        elementos_recortados.extend(lista[i])
     return elementos_recortados
-def buscaMinterminos(a): # Función para encontrar a los mintérminos mezclados. Por ejemplo, 10-1 son obtenidos al combinar 9(1001) y 11(1011)
-    gaps = a.count('-')
-    if gaps == 0:
-        return [str(int(a,2))]
-    x = [bin(i)[2:].zfill(gaps) for i in range(pow(2,gaps))]
-    temp = []
-    for i in range(pow(2,gaps)):
-        temp2,ind = a[:],-1
-        for j in x[0]:
-            if ind != -1:
-                ind = ind+temp2[ind+1:].find('-')+1
+
+    """
+    buscaMinterminos(mt)
+    Convierte una cadena binaria con caracteres ("-") en una lista de todas las combinaciones posibles de posiciones rellenas con ceros y unos.
+
+    Argumentos:
+        mt (str): La cadena con los terminos binarios y los guiones "1-01".
+
+    Retorna:
+        temporal (list): Una lista de números decimales que representan todas las combinaciones posibles de las posiciones llenas de ceros y unos.
+
+    Ejemplo
+
+    Entrada:
+
+        mt = "1-01"
+        result = buscaMinterminos(mt)
+        print(result)
+        
+    Salida:
+
+        ['1001', '1101']
+        
+    """
+def buscaMinterminos(mt):
+    guiones = mt.count('-')
+    if guiones == 0:
+        return [str(int(mt,2))]
+    opciones = [bin(i)[2:].zfill(guiones) for i in range(pow(2,guiones))]
+    temporal = []
+    for i in range(pow(2,guiones)):
+        temporal2 = mt[:]
+        indice = -1
+        for j in opciones[0]:
+            if indice != -1:
+                indice += temporal2[indice+1:].find('-')+1
             else:
-                ind = temp2[ind+1:].find('-')
-            temp2 = temp2[:ind]+j+temp2[ind+1:]
-        temp.append(str(int(temp2,2)))
-        x.pop(0)
-    return temp
+                indice = temporal2[indice+1:].find('-')
+            temporal2 = temporal2[:indice]+j+temporal2[indice+1:]
+        temporal.append(str(int(temporal2,2)))
+        opciones.pop(0)
+    return temporal
 
 def diferencias(mint1, mint2):
     contador = 0
@@ -58,13 +107,14 @@ def buscar_dos_implicantes(tabla):
             dos_implicantes.append(i) if i not in dos_implicantes else None
     return dos_implicantes
 #------------------------------------------------------------------------------------------------------------------------
-print('Por favor ingrese los términos separados por un espacio')
-mt = [int(i) for i in input("Ingrese los mintérminos ").strip().split()]
+print("MÉTODO DE SIMPLIFICACIÓN DE QUINE MCCLUSKEY\n")
+print("Por favor ingrese los términos separados por un espacio. \n")
+mt = [int(i) for i in input("Ingrese los mintérminos: ").strip().split()]
 mt.sort()
 minterminos = mt
-minterminos.sort()
 size = len(bin(minterminos[-1]))-2
-grupos,all_pi = {},set()
+grupos = {}
+implicantes = set()
 
 # Comenzamos la agrupación primaria
 for minterm in minterminos:
@@ -73,15 +123,6 @@ for minterm in minterminos:
     except KeyError:
         grupos[bin(minterm).count('1')] = [bin(minterm)[2:].zfill(size)]
 # Término de la agrupación primaria
-
-#Comenzamos la impresión de la agrupación primaria
-print("\n\n\n\nNúmero de Gpo.\tMintérminos\t\tExpresión en BCD\n%s"%('='*60))
-for i in sorted(grupos.keys()):
-    print("%5d:"%i) # Prints group number
-    for j in grupos[i]:
-        print("\t\t    %-20d%s"%(int(j,2),j)) # Imprime los mintérminos y su representación binaria (BCD)
-    print('-'*60)
-#Término de la impresión de la agrupación primara
 
 # Proceso para crear las tablas y encontrar los implicantes primos 
 while True:
@@ -102,51 +143,37 @@ while True:
                     marcados.add(k) # Marca el elemento k
         m += 1
     desmarcados_local = set(recorta(tmp)).difference(marcados) # Desmarcamos los elemntos de cada tabla
-    print(desmarcados_local)
-    all_pi = all_pi.union(desmarcados_local) # Agregamos el implicante primo a la lita global.
-    print("Elementos desmarcados(Implicantes Primos) de la tabla:",None if len(desmarcados_local)==0 else ', '.join(desmarcados_local)) # Imprimimos los implicantes promos en la tabla actual
+    implicantes = implicantes.union(desmarcados_local) # Agregamos el implicante primo a la lita global.
     if debo_parar: # Si los mintérminos no pueden ser combinados
-        print("\n\nAll Implicantes Primos: ",None if len(all_pi)==0 else ', '.join(all_pi)) # Imprimimos todos los implicantes primos
         break
 
 
 sz = len(str(mt[-1]))
 tabla = {}
 
-for i in all_pi:
+for i in implicantes:
     minterminos_mezclados = buscaMinterminos(i)
     for j in minterminos_mezclados:
         try:
             tabla[j].append(i) if i not in tabla[j] else None # Agregamos el mintérmino a la impresión
         except KeyError:
             tabla[j] = [i]
-print("\n")
 
 implicantes_unicos = buscar_implicantes_unicos(tabla)
 dos_implicantes = buscar_dos_implicantes(tabla)
-print(tabla)
-print("\n")
 
 
 #remueveTerminos(tabla,implicantes_unicos)
-print("\n Implicantes unicos")
-print(implicantes_unicos)
-print("\n Dos implicantes")
-print(dos_implicantes)
-print("\n")
-
 compartidos = set()
 for i in dos_implicantes:
     if tabla[i][0] in implicantes_unicos:
         compartidos.add(i)
     elif tabla[i][1] in implicantes_unicos:
         compartidos.add(i)    
-print("Compartidos: ", compartidos)
 
 independientes = set(dos_implicantes).difference(compartidos)
 
 complemento = set()
-print("Independientes: ",independientes)
 
 quitar = set()
 temporal_lista = []
@@ -169,8 +196,9 @@ formula_final = complemento+implicantes_unicos
 formato_ecuacion = []
 for i in range(len(formula_final)):
     formato_ecuacion.append(convertir(formula_final[i]))
+    
 #VAMOS A IMPRIMIR EL RESULTADO
-print("SOLUCION: ")
+print("SOLUCION: \n")
 for i in range(len(formato_ecuacion)):
     for j in formato_ecuacion[i]:
         print(j, end = '')
