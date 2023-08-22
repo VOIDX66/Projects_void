@@ -21,13 +21,6 @@ def multiplica(x,y): # Multiplica 2 expresiones
             res.append(tmp) if len(tmp) != 0 else None
     return res
 
-def BuscarIPE(x): # Función para encontrar los implicantes primos esenciales
-    res = []
-    for i in x:
-        if len(x[i]) == 1:
-            res.append(x[i][0]) if x[i][0] not in res else None
-    return res
-
 def recorta(x): # Recorta la lista
     elementos_recortados = []
     for i in x:
@@ -80,7 +73,21 @@ def convertir(mintermino):
         elif mintermino[i] == '0':
             var_formula.append(chr(i+65)+"'")
     return var_formula
-   
+
+def buscar_implicantes_unicos(tabla):
+    implicantes_unicos = []
+    for i in tabla:
+        if len(tabla[i]) == 1: #Unico implicante en la columna
+            implicantes_unicos.append(tabla[i][0]) if tabla[i][0] not in implicantes_unicos else None
+    return implicantes_unicos
+
+def buscar_dos_implicantes(tabla):
+    dos_implicantes = []
+    for i in tabla:
+        if len(tabla[i]) == 2: #Dos implicante en la columna
+            dos_implicantes.append(i) if i not in dos_implicantes else None
+    return dos_implicantes
+
 print('Por favor ingrese los términos separados por un espacio')
 mt = [int(i) for i in input("Ingrese los mintérminos ").strip().split()]
 mt.sort()
@@ -132,21 +139,76 @@ while True:
         print("\n\nAll Implicantes Primos: ",None if len(all_pi)==0 else ', '.join(all_pi)) # Imprimimos todos los implicantes primos
         break
 
-    # Imprimimos en todos los grupos siguientes
-    print("\n\n\n\nNúmero de Gpo\tMintérminos\t\tExpresión en BCD\n%s"%('='*60))
-    for i in sorted(grupos.keys()):
-        print("%5d:"%i) # Imprimimos el número de grupo
-        for j in grupos[i]:
-            print("\t\t%-24s%s"%(','.join(buscaMinterminos(j)),j)) # Imprimimos los mintérminos y su representación binaria.
-        print('-'*60)
-    # Terminamos la impresión de los grupos siguientes
-# Terminamos el proceso de la creación de tablas y encontrar los implicantes primos
 
+sz = len(str(mt[-1]))
 tabla = {}
 
 for i in all_pi:
-    print(convertir(i))
+    minterminos_mezclados = buscaMinterminos(i)
+    for j in minterminos_mezclados:
+        try:
+            tabla[j].append(i) if i not in tabla[j] else None # Agregamos el mintérmino a la impresión
+        except KeyError:
+            tabla[j] = [i]
 print("\n")
 
-implicantes_unicos = []
+implicantes_unicos = buscar_implicantes_unicos(tabla)
+dos_implicantes = buscar_dos_implicantes(tabla)
+print(tabla)
+print("\n")
+
+
+#remueveTerminos(tabla,implicantes_unicos)
+print("\n Implicantes unicos")
+print(implicantes_unicos)
+print("\n Dos implicantes")
+print(dos_implicantes)
+print("\n")
+
+compartidos = set()
+for i in dos_implicantes:
+    if tabla[i][0] in implicantes_unicos:
+        compartidos.add(i)
+    elif tabla[i][1] in implicantes_unicos:
+        compartidos.add(i)    
+print("Compartidos: ", compartidos)
+
+independientes = set(dos_implicantes).difference(compartidos)
+
+complemento = set()
+print("Independientes: ",independientes)
+
+quitar = set()
+temporal_lista = []
+for i in independientes:
+    for j in tabla[i]:
+        complemento.add(j) 
+if len(independientes) > 1:
+    for i in compartidos:
+        for j in complemento:
+            if j in tabla[i]:
+                quitar.add(j)
+elif len(independientes) == 1:
+    temporal_lista = list(compartidos)[-1]
+    complemento = complemento.difference(set(tabla[temporal_lista]))
+
+
+complemento = list(complemento.difference(quitar))
+
+
+
+
+formula_final = complemento+implicantes_unicos
+formato_ecuacion = []
+for i in range(len(formula_final)):
+    formato_ecuacion.append(convertir(formula_final[i]))
+#VAMOS A IMPRIMIR EL RESULTADO
+print("SOLUCION: ")
+for i in range(len(formato_ecuacion)):
+    for j in formato_ecuacion[i]:
+        print(j, end = '')
+    if i < len(formato_ecuacion)-1:    
+        print(" + ", end = '')    
+print("\n")
 # 1 4 6 7 8 9 10 11 15
+# 0 1 3 4 6 7 9 10 11 12 15 16 23 24 25 26 27
