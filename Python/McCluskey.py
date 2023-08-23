@@ -149,6 +149,8 @@ def convertir(mintermino):
     return var_formula
 
 """
+    buscar_implicantes_unicos(tabla)    
+
     Busca los implicantes unicos en una tabla (diccionario).
 
     Argumentos:
