@@ -1,1 +1,1 @@
-print("Mañana toca pull 1")
+print("Mañana toca descanso")
