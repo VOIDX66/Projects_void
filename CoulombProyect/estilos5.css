@@ -1,0 +1,306 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+body{
+    width: 100%;
+    height: 100%;
+    background-image: url(fondo1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+/* cabecera */
+#cabeza2{
+    width: 100%;
+    height: 100px;
+    background: #ff7f0e;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#cabeza2 img{
+    height: 100px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+#cabeza2 .textoc{
+    width: calc(100% - 130px);
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+
+}
+
+.titulo{
+    margin-right: 50px;
+    text-shadow: 3px 3px 3px;
+}
+
+.caja{
+    width: 40px;
+    height: 40px;
+    padding: 20px;
+    border-radius: 600%;
+    text-align: center;
+    line-height: 40px;
+}
+
+.caja1{
+    background: #ff0e0e;
+    margin-right: 20px;
+   
+}
+
+.caja2{
+    background: #0e6dff;
+    margin-right: 20px;
+}
+.caja3{
+    background: #ff0e0e;
+    margin-right: 20px;
+}
+.caja4{
+    background: #0e6dff;
+    margin-right: 20px;
+}
+.caja5{
+    background: #0e6dff;
+}
+/* fin cabecera */
+
+/* estilos cuerpo de la pagina */
+#main{
+    width: 100%;
+    min-height: 1100px;
+    padding-top: 15px;
+
+}
+
+#datos{
+    width: 800px;
+    border: 5px inset blueviolet ;
+    margin: 0 auto;
+    margin-top: 30px;
+    display: block;
+}
+
+#datos h2{
+    width: 800px;
+    height: 50px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 50px;
+    color: white;
+    background-color: rgba(113, 70,153, 0.9);
+    
+}
+
+form{
+    color: white;
+    background-color: rgba(112, 112,112, 0.9);
+    font-size: 25px;
+    font-weight: 700;
+}
+
+form span{
+    font-size: 10px;
+}
+
+#cargas{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+form input[type="number"]{
+    width: 200px;
+    height: 25px;
+    
+}
+
+.carga h3{
+    margin-top: 30px;
+}
+
+/* cargas ejerce fuerza */
+.cejerce h3{
+    width: 100%;
+    height: 25px;
+    display: block;
+    text-align: center;
+}
+
+.cejerce .cfs{
+    width: 100%;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* ------ */
+.otros{/* contenedor de la distancia */
+
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 50px;
+
+
+}
+
+#d{
+    width: 300px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+form input[type="submit"]{
+    width: 300px;
+    height: 60px;
+    margin-left: 220px;
+    margin-bottom: 15px;
+    background-color: rgba(113, 70,153, 0.9);
+}
+
+/* dibujo */
+#contenedor1{
+    width: 100%;
+    height: 1200px;
+    display: none;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    
+}
+
+#contenedor1 h2{
+    width: 500px;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    color:black;
+    font-size: 40px;
+    text-shadow: 2px 2px 3px blueviolet;
+    letter-spacing: 6px;
+}
+
+
+/*    dibujo uno del las cargas */
+#contenedor1 #plano1{
+    width: 1000px;
+    height: 1000px;
+    display: block;
+    margin:  0 auto;
+    margin-bottom: 50px;
+    position: relative;
+    
+    
+}
+#plano1 canvas{
+    background-color: rgba(255, 255, 255, 0.9);
+    
+}
+
+#plano1 .span1{ /* titulo en el canvas */
+    width: 350px;
+    height: 30px;
+    position: absolute;
+    font-size: 25px;
+    left: 300px;
+    top: 30px;
+}
+
+
+#plano1 .span3{ 
+    font-size: 20px;
+    position: absolute;
+    color: blue;
+    rotate: -100grad;
+}
+#plano1 .span4{ 
+    font-size: 20px;
+    position: absolute;
+    color: red; 
+    
+}
+
+#plano1 .polaridad{ 
+    width: 90px;/* igual que el radio de simulador30.js */
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+  position: absolute;
+  font-size: 20px;
+  background-color: #0e6dff;
+  border-radius: 600px;
+  font-size: 50px;
+  z-index: 3;
+}
+
+#plano1 .vc{
+    font-size: 20px;
+    position: absolute;
+    z-index: 3;
+}
+#plano1 .dc{
+    font-size: 25px;
+    position: absolute;
+    z-index: 3;
+}
+#plano1 .dc span{
+    font-size: 20px;
+    position: absolute;
+    z-index: 3;
+    line-height: 35px;
+}
+
+#plano1 .span19{
+    font-size: 25px;
+    position: absolute;
+    z-index: 3;
+}
+#plano1 .span19 span{
+    font-size: 24px;
+    position: absolute;
+    z-index: 3;
+}
+
+#plano1 .qs{
+    font-size: 15px;
+    color: white;
+    position: absolute;
+    z-index: 10;
+}
+
+footer {
+    width: 100%;
+    height: 150px;
+    background-color: blueviolet;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid rgb(103, 10, 190);
+    text-align: center;
+}
+
+footer a{
+    font-size: 25px;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: none;     
+    display: block;  
+    margin: 0 auto;
+}

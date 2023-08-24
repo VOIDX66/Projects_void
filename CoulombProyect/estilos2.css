@@ -1,0 +1,340 @@
+
+:root{
+    --columnas:40;
+    --filas:40;
+
+    --visible1:none
+    --visible2:none
+    --visible3:none
+    --visible4:none
+}
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    width: 100%;
+    height: 100%;
+    background-image: url(fondo1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+/* cabecera */
+#cabeza2{
+    width: 100%;
+    height: 100px;
+    background: #ff7f0e;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#cabeza2 .textoc{
+    width: calc(100% - 130px);
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+
+}
+#cabeza2 img{
+    height: 100px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.titulo{
+    margin-right: 50px;
+
+    
+}
+
+.caja{
+    width: 40px;
+    height: 40px;
+    padding: 20px;
+    border-radius: 600%;
+    text-align: center;
+    line-height: 40px;
+}
+
+.caja1{
+    background: #ff0e0e;
+    margin-right: 20px;
+   
+}
+
+.caja2{
+    background: #0e6dff;
+}
+/* fin cabecera */
+
+/* formulario */
+
+#main{
+    width: 100%;
+    height: 1000px;
+    text-align: center;
+    
+    padding-top: 20px;
+}
+#ingreso2{
+    width: 800px;
+    border: 5px inset blueviolet ;
+    margin: 0 auto;
+    margin-top: 30px;
+    display: block;
+}
+#main h2{
+    width: 800px;
+    height: 50px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 50px;
+    color: white;
+    background-color: rgba(113, 70,153, 0.9);
+    
+}
+form{
+    color: white;
+    background-color: rgba(112, 112,112, 0.9);
+    font-size: 25px;
+    font-weight: 700;
+}
+
+form span{
+    font-size: 10px;
+}
+
+#cargas{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+/*#ingreso2 #cargas{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}*/
+
+#cargas .ca{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ca h3{
+    background: hsla(0, 0%, 100%, 0);
+    border-left: 2px  hsla(0, 0%, 100%, 0);
+    border-right: 2px  hsla(0, 0%, 100%, 0);
+    margin-top: 30px;
+}
+
+.ca .micro{
+    background-color: #ffffff00;
+    border-left: 5px solid rgba(0, 0, 0, 0);
+    border-right: 5px solid rgba(0, 0, 0, 0);
+}
+
+form input[type="number"]{
+    width: 200px;
+    height: 25px;
+    margin-left: 50px;
+    
+}
+
+.ca .radios{
+    background: rgba(137, 43, 226, 0);
+    margin-top: 5px;
+    scale: 200%;
+}
+
+
+
+.ejerce span{
+    
+    width: 600px;
+    padding-left: 179px;
+    padding-right: 178px;
+    background-color: #a3afc000;
+}
+
+.ejerce div{
+    scale: 120%;
+    width: 600px;
+    height: 30px;
+    display: flex;
+    margin: 0 auto;
+    background-color: #ffffff00;
+}
+
+.ejerce .r_ejerce div{
+    justify-content: center;
+    border-left: 1px solid rgba(0, 0, 0, 0) ;
+}
+
+
+#ingreso2 .distancia{
+    width: 600px;
+    margin: 0 auto;
+    display: block;
+    flex-direction: column;
+}
+
+.distancia label{
+    background: #0e6eff00;
+  
+}
+form input[type="number"]{
+    width: 200px;
+    height: 25px;
+    display: center;
+}
+
+
+
+#ingreso2 input[type="submit"]{
+    width: 250px;
+    height: 50px;
+    text-align: center;
+    border-radius: 1px;
+    background: rgba(113, 70,153, 0.9);
+}
+
+/* fin formulario */
+
+/* dibujo */
+
+#dibujo{
+    width: 100%;
+    height: 700px;
+    display: none;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+#dibujo .plano{
+    width: 900px;
+    height: 500px;
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    overflow-x: scroll;
+}
+
+
+.plano canvas{
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.plano .cg{ /* didujo de las cargas*/
+    width: 90px;/* igual que el radio de simulador30.js */
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+  position: absolute;
+  font-size: 20px;
+  background-color: #0e6dff;
+  border-radius: 600px;
+  font-size: 50px;
+  z-index: 2;
+}
+
+.plano .cq{
+    font-size: 20px;
+    position: absolute;
+    z-index: 3;
+}
+
+.plano .f{
+    font-size: 20px;
+    position: absolute;
+    z-index: 3; 
+}
+
+.f span{
+    position: absolute;
+    font-size: 12px;
+}
+
+.plano .d{
+    font-size: 20px;
+    position: absolute;
+    z-index: 3;
+}
+.plano .fr{
+    font-size: 30px;
+    position: absolute;
+    z-index: 3;
+}
+
+.cajamovimiento{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 4;
+}
+.movimiento{
+    position: absolute;
+    z-index: 5;
+    border-style: solid;
+    border-color: rgb(125, 4, 4)
+    transparent
+    transparent
+    transparent;
+    border-width: 2px 2px 0 0;
+    border-radius: 50%;
+    top: 5em;
+    left: 5em;
+    width: 89px;
+    height: 89px;
+    animation: orbit 8s linear infinite;
+
+}
+
+.movimiento::before{
+    content: '';
+    position: absolute;
+    z-index: 5;
+    border-radius: 50%;
+    top: 7px;
+    right: 7px;
+    width: 9px;
+    height: 9px;
+    background-color: rgba(241, 28, 238, 0.9);
+}
+
+
+
+
+    
+@keyframes orbit{
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+footer {
+
+    width: 100%;
+    height: 150px;
+    background-color: blueviolet;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid rgb(103, 10, 190);
+    text-align: center;
+    margin-top: 100px;
+}
+
+footer a{
+    font-size: 25px;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: none;     
+    display: block;  
+    margin: 0 auto;
+}

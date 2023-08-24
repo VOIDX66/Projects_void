@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos2.css">
+    <script type="text/javascript" src="simulador2.js"></script>
+    <script src="jquery-3.6.4.min.js"></script>
+    <title>2-Cargas</title>
+</head>
+<body>
+    <footer id="cabeza2">
+        <img id="inicio" src="dos.png" alt="imagen">
+        <div class="textoc">
+            <h1 class="titulo">COULOMB</h1>
+            <div class="caja caja1">Q1</div>
+            <div class="caja caja2">Q2</div>
+        </div>
+    </footer>
+    <main id="main">
+        
+
+        <form action="#" id="ingreso2" onsubmit="return false">
+            <h2>ingreso de datos</h2>
+            <div id="cargas">
+                <div class="ca">
+                    <h3>Valor Q1</h3>
+                    <label for="q1" class="micro">carga(µC):</label>
+                    <input type="number" id="q1" name="q1" require step="any" ><!--require para que seo obligatorio el ingreso de un dato -->
+                    <div class="radios">
+                    <label for="pos1">+</label>
+                    <input type="radio" name="tipo1" id="pos1" checked> <!-- checked para que tenga el valor preseleccionado -->
+                    <label for="neg1">-</label>
+                    <input type="radio" name="tipo1" id="neg1"> 
+                    </div>
+                </div>
+                <div class="ca">
+                    <h3>Valor Q2</h3>
+                    <label for="q2" class="micro">carga(µC):</label>
+                    <input type="number" id="q2" name="q2" step="any" required>
+                    <div class="radios">
+                    <label for="pos2">+</label>
+                    <input type="radio" name="tipo2" id="pos2" checked> 
+                    <label for="neg2">-</label>
+                    <input type="radio" name="tipo2" id="neg2"> 
+                    </div>
+                </div>
+            </div>
+            <div class="ejerce">
+                <h3>Carga sobre la que se ejerce la fuerza:</h3>
+                <div class="r_ejerce">
+                    <div class="r_ejerce1">
+                    <input type="radio" id="ejerce1" name="ejerce" checked>
+                    </div>
+                    <div class="r_ejerce2">
+                    <input type="radio" id="ejerce2" name="ejerce">
+                    </div>
+                </div>
+
+            </div>
+            <div class="distancia">
+                <label for="distancia">distancia(cm)</label>
+                <input type="number" id="distancia" name="distacia"step="any" required min="0.001">  <!-- steop"any"para cualquier numero de decimales  -->
+            </div>
+            <input type="submit" value="Calcular">
+        </form>
+
+        <div id="dibujo">
+
+            <div class="plano">
+
+                <span class="dcarga1 cg"></span>
+                <span class="dcarga2 cg"></span>
+                <span class="cq1 cq"></span>
+                <span class="cq2 cq"></span>
+                <span class=f>F<span></span></span>
+                <span class="d"></span>
+                <span class="fr"></span>
+                <div class="cajamovimiento">
+                    <span class="movimiento"></span>
+                </div>
+                <canvas></canvas>
+
+            </div>
+            
+        
+        </div>    
+
+
+    </main>
+    <footer >
+        <h3>Contactos:</h3>
+        <a href="https://youtu.be/Iu1XeELAobI">Diseñador de logica: Juan Rodriguez / cel:3122010130</a>
+        <br>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Diseño web: Juan carlos Gomez Soto / cel:3135291365 </a>
+        <br>
+        <a href="https://youtu.be/WyB87-8TQ7w">Diseño web: Emanuel Muñoz Lopez / cel:3173013554 </a>
+    </footer>
+    
+</body>
+</html>

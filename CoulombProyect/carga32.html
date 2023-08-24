@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos32.css">
+    <title>Document32</title>
+</head>
+<body>
+    <footer id="cabeza2">
+        <img id="inicio" src="dos.png" alt="imagen">
+        <div class="textoc">
+            <h1 class="titulo">COULOMB</h1>
+            <div class="caja caja1">Q1</div>
+            <div class="caja caja2">Q2</div>
+            <div class="caja caja3">Q3</div>
+        </div>
+    </footer>
+    <main id="main">
+        <section id="datos">
+            <h2>Valores</h2>
+            <form action="#" class="formulario" onsubmit="return false">
+                <div id="cargas">
+                    <div class="carga">
+                        <label for="carga1" class="micro">Q1(µC):</label>
+                        <br>
+                        <input type="number" id="carga1" name="carga1" require step="any" min="1">
+                        <h3>Polaridad <span>Q1</span></h3>
+                        <div class="radios">
+                            <label for="pos1">+</label>
+                            <input type="radio" name="tipo1" id="pos1" checked> <!-- checked para que tenga el valor preseleccionado -->
+                            <label for="neg1">-</label>
+                            <input type="radio" name="tipo1" id="neg1"> 
+                        </div>
+                    </div>
+                    <div class="carga">
+                        <label for="carga2" class="micro">Q2(µC):</label>
+                        <br>
+                        <input type="number" id="carga2" name="carga2" require step="any" min="1">
+                        <h3>Polaridad <span>Q2</span></h3>
+                        <div class="radios">
+                            <label for="pos1">+</label>
+                            <input type="radio" name="tipo2" id="pos2" checked> <!-- checked para que tenga el valor preseleccionado -->
+                            <label for="neg1">-</label>
+                            <input type="radio" name="tipo2" id="neg2"> 
+                        </div>
+                    </div>
+                    <div class="carga">
+                        <label for="carga3" class="micro">Q3(µC):</label>
+                        <br>
+                        <input type="number" id="carga3" name="carga3" require step="any" min="1">
+                        <h3>Polaridad <span>Q3</span></h3>
+                        <div class="radios">
+                            <label for="pos1">+</label>
+                            <input type="radio" name="tipo3" id="pos3" checked> <!-- checked para que tenga el valor preseleccionado -->
+                            <label for="neg1">-</label>
+                            <input type="radio" name="tipo3" id="neg3"> 
+                        </div>
+                    </div>
+                </div>
+                <div class="cejerce">
+                    <h3 >cargar sobre la que se ejerce la Fuerza</h3>
+                    <div class="cfs">
+                        <div>
+                            <label for="cf1">Q1</label>
+                            <input type="radio" id="cf1" name="cf" checked>
+                        </div>
+                        <div>
+                            <label for="cf2">Q2</label>
+                            <input type="radio" id="cf2" name="cf" >
+                        </div>
+                        <div>
+                            <label for="cf3">Q3</label>
+                            <input type="radio" id="cf3" name="cf" >
+                        </div>    
+                    </div>
+                </div>
+                <div id="d">
+                    <label for="distancia" class="micro">Hipotenusa(cm):</label>
+                    <br>
+                    <input type="number" id="distancia" name="distancia" require step="any"  min="1">
+                </div>
+                <br>
+                <input type="submit" value="cargar" >
+            </form>
+        </section>
+        <div id="contenedor1">
+            <h2>diagrama de cargas</h2>
+            <div id="plano1">
+                <span class="span1">Fuerza de las Cargas en el Diagrama</span>
+                <span class="span2"></span><!-- distancia total -->
+                <span class="span3"></span><!-- distancia 1 -->
+                <span class="span4"></span><!-- distancia 1 -->
+                <span class="span5 polaridad"></span><!-- polaridad carga 1 -->
+                <span class="span6 polaridad"></span><!-- polaridad carga 2 -->
+                <span class="span7 polaridad"></span><!-- polaridad carga 3 -->
+                <span class="span8 vc"></span><!-- valores de las cargas 1-->
+                <span class="span9 vc"></span><!-- valores de las cargas 2-->
+                <span class="span10 vc"></span><!-- valores de las cargas 3-->
+                <span class="span11">FX:<span></span></span><!-- fuerzas 1 -->
+                <span class="span12">FY:<span></span></span><!-- fuerzas 2 -->
+                <span class="span13">FR:<span></span></span><!-- fuerzas 3 -->
+                <span class="span14">F12</span><!-- fuerza en flecha -->
+                <span class="span15">F32</span><!-- fuerza en flecha -->
+                <span class="span16">θ</span><!-- simbolo del angulo -->
+                <span class="span17">θ:<span></span></span><!-- fuerzas 2 -->
+                <!-- Q -->
+                <span class="span18 qs">Q1</span>
+                <span class="span19 qs">Q2</span>
+                <span class="span20 qs">Q3</span>
+                <span class="span21 qs">Q3</span>
+                <span class="span22 qs">Q3</span>
+                <canvas class="canva1"></canvas>
+                <canvas class="canva2"></canvas>
+            </div>
+        </div>
+
+ 
+
+
+    </main>
+    <footer >
+        <h3>Contactos:</h3>
+        <a href="https://youtu.be/Iu1XeELAobI">Diseñador de logica: Juan Rodriguez / cel:3122010130</a>
+        <br>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Diseño web: Juan carlos Gomez Soto / cel:3135291365 </a>
+        <br>
+        <a href="https://youtu.be/WyB87-8TQ7w">Diseño web: Emanuel Muñoz Lopez / cel:3173013554 </a>
+    </footer>
+    
+    <script src="simulador32.js"></script>
+</body>
+</html>

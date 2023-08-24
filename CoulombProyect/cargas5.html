@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos5.css">
+    <title>carga5</title>
+</head>
+<body>
+    <footer id="cabeza2">
+        <img id="inicio" src="dos.png" alt="imagen">
+        <div class="textoc">
+            <h1 class="titulo">COULOMB</h1>
+            <div class="caja caja1">Q1</div>
+            <div class="caja caja2">Q2</div>
+            <div class="caja caja3">Q3</div>
+            <div class="caja caja4">Q4</div>
+            <div class="caja caja5">Q5</div>
+        </div>
+    </footer>
+    <main id="main">
+        <section id="datos">
+            <h2>Valores</h2>
+            <form action="#" class="formulario" onsubmit="return false">
+                <div id="cargas">
+                    <div class="carga">
+                        <label for="carga1" class="micro">Q1(µC):</label>
+                        <br>
+                        <input type="number" id="carga1" name="carga1" require step="any" min="1">
+                        <h3>Polaridad <span>Q1</span></h3>
+                        <div class="radios">
+                            <label for="pos1">+</label>
+                            <input type="radio" name="tipo1" id="pos1" checked> <!-- checked para que tenga el valor preseleccionado -->
+                            <label for="neg1">-</label>
+                            <input type="radio" name="tipo1" id="neg1"> 
+                        </div>
+                    </div>
+                    <div class="carga">
+                        <label for="carga2" class="micro">Q2(µC):</label>
+                        <br>
+                        <input type="number" id="carga2" name="carga2" require step="any" min="1">
+                        <h3>Polaridad <span>Q2</span></h3>
+                        <div class="radios">
+                            <label for="pos1">+</label>
+                            <input type="radio" name="tipo2" id="pos2" checked> <!-- checked para que tenga el valor preseleccionado -->
+                            <label for="neg1">-</label>
+                            <input type="radio" name="tipo2" id="neg2"> 
+                        </div>
+                    </div>
+                    <div class="carga">
+                        <label for="carga3" class="micro">Q3(µC):</label>
+                        <br>
+                        <input type="number" id="carga3" name="carga3" require step="any" min="1">
+                        <h3>Polaridad <span>Q3</span></h3>
+                        <div class="radios">
+                            <label for="pos1">+</label>
+                            <input type="radio" name="tipo3" id="pos3" checked> <!-- checked para que tenga el valor preseleccionado -->
+                            <label for="neg1">-</label>
+                            <input type="radio" name="tipo3" id="neg3"> 
+                        </div>
+                    </div>
+                    
+                    <div class="carga">
+                        <label for="carga5" class="micro">Q5(µC):</label>
+                        <br>
+                        <input type="number" id="carga5" name="carga5" require step="any" min="1">
+                        <h3>Polaridad <span>Q5</span></h3>
+                        <div class="radios">
+                            <label for="pos1">+</label>
+                            <input type="radio" name="tipo5" id="pos5" checked> <!-- checked para que tenga el valor preseleccionado -->
+                            <label for="neg1">-</label>
+                            <input type="radio" name="tipo5" id="neg5"> 
+                        </div>
+                    </div>
+                </div>
+                <div class="otros">
+                    <div id="d">
+                        <label for="distancia" class="micro">Distancia(cm):</label>
+                        <br>
+                        <input type="number" id="distancia" name="distancia" require step="any"  min="1">
+                    </div>
+                    <div id="datosp4">
+                        <h3>Polaridad Q4</h3>
+                        <div class="radios">
+                            <label for="pos1">+</label>
+                            <input type="radio" name="tipo4" id="pos4" checked> <!-- checked para que tenga el valor preseleccionado -->
+                            <label for="neg1">-</label>
+                            <input type="radio" name="tipo4" id="neg4"> 
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <input type="submit" value="cargar" >
+            </form>
+        </section>
+        <div id="contenedor1">
+            <h2>diagrama de cargas</h2>
+            <div id="plano1">
+                <span class="span1">Fuerza de las Cargas en Equilibrio</span>
+                <span class="span2"></span>
+                <span class="span3"></span>
+                <span class="span4"></span>
+                <span class="span5 polaridad"></span>
+                <span class="span6 polaridad"></span>
+                <span class="span7 polaridad"></span>
+                <span class="span8 polaridad"></span>
+                <span class="span9 polaridad"></span>
+                <span class="span10 vc"></span>
+                <span class="span11 vc"></span>
+                <span class="span12 vc"></span>
+                <span class="span13 vc"></span>
+                <span class="span14 vc"></span>
+                <span class="span15 dc">F<span>15</span></span>
+                <span class="span16 dc">F<span>25</span></span>
+                <span class="span17 dc">F<span>35</span></span>
+                <span class="span18 dc">F<span>45</span></span>
+                <span class="span19">F45:<span></span></span>
+               
+              <!-- Q -->
+                <span class="span20 qs">Q1</span>
+                <span class="span21 qs">Q2</span>
+                <span class="span22 qs">Q3</span>
+                <span class="span23 qs">Q4</span>
+                <span class="span24 qs">Q5</span>
+                <canvas></canvas>
+            </div>
+        </div>
+
+
+
+    </main>
+    <footer >
+        <h3>Contactos:</h3>
+        <a href="https://youtu.be/Iu1XeELAobI">Diseñador de logica: Juan Rodriguez / cel:3122010130</a>
+        <br>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Diseño web: Juan carlos Gomez Soto / cel:3135291365 </a>
+        <br>
+        <a href="https://youtu.be/WyB87-8TQ7w">Diseño web: Emanuel Muñoz Lopez / cel:3173013554 </a>
+    </footer>
+    
+    <script src="simulador5.js"></script>
+</body>
+</html>
