@@ -1,6 +1,6 @@
 #Metodo de simplificacion de Quine McCluskey
 #Jaider Alberto Rendón Moreno
-#23/02/2023
+#29/08/2023
 """
     recorta(lista)
 
@@ -187,6 +187,63 @@ def buscar_implicantes_unicos(tabla):
 
     return implicantes_unicos
 
+"""
+    marcar_todos(dos, tabla, confirmados)
+    
+     Marca ciertos elementos en el diccionario 'tabla' dependiendo de su cantidad de marcas en otros minterms.
+
+     Argumentos:
+         dos (lista): Una lista de elementos que se marcarán en el diccionario 'tabla'.
+         tabla (dict): Un diccionario donde las claves son cadenas que representan elementos y los valores son listas de dos elementos.
+         confirmados (conjunto): Un conjunto para almacenar los elementos confirmados.
+
+     Devoluciones:
+         conjunto: un conjunto de elementos confirmados.
+
+     Ejemplo:
+         dos = [1, 2, 3]
+         tabla = {'1': [10-1, 1001], '2': [0001, 1001], '3': [0001, 10-1]}
+         confirmados = establecer()
+         resultado = marcar_todos(dos, tabla, confirmados)
+         print(resultado)
+         # Salida: {10-1, 1001}
+         
+    Como se puede apreciar en el ejemplo anterior, retorno las      
+     """
+def marcar_todos(dos, tabla, confirmados):
+    if len(tabla) > 0:
+        dos.sort()
+        temporal = set(dos)
+        nueva_tabla = dict(tabla)
+        for i in dos:
+            opciones = tabla[str(i)]
+            x = -1
+            y = -1
+            for j in tabla:
+                if (opciones[0] in tabla[j]) and (str(i) != j):
+                    x = j
+                elif (opciones[1] in tabla[j]) and (str(i) != j):
+                    y = j
+            if int(x) == -1 and int(y) == -1:
+                confirmados.add(opciones[0])
+            elif int(x) == -1 and int(y) > 0:
+                confirmados.add(opciones[1])
+                nueva_tabla.pop(y)
+            elif int(y) == -1 and int(x) > 0:
+                confirmados.add(opciones[0])
+                nueva_tabla.pop(x)       
+            elif len(tabla[str(x)]) > len(tabla[str(y)]):
+                confirmados.add(opciones[0])
+                nueva_tabla.pop(x)
+            elif len(tabla[str(x)]) < len(tabla[str(y)]):
+                confirmados.add(opciones[1])
+                nueva_tabla.pop(y)
+            temporal.discard(i)
+            nueva_tabla.pop(str(i))    
+            marcar_todos(list(temporal),nueva_tabla,confirmados)
+            break
+    return confirmados
+
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 print("\nMÉTODO DE SIMPLIFICACIÓN DE QUINE MCCLUSKEY\n")
 print("Por favor ingrese los términos separados por un espacio. \n")
@@ -264,76 +321,44 @@ for i in implicantes:
 
     Entradas:
     - implicantes_unicos: Una lista de elementos únicos.
-    - dos_implicantes: Una lista de elementos con exactamente dos elementos.
     - tabla: Diccionario que representa una tabla con claves como nombres de columnas y valores como listas de implicantes en cada columna.
-
-    Salidas:
-    - compartidos: Conjunto que contiene los elementos de dos_implicantes que tienen al menos un elemento en implicantes_unicos.
-    - independientes: Conjunto que contiene los elementos de dos_implicantes que no tienen ningún elemento en implicantes_unicos.
-
 """
 implicantes_unicos = buscar_implicantes_unicos(tabla)
 
+#En reducir_tabla dejaremos el dicionario unicamente con los implicantes unicos y sus respectivas claves
 reducir_tabla = {}
 for i in tabla:
     for j in implicantes_unicos:
         if j in tabla[i]:
             reducir_tabla[i] = tabla[i]
 
+#En nueva_tabla dejaremos todo lo demás a exepcion de los implicantes unicos
 nueva_tabla = {}
 for i in tabla:
     if i not in reducir_tabla:
         nueva_tabla[i] = tabla[i]
 
+#En dos marcas dejaremos las claves de los elementos que tengan dos elementos en su columna
 dos_marcas = []
 for i in nueva_tabla:
     if len(nueva_tabla[i]) == 2:
         dos_marcas.append(int(i))
-dos_marcas.sort()
+dos_marcas.sort()#Los ordenamos
 
-def marcar_todos(dos, tabla, confirmados):
-    if len(tabla) > 0:
-        dos.sort()
-        temporal = set(dos)
-        nueva_tabla = dict(tabla)
-        for i in dos:
-            opciones = tabla[str(i)]
-            x = -1
-            y = -1
-            for j in tabla:
-                if (opciones[0] in tabla[j]) and (str(i) != j):
-                    x = j
-                elif (opciones[1] in tabla[j]) and (str(i) != j):
-                    y = j
-            if int(x) == -1 and int(y) == -1:
-                confirmados.add(opciones[0])
-            elif int(x) == -1 and int(y) > 0:
-                confirmados.add(opciones[1])
-                nueva_tabla.pop(y)
-            elif int(y) == -1 and int(x) > 0:
-                confirmados.add(opciones[0])
-                nueva_tabla.pop(x)       
-            elif len(tabla[str(x)]) > len(tabla[str(y)]):
-                confirmados.add(opciones[0])
-                nueva_tabla.pop(x)
-            elif len(tabla[str(x)]) < len(tabla[str(y)]):
-                confirmados.add(opciones[1])
-                nueva_tabla.pop(y)
-            temporal.discard(i)
-            nueva_tabla.pop(str(i))    
-            marcar_todos(list(temporal),nueva_tabla,confirmados)
-            break
-    return confirmados    
     
 complemento = set()
 marcar_todos(dos_marcas, nueva_tabla, complemento)
 
+#Agregamos los terminos en complemento a los implicantes unicos que ya teniamos
 formula_final = list(complemento)+implicantes_unicos
 formato_ecuacion = []
+
+#Convertimos termino por termino en sus repectiva variable
 for i in range(len(formula_final)):
     formato_ecuacion.append(convertir(formula_final[i]))
     
 #VAMOS A IMPRIMIR EL RESULTADO
+#Por cada termino ponemos un espacio un "+" y otro espacio.
 print("\nSOLUCION: \n")
 for i in range(len(formato_ecuacion)):
     for j in formato_ecuacion[i]:
