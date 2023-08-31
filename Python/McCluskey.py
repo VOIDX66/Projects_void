@@ -188,62 +188,60 @@ def buscar_implicantes_unicos(tabla):
     return implicantes_unicos
 
 """
-    marcar_todos(dos, tabla, confirmados)
+    marcar_todos(dos, opciones_dict)
     
      Marca ciertos elementos en el diccionario 'tabla' dependiendo de su cantidad de marcas en otros minterms.
 
      Argumentos:
          dos (lista): Una lista de elementos que se marcarán en el diccionario 'tabla'.
-         tabla (dict): Un diccionario donde las claves son cadenas que representan elementos y los valores son listas de dos elementos.
-         confirmados (conjunto): Un conjunto para almacenar los elementos confirmados.
+         opciones_dict (dict): Un diccionario donde las claves son cadenas que representan elementos y los valores son listas de dos elementos.
 
-     Devoluciones:
-         conjunto: un conjunto de elementos confirmados.
+     Retorna:
+         confirmados: un conjunto de elementos confirmados.
 
      Ejemplo:
          dos = [1, 2, 3]
          tabla = {'1': [10-1, 1001], '2': [0001, 1001], '3': [0001, 10-1]}
-         confirmados = establecer()
-         resultado = marcar_todos(dos, tabla, confirmados)
-         print(resultado)
+         confirmados = marcar_todos(dos, tabla)
+         print(confirmados)
          # Salida: {10-1, 1001}
          
     Como se puede apreciar en el ejemplo anterior, retorno las      
      """
-def marcar_todos(dos, tabla, confirmados):
-    if len(tabla) > 0:
-        dos.sort()
-        temporal = set(dos)
-        nueva_tabla = dict(tabla)
-        for i in dos:
-            opciones = tabla[str(i)]
-            x = -1
-            y = -1
-            for j in tabla:
-                if (opciones[0] in tabla[j]) and (str(i) != j):
-                    x = j
-                elif (opciones[1] in tabla[j]) and (str(i) != j):
-                    y = j
-            if int(x) == -1 and int(y) == -1:
-                confirmados.add(opciones[0])
-            elif int(x) == -1 and int(y) > 0:
-                confirmados.add(opciones[1])
-                nueva_tabla.pop(y)
-            elif int(y) == -1 and int(x) > 0:
-                confirmados.add(opciones[0])
-                nueva_tabla.pop(x)       
-            elif len(tabla[str(x)]) > len(tabla[str(y)]):
-                confirmados.add(opciones[0])
-                nueva_tabla.pop(x)
-            elif len(tabla[str(x)]) < len(tabla[str(y)]):
-                confirmados.add(opciones[1])
-                nueva_tabla.pop(y)
-            temporal.discard(i)
-            nueva_tabla.pop(str(i))    
-            marcar_todos(list(temporal),nueva_tabla,confirmados)
-            break
-    return confirmados
+def marcar_todos(dos, opciones_dict):
+    confirmados = set()
+    temporal = set(dos)
 
+    while temporal:
+        i = temporal.pop()
+        opciones = opciones_dict[i]
+        x, y = None, None
+
+        for key, vals in opciones_dict.items():
+            if key != i:
+                if opciones[0] in vals:
+                    x = key
+                elif opciones[1] in vals:
+                    y = key
+                if x is not None and y is not None:
+                    break
+
+        if x is None and y is None:
+            confirmados.add(opciones[0])
+        elif x is None:
+            confirmados.add(opciones[1])
+            opciones_dict.pop(y)
+        elif y is None:
+            confirmados.add(opciones[0])
+            opciones_dict.pop(x)
+        elif len(opciones_dict[x]) > len(opciones_dict[y]):
+            confirmados.add(opciones[0])
+            opciones_dict.pop(x)
+        else:
+            confirmados.add(opciones[1])
+            opciones_dict.pop(y)
+
+    return confirmados
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 print("\nMÉTODO DE SIMPLIFICACIÓN DE QUINE MCCLUSKEY\n")
 print("Por favor ingrese los términos separados por un espacio. \n")
