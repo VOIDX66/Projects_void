@@ -343,9 +343,7 @@ for i in nueva_tabla:
         dos_marcas.append(int(i))
 dos_marcas.sort()#Los ordenamos
 
-    
-complemento = set()
-marcar_todos(dos_marcas, nueva_tabla, complemento)
+complemento = marcar_todos(dos_marcas, nueva_tabla)
 
 #Agregamos los terminos en complemento a los implicantes unicos que ya teniamos
 formula_final = list(complemento)+implicantes_unicos
