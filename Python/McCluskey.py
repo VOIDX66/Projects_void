@@ -208,39 +208,38 @@ def buscar_implicantes_unicos(tabla):
          
     Como se puede apreciar en el ejemplo anterior, retorno las      
      """
-def marcar_todos(dos, opciones_dict):
-    confirmados = set()
-    temporal = set(dos)
-
-    while temporal:
-        i = temporal.pop()
-        opciones = opciones_dict[i]
-        x, y = None, None
-
-        for key, vals in opciones_dict.items():
-            if key != i:
-                if opciones[0] in vals:
-                    x = key
-                elif opciones[1] in vals:
-                    y = key
-                if x is not None and y is not None:
-                    break
-
-        if x is None and y is None:
-            confirmados.add(opciones[0])
-        elif x is None:
-            confirmados.add(opciones[1])
-            opciones_dict.pop(y)
-        elif y is None:
-            confirmados.add(opciones[0])
-            opciones_dict.pop(x)
-        elif len(opciones_dict[x]) > len(opciones_dict[y]):
-            confirmados.add(opciones[0])
-            opciones_dict.pop(x)
-        else:
-            confirmados.add(opciones[1])
-            opciones_dict.pop(y)
-
+def marcar_todos(dos, tabla, confirmados):
+    if len(tabla) > 0:
+        dos.sort()
+        temporal = set(dos)
+        nueva_tabla = dict(tabla)
+        for i in dos:
+            opciones = tabla[str(i)]
+            x = -1
+            y = -1
+            for j in tabla:
+                if (opciones[0] in tabla[j]) and (str(i) != j):
+                    x = j
+                elif (opciones[1] in tabla[j]) and (str(i) != j):
+                    y = j
+            if int(x) == -1 and int(y) == -1:
+                confirmados.add(opciones[0])
+            elif int(x) == -1 and int(y) > 0:
+                confirmados.add(opciones[1])
+                nueva_tabla.pop(y)
+            elif int(y) == -1 and int(x) > 0:
+                confirmados.add(opciones[0])
+                nueva_tabla.pop(x)       
+            elif len(tabla[str(x)]) > len(tabla[str(y)]):
+                confirmados.add(opciones[0])
+                nueva_tabla.pop(x)
+            elif len(tabla[str(x)]) < len(tabla[str(y)]):
+                confirmados.add(opciones[1])
+                nueva_tabla.pop(y)
+            temporal.discard(i)
+            nueva_tabla.pop(str(i))    
+            marcar_todos(list(temporal),nueva_tabla,confirmados)
+            break
     return confirmados
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 print("\nMÉTODO DE SIMPLIFICACIÓN DE QUINE MCCLUSKEY\n")
@@ -343,7 +342,7 @@ for i in nueva_tabla:
         dos_marcas.append(int(i))
 dos_marcas.sort()#Los ordenamos
 
-complemento = marcar_todos(dos_marcas, nueva_tabla)
+complemento = marcar_todos(dos_marcas, nueva_tabla, complemento)
 
 #Agregamos los terminos en complemento a los implicantes unicos que ya teniamos
 formula_final = list(complemento)+implicantes_unicos
