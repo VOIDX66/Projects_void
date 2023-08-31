@@ -322,46 +322,51 @@ for i in implicantes:
 """
 implicantes_unicos = buscar_implicantes_unicos(tabla)
 
-#En reducir_tabla dejaremos el dicionario unicamente con los implicantes unicos y sus respectivas claves
-reducir_tabla = {}
-for i in tabla:
-    for j in implicantes_unicos:
-        if j in tabla[i]:
-            reducir_tabla[i] = tabla[i]
+if len(implicantes_unicos) == 1 and not(str(implicantes_unicos[0]).isnumeric()):
+    print("\nSOLUCION: \n")
+    print("1\n")
+else:    
+    #En reducir_tabla dejaremos el dicionario unicamente con los implicantes unicos y sus respectivas claves
+    reducir_tabla = {}
+    for i in tabla:
+        for j in implicantes_unicos:
+            if j in tabla[i]:
+                reducir_tabla[i] = tabla[i]
 
-#En nueva_tabla dejaremos todo lo demás a exepcion de los implicantes unicos
-nueva_tabla = {}
-for i in tabla:
-    if i not in reducir_tabla:
-        nueva_tabla[i] = tabla[i]
+    #En nueva_tabla dejaremos todo lo demás a exepcion de los implicantes unicos
+    nueva_tabla = {}
+    for i in tabla:
+        if i not in reducir_tabla:
+            nueva_tabla[i] = tabla[i]
 
-#En dos marcas dejaremos las claves de los elementos que tengan dos elementos en su columna
-dos_marcas = []
-for i in nueva_tabla:
-    if len(nueva_tabla[i]) == 2:
-        dos_marcas.append(int(i))
-dos_marcas.sort()#Los ordenamos
+    #En dos marcas dejaremos las claves de los elementos que tengan dos elementos en su columna
+    dos_marcas = []
+    for i in nueva_tabla:
+        if len(nueva_tabla[i]) == 2:
+            dos_marcas.append(int(i))
+    dos_marcas.sort()#Los ordenamos
 
-complemento = set()
-complemento = marcar_todos(dos_marcas, nueva_tabla, complemento)
+    complemento = set()
+    complemento = marcar_todos(dos_marcas, nueva_tabla, complemento)
 
-#Agregamos los terminos en complemento a los implicantes unicos que ya teniamos
-formula_final = list(complemento)+implicantes_unicos
-formato_ecuacion = []
+    #Agregamos los terminos en complemento a los implicantes unicos que ya teniamos
+    formula_final = list(complemento)+implicantes_unicos
+    formato_ecuacion = []
 
-#Convertimos termino por termino en sus repectiva variable
-for i in range(len(formula_final)):
-    formato_ecuacion.append(convertir(formula_final[i]))
+    #Convertimos termino por termino en sus repectiva variable
+    for i in range(len(formula_final)):
+        formato_ecuacion.append(convertir(formula_final[i]))
     
-#VAMOS A IMPRIMIR EL RESULTADO
-#Por cada termino ponemos un espacio un "+" y otro espacio.
-print("\nSOLUCION: \n")
-for i in range(len(formato_ecuacion)):
-    for j in formato_ecuacion[i]:
-        print(j, end = '')
-    if i < len(formato_ecuacion)-1:
-        print(" + ", end = '')    
-print("\n")
+    formato_ecuacion.sort()    
+    #VAMOS A IMPRIMIR EL RESULTADO
+    #Por cada termino ponemos un espacio un "+" y otro espacio.
+    print("\nSOLUCION: \n")
+    for i in range(len(formato_ecuacion)):
+        for j in formato_ecuacion[i]:
+            print(j, end = '')
+        if i < len(formato_ecuacion)-1:
+            print(" + ", end = '')    
+    print("\n")
 
 #EJEMPLOS DE ENTRADAS
 #Tambien se pueden ingresar en desorden, es indiferente.
