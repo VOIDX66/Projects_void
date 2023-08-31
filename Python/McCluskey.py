@@ -342,6 +342,7 @@ for i in nueva_tabla:
         dos_marcas.append(int(i))
 dos_marcas.sort()#Los ordenamos
 
+complemento = set()
 complemento = marcar_todos(dos_marcas, nueva_tabla, complemento)
 
 #Agregamos los terminos en complemento a los implicantes unicos que ya teniamos
