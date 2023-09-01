@@ -1,9 +1,22 @@
 from tkinter import *
+from tkinter import messagebox
+import sys
 import os
 
 #Metodo de simplificacion de Quine McCluskey
 #Jaider Alberto Rendón Moreno
 #29/08/2023
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 """
     recorta(lista)
 
@@ -244,144 +257,180 @@ def marcar_todos(dos, tabla, confirmados):
             marcar_todos(list(temporal),nueva_tabla,confirmados)
             break
     return confirmados
+
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-print("\nMÉTODO DE SIMPLIFICACIÓN DE QUINE MCCLUSKEY\n")
-print("Por favor ingrese los términos separados por un espacio. \n")
-mt = [int(i) for i in input("Ingrese los mintérminos: ").strip().split()]
-mt.sort() #Ordenamos de menor a mayor los minterminos
-minterminos = mt
-max_minterm = len(bin(minterminos[-1]))-2
-grupos = {}
-implicantes = set()
 
-# Comenzamos la agrupación primaria
-'''
-    Contamos el número de unos en cada mintermino, luego guardamos el equivalente binario desde la posicion 2 para evitar '0b' que agrega la funcion
-    seguido lo metemos en una cadena y rellenamos con ceros a la izquierda equivalentes al mintermino más grande. Despues validamos si ya existe
-    una clave con ese número de unos, si ya existe simplemente agregamos el mintermino al grupo con esa clave, de lo contrario se crea la clave y
-    se introduce de igual manera.
-'''
-for minterm in minterminos:
-    count = bin(minterm).count('1')
-    minterm_str = bin(minterm)[2:].zfill(max_minterm)
-
-    if count in grupos:
-        grupos[count].append(minterm_str)
+def calcular(crudo):
+    es_numero = str(crudo).replace(" ","")
+    if len(crudo) == 0:
+        messagebox.showerror("Error", "Entrada vacia.")
+    elif not(es_numero.isnumeric()):
+        messagebox.showerror("Error", "Entrada invalida.")
     else:
-        grupos[count] = [minterm_str]
-# Término de la agrupación primaria
+        mt = [int(i) for i in str(crudo).strip().split()]
+        mt.sort() #Ordenamos de menor a mayor los minterminos
+        minterminos = mt
+        max_minterm = len(bin(minterminos[-1]))-2
+        grupos = {}
+        implicantes = set()
 
-# Proceso para crear las tablas y encontrar los implicantes primos 
-while True:
-    temporal = grupos.copy()
-    grupos = {}
-    n = 0
-    marcados = set()
-    debo_parar = True
-    lclaves = sorted(list(temporal.keys()))
-    for i in range(len(lclaves)-1):
-        for j in temporal[lclaves[i]]: # Iteración a través del grupo de elementos actual 
-            for k in temporal[lclaves[i+1]]: # Iteración a través del siguiente grupo de elementos
-                cambio = diferencias(j,k) # Comparamos los mintérminos
-                if cambio[0]: # Si los mintérminos difieren solamente en un bit
-                    minterm_cambio = j[:cambio[1]] + '-' + j[cambio[1]+1:]
-                    if n in grupos:
-                        if minterm_cambio not in grupos[n]:
-                            grupos[n].append(minterm_cambio)
-                    else:
-                        grupos[n] = [minterm_cambio]
-                    debo_parar = False
-                    marcados.add(j) # Marca el elemento j
-                    marcados.add(k) # Marca el elemento k
+        # Comenzamos la agrupación primaria
+        '''
+            Contamos el número de unos en cada mintermino, luego guardamos el equivalente binario desde la posicion 2 para evitar '0b' que agrega la funcion
+            seguido lo metemos en una cadena y rellenamos con ceros a la izquierda equivalentes al mintermino más grande. Despues validamos si ya existe
+            una clave con ese número de unos, si ya existe simplemente agregamos el mintermino al grupo con esa clave, de lo contrario se crea la clave y
+            se introduce de igual manera.
+        '''
+        for minterm in minterminos:
+            count = bin(minterm).count('1')
+            minterm_str = bin(minterm)[2:].zfill(max_minterm)
 
-        n += 1
-    desmarcados_local = set(recorta(temporal)).difference(marcados) # Desmarcamos los elementos de cada tabla
-    implicantes = implicantes.union(desmarcados_local) # Agregamos el implicante primo a la lista.
-    if debo_parar: # Si los mintérminos no pueden ser combinados
-        break #Detenemos el ciclo
-'''
-    El fragmento de código es un bucle que itera sobre la lista de implicantes. Para cada implicante genera una lista de minterminos mezclados
-    llamando a la función buscaMinterminos. Luego, verifica si cada mintermino de la lista ya existe en el diccionario de tabla.
-    Si es así, agrega el implicante a la lista de valores para esa clave. Si el mintermino no existe, crea un nuevo par clave-valor en el diccionario
-    de tabla con el mintermino valor y el implicante como clave.
-'''
+            if count in grupos:
+                grupos[count].append(minterm_str)
+            else:
+                grupos[count] = [minterm_str]
+        # Término de la agrupación primaria
 
-tabla = {}
-for i in implicantes:
-    minterminos_mezclados = buscaMinterminos(i)
-    for j in minterminos_mezclados:
-        if j in tabla:
-            if i not in tabla[j]:
-                tabla[j].append(i)
-        else:
-            tabla[j] = [i]
+        # Proceso para crear las tablas y encontrar los implicantes primos 
+        while True:
+            temporal = grupos.copy()
+            grupos = {}
+            n = 0
+            marcados = set()
+            debo_parar = True
+            lclaves = sorted(list(temporal.keys()))
+            for i in range(len(lclaves)-1):
+                for j in temporal[lclaves[i]]: # Iteración a través del grupo de elementos actual 
+                    for k in temporal[lclaves[i+1]]: # Iteración a través del siguiente grupo de elementos
+                        cambio = diferencias(j,k) # Comparamos los mintérminos
+                        if cambio[0]: # Si los mintérminos difieren solamente en un bit
+                            minterm_cambio = j[:cambio[1]] + '-' + j[cambio[1]+1:]
+                            if n in grupos:
+                                if minterm_cambio not in grupos[n]:
+                                    grupos[n].append(minterm_cambio)
+                            else:
+                                grupos[n] = [minterm_cambio]
+                            debo_parar = False
+                            marcados.add(j) # Marca el elemento j
+                            marcados.add(k) # Marca el elemento k
 
-"""
-    Este fragmento de código busca elementos únicos y compartidos en dos listas.
+                n += 1
+            desmarcados_local = set(recorta(temporal)).difference(marcados) # Desmarcamos los elementos de cada tabla
+            implicantes = implicantes.union(desmarcados_local) # Agregamos el implicante primo a la lista.
+            if debo_parar: # Si los mintérminos no pueden ser combinados
+                break #Detenemos el ciclo
+        '''
+            El fragmento de código es un bucle que itera sobre la lista de implicantes. Para cada implicante genera una lista de minterminos mezclados
+            llamando a la función buscaMinterminos. Luego, verifica si cada mintermino de la lista ya existe en el diccionario de tabla.
+            Si es así, agrega el implicante a la lista de valores para esa clave. Si el mintermino no existe, crea un nuevo par clave-valor en el diccionario
+            de tabla con el mintermino valor y el implicante como clave.
+        '''
 
-    Entradas:
-    - implicantes_unicos: Una lista de elementos únicos.
-    - tabla: Diccionario que representa una tabla con claves como nombres de columnas y valores como listas de implicantes en cada columna.
-"""
-implicantes_unicos = buscar_implicantes_unicos(tabla)
+        tabla = {}
+        for i in implicantes:
+            minterminos_mezclados = buscaMinterminos(i)
+            for j in minterminos_mezclados:
+                if j in tabla:
+                    if i not in tabla[j]:
+                        tabla[j].append(i)
+                else:
+                    tabla[j] = [i]
 
-if len(implicantes_unicos) == 1 and not("0" in implicantes_unicos[0] or "1" in implicantes_unicos[0]):
-    print(implicantes_unicos)
-    print("\nSOLUCION: \n")
-    print("1\n")
-else:    
-    #En reducir_tabla dejaremos el dicionario unicamente con los implicantes unicos y sus respectivas claves
-    reducir_tabla = {}
-    for i in tabla:
-        for j in implicantes_unicos:
-            if j in tabla[i]:
-                reducir_tabla[i] = tabla[i]
+        """
+            Este fragmento de código busca elementos únicos y compartidos en dos listas.
 
-    #En nueva_tabla dejaremos todo lo demás a exepcion de los implicantes unicos
-    nueva_tabla = {}
-    for i in tabla:
-        if i not in reducir_tabla:
-            nueva_tabla[i] = tabla[i]
+            Entradas:
+            - implicantes_unicos: Una lista de elementos únicos.
+            - tabla: Diccionario que representa una tabla con claves como nombres de columnas y valores como listas de implicantes en cada columna.
+        """
+        implicantes_unicos = buscar_implicantes_unicos(tabla)
+        formato_ecuacion = []
+        if len(implicantes_unicos) == 1 and not("0" in implicantes_unicos[0] or "1" in implicantes_unicos[0]):
+            formato_ecuacion.append("1")
+        else:    
+            #En reducir_tabla dejaremos el dicionario unicamente con los implicantes unicos y sus respectivas claves
+            reducir_tabla = {}
+            for i in tabla:
+                for j in implicantes_unicos:
+                    if j in tabla[i]:
+                        reducir_tabla[i] = tabla[i]
 
-    #En dos marcas dejaremos las claves de los elementos que tengan dos elementos en su columna
-    dos_marcas = []
-    for i in nueva_tabla:
-        if len(nueva_tabla[i]) == 2:
-            dos_marcas.append(int(i))
-    dos_marcas.sort()#Los ordenamos
+            #En nueva_tabla dejaremos todo lo demás a exepcion de los implicantes unicos
+            nueva_tabla = {}
+            for i in tabla:
+                if i not in reducir_tabla:
+                    nueva_tabla[i] = tabla[i]
 
-    complemento = set()
-    complemento = marcar_todos(dos_marcas, nueva_tabla, complemento)
+            #En dos marcas dejaremos las claves de los elementos que tengan dos elementos en su columna
+            dos_marcas = []
+            for i in nueva_tabla:
+                if len(nueva_tabla[i]) == 2:
+                    dos_marcas.append(int(i))
+            dos_marcas.sort()#Los ordenamos
 
-    #Agregamos los terminos en complemento a los implicantes unicos que ya teniamos
-    formula_final = list(complemento)+implicantes_unicos
-    formato_ecuacion = []
+            complemento = set()
+            complemento = marcar_todos(dos_marcas, nueva_tabla, complemento)
 
-    #Convertimos termino por termino en sus repectiva variable
-    for i in range(len(formula_final)):
-        formato_ecuacion.append(convertir(formula_final[i]))
-    
-    formato_ecuacion.sort()    
-    #VAMOS A IMPRIMIR EL RESULTADO
-    #Por cada termino ponemos un espacio un "+" y otro espacio.
-    print("\nSOLUCION: \n")
-    for i in range(len(formato_ecuacion)):
-        for j in formato_ecuacion[i]:
-            print(j, end = '')
-        if i < len(formato_ecuacion)-1:
-            print(" + ", end = '')    
-    print("\n")
+            #Agregamos los terminos en complemento a los implicantes unicos que ya teniamos
+            formula_final = list(complemento)+implicantes_unicos
+            
+            
+            #Convertimos termino por termino en sus repectiva variable
+            for i in range(len(formula_final)):
+                formato_ecuacion.append(convertir(formula_final[i]))
+            
+            formato_ecuacion.sort()
+        
+        minterminos_g =[]
+        for i in range(len(formato_ecuacion)):
+            minterminos_g.extend(formato_ecuacion[i])
+            if i < len(formato_ecuacion)-1:
+                minterminos_g.append(" + ")
+        minterminos_g = str("".join(minterminos_g))
+        
+        texto_solucion = Label(ventana,text="SOLUCIÓN:")
+        texto_solucion.place(x="25",y="180")
+        texto_solucion.config(bg="gray",font=("Bahnschrift",15))
+        datos = Listbox(ventana,activestyle="none",height="2",width="80")
+        barra = Scrollbar(ventana, command=datos.xview, orient="horizontal")
+        barra.place(x="30",y="255")
+        datos.place(x="30",y="220")
+        datos.insert(END,minterminos_g)
 
-directorio_actual = os.path.dirname(os.path.abspath(__file__))
-    
+
+
+
 # Interfaz Grafica
+directorio_actual = os.path.dirname(os.path.abspath(__file__))
 ventana = Tk()
 ventana.geometry('600x300')
 ventana.config(bg="gray")
 ventana.title("Método de Quine McCluskey")
 ventana.resizable(width=False,height=False)
-ventana.iconbitmap(f"{directorio_actual}\\icono.ico")
-ventana.mainloop()
+icono = resource_path(f"{directorio_actual}\\images\\icono.ico")
+ventana.iconbitmap(icono)
+
+etiqueta = Label(ventana,text="INGRESAR LOS MINTERMINOS SEPARADOS POR ESPACIOS:")
+etiqueta.place(x="25",y="10")
+etiqueta.config(bg="gray",font=("Bahnschrift",15))
+sigma = resource_path(f"{directorio_actual}\\images\\sigma.png")
+isigma = PhotoImage(file=sigma)
+Label(ventana, image=isigma, bg="gray").place(x=25,y=40)
+etiqueta_igual = Label(ventana,text="= (")
+etiqueta_igual.place(x="85",y="70")
+etiqueta_igual.config(bg="gray",fg="black",font=("Bahnschrift",20))
+etiqueta_cerrar_p = Label(ventana,text=")")
+etiqueta_cerrar_p.place(x="525",y="70")
+etiqueta_cerrar_p.config(bg="gray",fg="black",font=("Bahnschrift",20))
+
+cadena_minterminos = StringVar()
+ingresar_minterms = Entry(ventana,font=("Bahnschrift",20), textvariable=cadena_minterminos)
+ingresar_minterms.place(x="120",y="75",width="400" ,height="30")
+
+b_calcular = Button(ventana,text="Calcular",command=lambda:calcular(cadena_minterminos.get()))
+b_calcular.place(x="25",y="120")
+
+ventana.mainloop()    
 
 
 #EJEMPLOS DE ENTRADAS
