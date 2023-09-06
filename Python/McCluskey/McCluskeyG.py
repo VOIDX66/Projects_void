@@ -273,6 +273,9 @@ def calcular(crudo):
         mt.sort() #Ordenamos de menor a mayor los minterminos
         minterminos = mt
         max_minterm = len(bin(minterminos[-1]))-2
+        minterminos = set(minterminos)
+        minterminos = list(minterminos)
+        minterminos.sort()
         grupos = {}
         implicantes = set()
 
@@ -352,6 +355,7 @@ def calcular(crudo):
        
         
         formato_ecuacion = []
+        print("\n")
         if len(implicantes_unicos) == 1 and not("0" in implicantes_unicos[0] or "1" in implicantes_unicos[0]):
             formato_ecuacion.append("1")
         
@@ -364,13 +368,11 @@ def calcular(crudo):
                 implicante_vacio.append("X")
             print(tabulate([implicante_vacio], headers=formato_extendido))
             print("\n")
-            
                 
         else:
             formato_extendido = ["Terminos"]
             for i in minterminos:
                 formato_extendido.append(str(i)) 
-            #print(formato_extendido)
             longitud_formato = len(formato_extendido[1:])
             implicante_lista = []
             for i in implicantes:
@@ -385,10 +387,6 @@ def calcular(crudo):
             #print(implicante_lista)
             print(tabulate(implicante_lista, headers=formato_extendido))
             print("\n")    
-                
-            
-            
-            
                 
             #En reducir_tabla dejaremos el dicionario unicamente con los implicantes unicos y sus respectivas claves
             reducir_tabla = {}
