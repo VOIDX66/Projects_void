@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from tabulate import tabulate
 import sys
 import os
 
@@ -259,8 +260,9 @@ def marcar_todos(dos, tabla, confirmados):
     return confirmados
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+os.system("cls")
 def calcular(crudo):
+    os.system("cls")
     es_numero = str(crudo).replace(" ","")
     if len(crudo) == 0:
         messagebox.showerror("Error", "Entrada vacia.")
@@ -292,6 +294,7 @@ def calcular(crudo):
         # Término de la agrupación primaria
 
         # Proceso para crear las tablas y encontrar los implicantes primos 
+               
         while True:
             temporal = grupos.copy()
             grupos = {}
@@ -317,8 +320,10 @@ def calcular(crudo):
                 n += 1
             desmarcados_local = set(recorta(temporal)).difference(marcados) # Desmarcamos los elementos de cada tabla
             implicantes = implicantes.union(desmarcados_local) # Agregamos el implicante primo a la lista.
+            
             if debo_parar: # Si los mintérminos no pueden ser combinados
                 break #Detenemos el ciclo
+            
         '''
             El fragmento de código es un bucle que itera sobre la lista de implicantes. Para cada implicante genera una lista de minterminos mezclados
             llamando a la función buscaMinterminos. Luego, verifica si cada mintermino de la lista ya existe en el diccionario de tabla.
@@ -344,23 +349,60 @@ def calcular(crudo):
             - tabla: Diccionario que representa una tabla con claves como nombres de columnas y valores como listas de implicantes en cada columna.
         """
         implicantes_unicos = buscar_implicantes_unicos(tabla)
+       
+        
         formato_ecuacion = []
         if len(implicantes_unicos) == 1 and not("0" in implicantes_unicos[0] or "1" in implicantes_unicos[0]):
             formato_ecuacion.append("1")
-        else:    
+        
+            formato_extendido = ["Terminos"]
+            for i in minterminos:
+                formato_extendido.append(str(i))
+            longitud_formato = len(formato_extendido[1:])
+            implicante_vacio = [implicantes_unicos[0]]
+            for i in range(longitud_formato):
+                implicante_vacio.append("X")
+            print(tabulate([implicante_vacio], headers=formato_extendido))
+            print("\n")
+            
+                
+        else:
+            formato_extendido = ["Terminos"]
+            for i in minterminos:
+                formato_extendido.append(str(i)) 
+            #print(formato_extendido)
+            longitud_formato = len(formato_extendido[1:])
+            implicante_lista = []
+            for i in implicantes:
+                temporal = ["".join(convertir(i))]
+                for j in minterminos:
+                    if i in tabla[str(j)]:
+                        temporal.append("X")
+                    else:
+                         temporal.append(" ")   
+                
+                implicante_lista.append(temporal)
+            #print(implicante_lista)
+            print(tabulate(implicante_lista, headers=formato_extendido))
+            print("\n")    
+                
+            
+            
+            
+                
             #En reducir_tabla dejaremos el dicionario unicamente con los implicantes unicos y sus respectivas claves
             reducir_tabla = {}
             for i in tabla:
                 for j in implicantes_unicos:
                     if j in tabla[i]:
                         reducir_tabla[i] = tabla[i]
-
+            
             #En nueva_tabla dejaremos todo lo demás a exepcion de los implicantes unicos
             nueva_tabla = {}
             for i in tabla:
                 if i not in reducir_tabla:
                     nueva_tabla[i] = tabla[i]
-
+            
             #En dos marcas dejaremos las claves de los elementos que tengan dos elementos en su columna
             dos_marcas = []
             for i in nueva_tabla:
