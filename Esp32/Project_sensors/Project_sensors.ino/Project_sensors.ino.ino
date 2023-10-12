@@ -8,6 +8,7 @@
 // - Adafruit Unified Sensor Lib: https://github.com/adafruit/Adafruit_Sensor
 
 #include <Adafruit_Sensor.h>
+#include "BluetoothSerial.h"
 #include <DHT.h>
 #include <DHT_U.h>
 
