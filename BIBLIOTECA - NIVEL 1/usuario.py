@@ -6,6 +6,7 @@ class Usuario:
         self.identificacion = identificacion
         self.correo = correo
         self.telefono = telefono if telefono is not None else 0
+        self.multas = 0
     
     def __str__(self):        
         return f"Nombre: {self.nombre}, Identificación: {self.identificacion}, Correo: {self.correo}, Teléfono: {self.telefono}"
@@ -22,7 +23,6 @@ class Usuario:
     
     def getTelefono(self):
         return self.telefono
-    
 
     def editarUsuario(self, nombre, identificacion, correo, telefono):
         self.nombre = nombre
@@ -50,3 +50,16 @@ class Usuario:
             if usuarios[i] == usuario:
                 usuarios[i] = None
                 break
+    
+    def consultarMultas(self):
+        if self.multas > 0:
+            return True
+        else:
+            return False
+    
+    def ponerMulta(self):
+        self.multas += 1
+    
+    def quitarMulta(self):
+        self.multas -= 1
+            

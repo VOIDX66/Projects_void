@@ -10,9 +10,9 @@ class Libro:
         self.categoria = categoria
         self.num_copias = num_copias
         if num_copias > 0:
-            self.disponible = True
+            self.disponibilidad = True
         else:
-            self.disponible = False    
+            self.disponibilidad = False    
             
         
     def __str__(self):
@@ -29,6 +29,8 @@ class Libro:
         return self.ISBN
     def getNumCopias(self):
         return self.num_copias
+    def getDisponibilidad(self):
+        return self.disponibilidad
     
     @staticmethod
     def buscarLibro(criterio,valor, libros):
@@ -41,7 +43,13 @@ class Libro:
         
         if criterio == "autor":
             for libro in libros:
-                if libro is not None and libro.getAutor() == valor:
+                if libro is not None and libro.getAutor().lower() == valor.lower():
+                    listaLibs.append(libro)
+            return listaLibs if listaLibs else None
+        
+        if criterio == "genero":
+            for libro in libros:
+                if libro is not None and libro.getGenero().lower() == valor.lower():
                     listaLibs.append(libro)
             return listaLibs if listaLibs else None
     
