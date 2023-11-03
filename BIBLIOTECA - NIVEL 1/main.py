@@ -627,7 +627,4 @@ while True:
         break
         
     os.system("pause")
-
     print("\n")
-                            
-  
