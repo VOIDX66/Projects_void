@@ -6,6 +6,23 @@ import os
 import datetime #pip install datetime
 from dateutil.relativedelta import * #pip install python-dateutil
 
+################################################################
+# Realizado por Jaider Alberto Rendon Moreno
+################################################################
+'''Notas a considerar:
+
+   1. Es necesario verificar que esten instaladas las librerias
+   para el manejo de las fechas, al lado derecho de su llamado
+   estan los comando por consola con los cuales se instalan las
+   librerias correspondientes.
+   
+   2. Las Categorias se crearon por defecto para facilitar la 
+   seleccion de estas.
+   
+   3. En la funcion Menu() se hace una limpieza de lo que se
+   encuentre en la consola cada vez que esta se llama.
+'''
+################################################################
 usuarios = []
 libros = []
 categorias = []
@@ -27,11 +44,11 @@ def confirmacion():
     
 
 # Creación de usuarios
-usuario1 = Usuario("Juan", 123, "example@example.com", 3131313131)
+usuario1 = Usuario("Juan", "123", "example@example.com", "3131313131")
 usuarios.append(usuario1)
-usuario2 = Usuario("Pedrito Pérez", 1234, "example@example.com")
+usuario2 = Usuario("Pedrito Pérez", "1234", "example@example.com")
 usuarios.append(usuario2)
-usuario3 = Usuario("Jaider", 1006, "example@example.com")
+usuario3 = Usuario("Jaider", "1006", "example@example.com")
 usuarios.append(usuario3)
 
 #Creación de categorias
@@ -171,42 +188,45 @@ categorias.append(categoria10)
 #----------------------------------------------------------------
 
 # Creación de libros
-libro1 = Libro("IT", "Stephen King", "Terror", "CFT0001TR",categoria1_5, 57)
+libro1 = Libro("IT", "Stephen King", "Terror", "CFT0001TR",categoria1_5, 1)
 libros.append(libro1)
-libro2 = Libro("100 años de soledad", "Gabriel García Márquez", "Novela", "NBL0001NV", categoria1)
+libro2 = Libro("100 años de soledad", "Gabriel García Márquez", "Novela", "NBL0001NV", categoria1,2)
 libros.append(libro2)
-libro3 = Libro("El coronel no tiene quien le escriba", "Gabriel García Márquez", "Novela", "NBL0002NV", categoria1)
+libro3 = Libro("El coronel no tiene quien le escriba", "Gabriel García Márquez", "Novela", "NBL0002NV", categoria1,50)
 libros.append(libro3)
-libro4 = Libro("Carrie", "Stephen King", "Terror", "CFT0001TR", categoria1_5, 57)
+libro4 = Libro("Carrie", "Stephen King", "Terror", "CFT0001TR", categoria1_5, 0)
 libros.append(libro4)
 
 # Creación de Prestamos
-dias_prueba = 5
+dias_prueba = -1
 fecha_actual_prueba = datetime.date.today()
 fecha_vencimiento_prueba = fecha_actual_prueba + datetime.timedelta(days=dias_prueba)
 prestamo1 = Prestamo(usuario3,libro1,fecha_actual_prueba,fecha_vencimiento_prueba)
 prestamos.append(prestamo1)
 
 def menu():
-    #os.system("cls")#Limpiar pantalla cada que se acceda al menú
-    print("|--------Menu Principal-------|")
-    print("|OPCIONES DE MANEJO DE USARIOS|")
-    print("|  1. Crear Usuario           |")
-    print("|  2. Editar Usuario          |")
-    print("|  3. Eliminar Usuario        |")
-    print("|  4. Buscar Usuario          |")
-    print("|OPCIONES DE MANEJO DE LIBROS |")
-    print("|  5. Registrar Libro         |")
-    print("|  6. Buscar Libro            |")
-    print("|  7. Ver Categorias          |")
-    print("|  8. Realizar Devolución     |")
+    os.system("cls")#Limpiar pantalla cada que se acceda al menú
+    print("|----------------------------|")
+    print("|-------Menu Principal-------|")
+    print("|--MANEJO DE USUARIOS--------|")
+    print("|  1. Crear Usuario          |")
+    print("|  2. Editar Usuario         |")
+    print("|  3. Eliminar Usuario       |")
+    print("|  4. Buscar Usuario         |")
+    print("|--MANEJO DE LIBROS----------|")
+    print("|  5. Registrar Libro        |")
+    print("|  6. Buscar Libro           |")
+    print("|  7. Ver Categorias         |")
+    print("|  8. Realizar Devolución    |")
+    print("|  9. Ver Todos los Libros   |")
+    print("|  0. Salir                  |")
+    print("|----------------------------|")
 
 while True:
     menu()
     opcion = input("Seleccione una opcion: ")
-    #Notas, mover a un switch case, me falta lo de calcular los dias, las multas y los inventarios
     
-    if int(opcion) < 1 or int(opcion) > 8:
+    if int(opcion) < 0 or int(opcion) > 9:
         print("\n¡Opcion invalida, por favor seleccione nuevamente!...")
     
     if opcion == "1":
@@ -268,7 +288,7 @@ while True:
         documento = input("Ingrese el documento del usuario: ")
         usuario_eliminar = Usuario().buscarUsuario("documento", documento, usuarios)
         if usuario_eliminar:
-            print("Datos del usuario a eliminar")
+            print("\nDatos del usuario a eliminar")
             print(f"Nombre: {usuario_eliminar.getNombre()}")
             print(f"Identificación: {usuario_eliminar.getIdentificacion()}")
             print(f"Correo: {usuario_eliminar.getCorreo()}")
@@ -279,6 +299,8 @@ while True:
                 print("\nEl Usuario ha sido eliminado con exito...")
             else:
                 print("\nAcción cancelada...")
+        else:
+            print(f"\nNo se encontró ningún usuario con el documento {documento}...\n")
                 
     if opcion == "4":
             print("\n4. Buscar Usuario\n")
@@ -318,9 +340,9 @@ while True:
         autor = input("Ingrese el nombre del autor: ")
         genero = input("Ingrese el genero del libro: ")
         ISBN = input("Ingrese el código del libro (ISBN): ")
-        num_copias = int(input("Digite el número de copias de libro: "))
+        num_copias = input("Digite el número de copias de libro: ")
         print("Es necesario seleccionar la categoria del libro...")
-        print("¿Ver listado de las categorias?\n")
+        print("¿Ver listado de las categorias?")
         if confirmacion():
             for i,categoria in enumerate(categorias):
                 print(f"{i+1}: {categoria}")
@@ -397,9 +419,11 @@ while True:
         if libro_encontrado:
             print("\nOpciones")
             print("1. Realizar Prestamo")
-            print("2. Volver al menú")
+            print("2. Editar Libro")
+            print("3. Eliminar Libro")
+            print("4. Volver al menú")
             seleccion = input("Seleccione una opcion: ")
-            while int(seleccion) < 1 or int(seleccion) > 2:
+            while int(seleccion) < 1 or int(seleccion) > 4:
                 print("\n¡Opcion invalida, por favor seleccione nuevamente!...")
                 seleccion = input("Seleccione una opcion: ")
                 
@@ -409,7 +433,6 @@ while True:
                 while int(indice) < 1 or int(indice) > len(libro_encontrado):
                     print("\n¡Opcion invalida, por favor seleccione nuevamente!...")
                     indice = input("Por favor seleccione el número del libro: ")
-                
                 libro_seleccionado = libro_encontrado[int(indice)-1]
                 
                 if libro_seleccionado.getDisponibilidad():
@@ -420,9 +443,9 @@ while True:
                         documento = input("Ingrese el documento del usuario: ")
                         usuario_encontrado = Usuario.buscarUsuario("documento", documento, usuarios)
                         if usuario_encontrado:
-                            print(f"\n{usuario_encontrado}\n")
+                            print(f"\n{usuario_encontrado}")
                             if confirmacion():
-                                if not(usuario_encontrado.consultarMultas()):
+                                if not(Prestamo.consultarMultas(usuario_encontrado, prestamos)):
                                     dias = input("Ingrese la cantidad de dias del prestamo: ")
                                     fecha_actual = datetime.date.today()
                                     fecha_vencimiento = fecha_actual + datetime.timedelta(days=int(dias))
@@ -448,7 +471,64 @@ while True:
                         print("\nAcción cancelada...")
                 else:
                     print("\nError, El libro no tiene copias disponibles...")
-                        
+                    
+            if seleccion == "2":
+                print("\n2. Editar Libro\n")
+                indice = input("Por favor seleccione el número del libro: ")
+                while int(indice) < 1 or int(indice) > len(libro_encontrado):
+                    print("\n¡Opcion invalida, por favor seleccione nuevamente!...")
+                    indice = input("Por favor seleccione el número del libro: ")
+                libro_seleccionado = libro_encontrado[int(indice)-1]
+                
+                print("\nEl libro seleccionado es: ")
+                print(libro_seleccionado)
+                
+                print("\nDatos del libro a editar")
+                print("Presione Enter para omitir el campo")
+                print(f"Titulo: {libro_seleccionado.getTitulo()}")
+                new_titulo = input("Nuevo Titulo: ")
+                print(f"Autor: {libro_seleccionado.getAutor()}")
+                new_autor = input("Nuevo Autor: ")
+                print(f"Genero: {libro_seleccionado.getGenero()}")
+                new_genero = input("Nuevo Genero: ")
+                print(f"ISBN: {libro_seleccionado.getISBN()}")
+                new_ISBN = input("Nuevo ISBN: ")
+                print(f"Número de copias: {libro_seleccionado.getNumCopias()}")
+                new_NumCop = input("Nuevo Número de Copias: ")
+                
+                if not(new_titulo):
+                    new_titulo = libro_seleccionado.getTitulo()
+                if not(new_autor):
+                    new_autor = libro_seleccionado.getAutor()
+                if not(new_genero):
+                    new_genero = libro_seleccionado.getGenero()
+                if not(new_ISBN):
+                    new_ISBN = libro_seleccionado.getISBN()
+                if not(new_NumCop):
+                    new_NumCop = libro_seleccionado.getNumCopias()
+                
+                if confirmacion():
+                    libro_seleccionado.editarLibro(new_titulo, new_autor, new_genero, new_ISBN, new_NumCop)
+                    print ("\nEl Libro ha sido editado con exito...")
+                else:
+                    print("\nAcción cancelada...")
+                
+                
+            if seleccion == "3":
+                print("\n3. Eliminar Libro\n")
+                indice = input("Por favor seleccione el número del libro: ")
+                while int(indice) < 1 or int(indice) > len(libro_encontrado):
+                    print("\n¡Opcion invalida, por favor seleccione nuevamente!...")
+                    indice = input("Por favor seleccione el número del libro: ")
+                libro_seleccionado = libro_encontrado[int(indice)-1]
+                
+                print("\nEl libro seleccionado es: ")
+                print(libro_seleccionado)
+                print("¿Desea eliminar el libro seleccionado?")
+                if confirmacion():
+                    libro_seleccionado.eliminarLibro(libros)
+                    print ("\nEl Libro ha sido eliminado con exito...")
+                
                                  
     if opcion == "7":
         print("\n7. Ver Categorias\n")
@@ -495,15 +575,20 @@ while True:
             documento = input("Ingrese el documento del usuario: ")
             usuario_encontrado = Usuario.buscarUsuario("documento", documento, usuarios)
             if usuario_encontrado:
-                print(f"\n{usuario_encontrado}\n")
+                print(f"\n{usuario_encontrado}")
                 if confirmacion():
-                    lista_prestamos = Prestamo.buscarPrestamos(documento, prestamos)
+                    lista_prestamos = Prestamo.buscarPrestamos(usuario_encontrado, prestamos)
                     for i,prestamo in enumerate(lista_prestamos):
-                        print(f"\n{i+1}: {prestamo}")
+                        if prestamo.calcularMulta():
+                            print(f"\n\033[31m{i+1}: {prestamo}")
+                            print("\033[0m")
+                        else:    
+                            print(f"\n{i+1}: {prestamo}")
+                            
                     indice = input("Por favor seleccione el número del prestamo: ")
                     while int(indice) < 1 or int(indice) > len(lista_prestamos):
                         print("\nError, Número de prestamo invalido\n")
-                        indice = input("Por favor seleccione el número del prestamo: ")
+                        indice = input("\nPor favor seleccione el número del prestamo: ")
                     
                     prestamo_seleccionado = lista_prestamos[int(indice)-1]
                     
@@ -517,15 +602,32 @@ while True:
                             print("La devolucion ha sido realizado con exito...")
                         else:
                             print("\nAcción cancelada...")
+                    else:
+                        print("¿El usuario desea realizar la devolucion?")
+                        if confirmacion():
+                            prestamo_seleccionado.libro.aumentarCopiasDisponibles()
+                            prestamo_seleccionado.devolucion(prestamos)
+                            print("La devolucion ha sido realizado con exito...")
+                        else:
+                            print("\nAcción cancelada...")
                 else:
                     print("\nAcción cancelada...")                
             else:
                 print(f"\nNo se encontró ningún usuario con el documento {documento}...\n")
         else:
             print("No hay prestamos en el sistema...")
-
+            
+    if opcion == "9":
+        print("\n9. Ver Todos los Libros\n")
+        for i,libro in enumerate(libros):
+            print(f"{i+1}: {libro}")
+        print("")
+        
+    if opcion == "0":
+        break
+        
     os.system("pause")
-    
+
     print("\n")
                             
   

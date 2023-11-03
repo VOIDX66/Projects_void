@@ -8,8 +8,8 @@ class Libro:
         self.genero = genero
         self.ISBN = ISBN
         self.categoria = categoria
-        self.num_copias = num_copias
-        if num_copias > 0:
+        self.num_copias = int(num_copias)
+        if int(num_copias) > 0:
             self.disponibilidad = True
         else:
             self.disponibilidad = False    
@@ -53,17 +53,26 @@ class Libro:
                     listaLibs.append(libro)
             return listaLibs if listaLibs else None
     
-    def modificarTitulo(self, nuevo_titulo):
-        self.titulo = nuevo_titulo
+    def editarLibro(self, titulo, autor, genero, ISBN, num_copias):
+        self.titulo = titulo
+        self.autor = autor
+        self.genero = genero
+        self.ISBN = ISBN
+        self.num_copias = int(num_copias)
+
+    def eliminarLibro(self, libros):
+        for i in range(len(libros)):
+            if libros[i] == self:
+                libros[i] = None
+                break
 
     def disminuirCopiasDisponibles(self):
         if self.num_copias > 0:
             self.num_copias -= 1
         else:
-            self.disponible = False
+            self.disponibilidad = False
            
     def aumentarCopiasDisponibles(self):
-        if not(self.disponible):
-            self.disponible = True
-        else:
-            self.num_copias += 1                
+        if not(self.disponibilidad):
+            self.disponibilidad = True
+        self.num_copias += 1                

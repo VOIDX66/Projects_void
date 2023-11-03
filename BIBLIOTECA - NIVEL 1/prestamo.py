@@ -1,4 +1,3 @@
-import datetime #pip install datetime
 from dateutil.relativedelta import * #pip install python-dateutil
 
 class Prestamo:
@@ -12,24 +11,32 @@ class Prestamo:
         return f"El usuario: {self.usuario.getNombre()} realizo un prestamo de {self.libro.getTitulo()} de {self.libro.getAutor()}" \
                f" el dia {self.fecha_prestamo} Fecha prevista de devolucion: {self.fecha_devolucion}"
     
-    @staticmethod
-    def buscarPrestamos(documento, prestamos):
+    def buscarPrestamos(usuario, prestamos):
         listaPrestamos = []
         for prestamo in prestamos:
-            if prestamo.usuario.getIdentificacion() == documento:
+            if prestamo.usuario == usuario:
                 listaPrestamos.append(prestamo)
-        return listaPrestamos
+        return listaPrestamos    
            
     def devolucion(self, prestamos):
         for i in range(len(prestamos)):
             if prestamos[i] == self:
-                prestamos[i] = None
+                prestamos.pop(i)
                 break
             
     def calcularMulta(self):
-        diferencia = relativedelta(self.fecha_prestamo,self.fecha_devolucion).days
+        diferencia = relativedelta(self.fecha_devolucion,self.fecha_prestamo).days
         if diferencia < 0:
             return (-500*diferencia)
         else:
-            None
+            return 0
+        
+    @staticmethod      
+    def consultarMultas(usuario, prestamos):
+        encontro_multa = False
+        for prestamo in prestamos:
+            if prestamo.calcularMulta() > 0 and prestamo.usuario == usuario:
+                return True
+        return encontro_multa
+
         
