@@ -11,6 +11,7 @@ class Prestamo:
         return f"El usuario: {self.usuario.getNombre()} realizo un prestamo de {self.libro.getTitulo()} de {self.libro.getAutor()}" \
                f" el dia {self.fecha_prestamo} Fecha prevista de devolucion: {self.fecha_devolucion}"
     
+    @staticmethod
     def buscarPrestamos(usuario, prestamos):
         listaPrestamos = []
         for prestamo in prestamos:
