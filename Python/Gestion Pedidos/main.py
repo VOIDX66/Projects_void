@@ -58,7 +58,7 @@ def AgregarPedido():
     
     texto_in_tamaño = Label(ventana, text="Tamaño (cm)",font=("Cascadia Code SemiBold", 10),background="#186F65")
     texto_in_tamaño.place(x=250,y=190)
-    ingreso_tamaño = Entry(ventana, textvariable=nombre_figura, width=15)
+    ingreso_tamaño = Entry(ventana, textvariable=tamaño, width=15)
     ingreso_tamaño.place(x=250,y=210)
     
     texto_in_precio = Label(ventana, text="Precio",font=("Cascadia Code SemiBold", 10),background="#186F65")
@@ -68,12 +68,12 @@ def AgregarPedido():
     
     texto_in_cantidad_yeso = Label(ventana, text="Cantidad Yeso und (lb)",font=("Cascadia Code SemiBold", 10),background="#186F65")
     texto_in_cantidad_yeso.place(x=420,y=190)
-    ingreso_cantidad_yeso = Entry(ventana, textvariable=precio, width=30)
+    ingreso_cantidad_yeso = Entry(ventana, textvariable=cantidad_yeso, width=30)
     ingreso_cantidad_yeso.place(x=420,y=210)
     
     texto_in_cantidad_figuras = Label(ventana, text="Cantidad Figuras",font=("Cascadia Code SemiBold", 10),background="#186F65")
     texto_in_cantidad_figuras.place(x=610,y=190)
-    ingreso_cantidad_figuras = Entry(ventana, textvariable=precio, width=22)
+    ingreso_cantidad_figuras = Entry(ventana, textvariable=cantidad_figuras, width=22)
     ingreso_cantidad_figuras.place(x=610,y=210)
     
     texto_lista_figuras = Label(ventana, text="Lista de Figuras",font=("Cascadia Code SemiBold", 10))
