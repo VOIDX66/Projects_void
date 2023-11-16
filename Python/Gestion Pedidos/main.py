@@ -43,15 +43,27 @@ def AgregarPedido():
     lista_final_figuras = []
     def agregar_figura():
         if nombre_figura.get() and tamaño.get() and precio.get() and cantidad_yeso.get() and cantidad_figuras.get():
-            lista_figuras.insert("","end",values=(nombre_figura.get(),tamaño.get(),precio.get(),cantidad_yeso.get(),cantidad_figuras.get()))
-            nueva_figura = Figura(nombre_figura.get(),tamaño.get(),precio.get(),cantidad_yeso.get(),cantidad_figuras.get())
-            lista_final_figuras.append(nueva_figura)
-            #Borramos el texto en los campos correspondientes
-            ingreso_nombre_figura.delete(0,END)
-            ingreso_tamaño.delete(0,END)
-            ingreso_precio.delete(0,END)
-            ingreso_cantidad_yeso.delete(0,END)
-            ingreso_cantidad_figuras.delete(0,END)
+            if tamaño.get().isnumeric():
+                if precio.get().isnumeric():
+                    if cantidad_yeso.get().isnumeric():
+                        if cantidad_figuras.get().isnumeric():
+                            lista_figuras.insert("","end",values=(nombre_figura.get(),tamaño.get(),precio.get(),cantidad_yeso.get(),cantidad_figuras.get()))
+                            nueva_figura = Figura(nombre_figura.get(),tamaño.get(),precio.get(),cantidad_yeso.get(),cantidad_figuras.get())
+                            lista_final_figuras.append(nueva_figura)
+                            #Borramos el texto en los campos correspondientes
+                            ingreso_nombre_figura.delete(0,END)
+                            ingreso_tamaño.delete(0,END)
+                            ingreso_precio.delete(0,END)
+                            ingreso_cantidad_yeso.delete(0,END)
+                            ingreso_cantidad_figuras.delete(0,END)
+                        else:
+                            messagebox.showerror(title="Error", message="Cantidad de figuras invalida")
+                    else:
+                        messagebox.showerror(title="Error", message="Cantidad de yeso invalida")
+                else:
+                    messagebox.showerror(title="Error", message="Precio invalido")
+            else:
+                messagebox.showerror(title="Error", message="Tamaño invalido")                        
         
     def borrar_figura():
         #Seleccionamos el elemento al cual damos click en la lista
@@ -329,7 +341,6 @@ def VerPedidos():
             
             for pedido in pedidos:
                 if pedido.nombre == str(nombre_s) and pedido.direccion == str(direccion_s) and pedido.celular == str(celular_s) and pedido.precio_total == precio_s and pedido.estado == estado_s:
-                    lista_final_figuras = pedido.figuras
                     etiqueta_estado = Label(pedido_ver, text="Estado del Pedido",font=("Cascadia Code SemiBold", 10))
                     etiqueta_estado.place(x=20,y=10)
                     etiqueta_pendiente = Label(pedido_ver, text="Pendiente",background="#ECE3CE",font=("Cascadia Code SemiBold", 8))
@@ -380,16 +391,29 @@ def VerPedidos():
                         LimpiarPantalla()
                         lista_final_figuras = []
                         def agregar_figura():
+                            
                             if nombre_figura.get() and tamaño.get() and precio.get() and cantidad_yeso.get() and cantidad_figuras.get():
-                                lista_figuras.insert("","end",values=(nombre_figura.get(),tamaño.get(),precio.get(),cantidad_yeso.get(),cantidad_figuras.get()))
-                                nueva_figura = Figura(nombre_figura.get(),tamaño.get(),precio.get(),cantidad_yeso.get(),cantidad_figuras.get())
-                                lista_final_figuras.append(nueva_figura)
-                                #Borramos el texto en los campos correspondientes
-                                ingreso_nombre_figura.delete(0,END)
-                                ingreso_tamaño.delete(0,END)
-                                ingreso_precio.delete(0,END)
-                                ingreso_cantidad_yeso.delete(0,END)
-                                ingreso_cantidad_figuras.delete(0,END)
+                                if tamaño.get().isnumeric():
+                                    if precio.get().isnumeric():
+                                        if cantidad_yeso.get().isnumeric():
+                                            if cantidad_figuras.get().isnumeric():
+                                                lista_figuras.insert("","end",values=(nombre_figura.get(),tamaño.get(),precio.get(),cantidad_yeso.get(),cantidad_figuras.get()))
+                                                nueva_figura = Figura(nombre_figura.get(),tamaño.get(),precio.get(),cantidad_yeso.get(),cantidad_figuras.get())
+                                                lista_final_figuras.append(nueva_figura)
+                                                #Borramos el texto en los campos correspondientes
+                                                ingreso_nombre_figura.delete(0,END)
+                                                ingreso_tamaño.delete(0,END)
+                                                ingreso_precio.delete(0,END)
+                                                ingreso_cantidad_yeso.delete(0,END)
+                                                ingreso_cantidad_figuras.delete(0,END)
+                                            else:
+                                                messagebox.showerror(title="Error", message="Cantidad de figuras invalida")
+                                        else:
+                                            messagebox.showerror(title="Error", message="Cantidad de yeso invalida")
+                                    else:
+                                        messagebox.showerror(title="Error", message="Precio invalido")
+                                else:
+                                    messagebox.showerror(title="Error", message="Tamaño invalido") 
                             
                         def borrar_figura():
                             #Seleccionamos el elemento al cual damos click en la lista
@@ -573,7 +597,7 @@ def VerPedidos():
                         boton_confirmar = Button(ventana, text="Confirmar",font=("Cascadia Code SemiBold", 10), background="#ECE3CE",command = lambda:ConfirmacionModificarPedido())
                         boton_confirmar.place(x=120,y=420)
                         
-                        boton_cancelar = Button(ventana, text="Cancelar",font=("Cascadia Code SemiBold", 10), background="#ECE3CE",command = lambda:VerPedido())
+                        boton_cancelar = Button(ventana, text="Cancelar",font=("Cascadia Code SemiBold", 10), background="#ECE3CE",command = lambda:VerPedidos())
                         boton_cancelar.place(x=210,y=420)
                     
                     boton_pedido_modificar = Button(pedido_ver, text="Modificar Pedido",font=("Cascadia Code SemiBold", 10), command=lambda:Modificar_pedido())
