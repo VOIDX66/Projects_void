@@ -63,7 +63,9 @@ def AgregarPedido():
                 else:
                     messagebox.showerror(title="Error", message="Precio invalido")
             else:
-                messagebox.showerror(title="Error", message="Tamaño invalido")                        
+                messagebox.showerror(title="Error", message="Tamaño invalido")
+        else:
+            messagebox.showerror(title="Error", message="Por favor ingrese todos los datos de la figura")                                
         
     def borrar_figura():
         #Seleccionamos el elemento al cual damos click en la lista
@@ -413,7 +415,9 @@ def VerPedidos():
                                     else:
                                         messagebox.showerror(title="Error", message="Precio invalido")
                                 else:
-                                    messagebox.showerror(title="Error", message="Tamaño invalido") 
+                                    messagebox.showerror(title="Error", message="Tamaño invalido")
+                            else:
+                                messagebox.showerror(title="Error", message="Por favor ingrese todos los datos de la figura") 
                             
                         def borrar_figura():
                             #Seleccionamos el elemento al cual damos click en la lista
@@ -524,18 +528,33 @@ def VerPedidos():
                                     figura_seleccionada = Figura(*valores)
                                     for figura in lista_final_figuras:
                                         if str(figura) == str(figura_seleccionada):
-                                            figura.modificar_figura(ingreso_nombre_figura.get(),ingreso_tamaño.get(),ingreso_precio.get(),ingreso_cantidad_yeso.get(),ingreso_cantidad_figuras.get())
-                                            ingreso_nombre_figura.delete(0,END)
-                                            ingreso_tamaño.delete(0,END)
-                                            ingreso_precio.delete(0,END)
-                                            ingreso_cantidad_yeso.delete(0,END)
-                                            ingreso_cantidad_figuras.delete(0,END)
-                                            
-                                            for item in lista_figuras.get_children():
-                                                lista_figuras.delete(item)
-                                            
-                                            for figura in pedido.figuras:
-                                                lista_figuras.insert("","end",values=(figura.nombre_figura,figura.tamaño,figura.precio,figura.cantidad_yeso,figura.cantidad_unidades))
+                                            if nombre_figura.get() and tamaño.get() and precio.get() and cantidad_yeso.get() and cantidad_figuras.get():
+                                                if tamaño.get().isnumeric():
+                                                    if precio.get().isnumeric():
+                                                        if cantidad_yeso.get().isnumeric():
+                                                            if cantidad_figuras.get().isnumeric():
+                                                                figura.modificar_figura(ingreso_nombre_figura.get(),ingreso_tamaño.get(),ingreso_precio.get(),ingreso_cantidad_yeso.get(),ingreso_cantidad_figuras.get())
+                                                                ingreso_nombre_figura.delete(0,END)
+                                                                ingreso_tamaño.delete(0,END)
+                                                                ingreso_precio.delete(0,END)
+                                                                ingreso_cantidad_yeso.delete(0,END)
+                                                                ingreso_cantidad_figuras.delete(0,END)
+                                                                
+                                                                for item in lista_figuras.get_children():
+                                                                    lista_figuras.delete(item)
+                                                                
+                                                                for figura in pedido.figuras:
+                                                                    lista_figuras.insert("","end",values=(figura.nombre_figura,figura.tamaño,figura.precio,figura.cantidad_yeso,figura.cantidad_unidades))
+                                                            else:
+                                                                messagebox.showerror(title="Error", message="Cantidad de figuras invalida")
+                                                        else:
+                                                            messagebox.showerror(title="Error", message="Cantidad de yeso invalida")
+                                                    else:
+                                                        messagebox.showerror(title="Error", message="Precio invalido")
+                                                else:
+                                                    messagebox.showerror(title="Error", message="Tamaño invalido")
+                                            else:
+                                                messagebox.showerror(title="Error", message="Por favor ingrese todos los datos de la figura")         
                                 
                                 boton_editar_figura = Button(ventana,text="Editar Figura Seleccionada",font=("Cascadia Code SemiBold", 8), background="#ECE3CE", command=lambda: EditarFiguraSeleccionada())
                                 boton_editar_figura.place(x=590,y=240)
