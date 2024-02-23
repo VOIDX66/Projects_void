@@ -1,0 +1,42 @@
+10   LET N = 1000
+20   LET L1 = INT(10*N/3)
+30   DIM A(L1)
+40   FOR J = 1 TO L1
+50      LET A(J) = 2
+60   NEXT J
+70   LET N9 = 0
+80   LET P3 = 0
+90   FOR J = 1 TO N
+100     LET Q = 0
+110     FOR I = L1 TO 1 STEP -1
+120         LET X = 10*A(I)+Q*I
+130         LET N2 = 2*I-1
+140         LET A(I) = X-INT(X/N2)*N2
+150         LET Q = INT(X/N2)
+160     NEXT I
+170     LET A(1) = Q-INT(Q/10)*10
+180     LET Q = INT(Q/10)
+190     IF Q=9 THEN 210
+200      GOTO 230
+210         LET N9 = N9+1
+220         GOTO 390
+230     IF Q=10 THEN 250
+240     GOTO 310
+250         FOR K = 1 TO N9
+260             PRINT(0)
+270         NEXT K
+280         LET P3 = 0
+290         LET N9 = 0
+300         GO TO 390
+310     PRINT(P3)
+320     LET P3 = Q
+330     IF N9 <> 0 THEN 350
+340     GOTO 390
+350         FOR K = 1 TO N9
+360             PRINT(9)
+370         NEXT K
+380         LET N9 = 0
+390  NEXT J
+400  PRINT(P3)
+410  REM COMENTARIO ACLARANDO NOMBRES L1 = LEN, N9 = NINES, P3 = PREDIGIT
+420  END

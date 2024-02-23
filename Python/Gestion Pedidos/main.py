@@ -317,7 +317,7 @@ def EliminarPedido():
     scroll.pack(side="right",fill="y")
     
     if pedidos:
-        for pedido in pedidos:
+        for pedido in reversed(pedidos):
             lista_pedidos.insert("","end",values=(pedido.nombre,pedido.direccion,pedido.celular,pedido.precio_total,pedido.estado))
         
         
@@ -554,7 +554,7 @@ def VerPedidos():
                                                 else:
                                                     messagebox.showerror(title="Error", message="Tamaño invalido")
                                             else:
-                                                messagebox.showerror(title="Error", message="Por favor ingrese todos los datos de la figura")         
+                                                messagebox.showerror(title="Error", message="Por favor ingrese todos los datos de la figura")      
                                 
                                 boton_editar_figura = Button(ventana,text="Editar Figura Seleccionada",font=("Cascadia Code SemiBold", 8), background="#ECE3CE", command=lambda: EditarFiguraSeleccionada())
                                 boton_editar_figura.place(x=590,y=240)
@@ -693,7 +693,7 @@ def VerPedidos():
     scroll.pack(side="right",fill="y")
     
     if pedidos:
-        for pedido in pedidos:
+        for pedido in reversed(pedidos):
             lista_pedidos.insert("","end",values=(pedido.nombre,pedido.direccion,pedido.celular,pedido.precio_total,pedido.estado))
         
         

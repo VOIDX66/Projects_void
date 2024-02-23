@@ -1,0 +1,133 @@
+statement ::= statement { ':' statement }
+
+statement ::= assignment
+		| declaration
+		| funcall
+		| control
+		| return
+		| defun_statement
+
+statement ::= expression
+    
+statement ::= block_begin
+    
+statement ::= block_end
+    
+statement ::= if_block_begin
+		| elseif_block_begin
+		| else_statement
+		| case_begin
+		| case_else_begin
+    
+args_list ::= expression { ',' expression }
+    
+params_list ::= ID { ',' ID } 
+    
+defun_statement ::= DEFUN ID '(' params_list ')' '=' expression
+    
+funcall ::= ID args_list
+    
+assignment ::= ID '=' expression
+		| LET ID '=' expression
+		| ID '(' expression ')' '=' expression
+		| expression '.' ID '=' expression
+    
+declaration ::= declare_array
+    
+declare_array ::= DIM ID '(' expression ')' AS ID
+    
+rel_expression ::= expression '>' expression
+		| expression '<' expression
+		| expression '>=' expression
+		| expression '<=' expression
+		| expression '=' expression
+		| expression '<>' expression
+		| rel_expression AND rel_expression
+		| rel_expression OR rel_expression
+		| '(' rel_expression ')'
+		| NOT rel_expression
+    
+expression ::= expression '+' expression
+		| expression '-' expression
+		| expression '*' expression
+		| expression '/' expression
+		| expression '\' expression
+		| expression MOD expression
+		| expression AS expression
+		| expression '^' expression
+		| expression '.' ID
+		| '-' expression
+		| '(' expression ')'
+    
+expression ::= ID '(' ')'
+		| ID '(' args_list ')'
+    
+expression ::= INTEGER
+		| DECIMAL
+    
+expression ::= STRING
+    
+expression ::= ID
+    
+expression ::= LBRACE args_list RBRACE
+    
+block_begin ::= while_block_begin
+		| for_block_begin
+		| do_block_begin
+		| function_block_begin
+    
+if_block_begin ::= IF rel_expression THEN
+    
+else_statement ::= ELSE
+    
+elseif_block_begin ::= ELSEIF rel_expression THEN
+    
+statement ::= SELECT CASE expression
+		| SELECT expression
+    
+case_begin ::= CASE expression
+    
+case_else_begin ::= CASE ELSE
+    
+while_block_begin ::= WHILE rel_expression
+    
+do_block_begin ::= DO
+    
+for_block_begin ::= FOR ID '=' expression TO expression
+		| FOR ID '=' expression TO expression STEP expression
+    
+function_block_begin ::= SUB ID '(' params_list ')'
+		| FUNCTION ID '(' params_list ')'
+		| SUB ID '(' ')'
+		| FUNCTION ID '(' ')'
+    
+block_end ::= END IF
+
+block_end ::= END SELECT
+    
+block_end ::= END WHILE
+		| WEND
+    
+block_end ::= END FOR
+		| NEXT ID
+    
+block_end ::= LOOP
+		| LOOP WHILE rel_expression
+		| LOOP UNTIL rel_expression
+
+block_end ::= END SUB
+		| END FUNCTION
+    
+return ::= RETURN
+		| RETURN expression
+    
+control ::= EXIT WHILE
+		| EXIT DO
+		| EXIT FOR
+    
+control ::= CONTINUE WHILE
+		| CONTINUE DO
+		| CONTINUE FOR
+    
+statement ::= USE ID
+

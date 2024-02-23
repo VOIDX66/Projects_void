@@ -38,4 +38,3 @@ class Pedido:
         
     def validar_pedido(self):
         self.estado = "Pendiente"
-    
