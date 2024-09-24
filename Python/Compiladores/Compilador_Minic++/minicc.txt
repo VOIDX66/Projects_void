@@ -90,9 +90,9 @@ Rule 86    empty -> <empty>
 
 Unused terminals:
 
-    CLASS
-    CHAR
     DOUBLE
+    CHAR
+    CLASS
 
 Terminals, with rules where they appear:
 

@@ -1,5 +1,3 @@
-'''Analizador lexico mini c++'''
-
 import sly 
 from rich import print
 
