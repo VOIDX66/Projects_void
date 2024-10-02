@@ -4,13 +4,13 @@ from rich import print
 class Lexer(sly.Lexer):
     tokens = {
         #Palabras reservadas
-        VOID, BOOL, INT, FLOAT, DOUBLE, CHAR, WHILE, IF, ELSE, CONTINUE, BREAK, RETURN, SIZE, NEW, CLASS, STRING,
+        VOID, BOOL, INT, FLOAT, DOUBLE, CHAR, WHILE, IF, ELSE, CONTINUE, BREAK, RETURN, SIZE, NEW, CLASS,
 
         #Operadores de relacion
         AND, OR, EQ, NE, GE, LE,
 
         # Otros simbolos
-        IDENT, BOOL_LIT, INT_LIT, FLOAT_LIT
+        IDENT, BOOL_LIT, INT_LIT, FLOAT_LIT, STRING_LIT, CHAR_LIT
     }
 
     literals = '+-*/%=().,;[]{}<>!"'
@@ -109,7 +109,6 @@ class Lexer(sly.Lexer):
     IDENT["size"] = SIZE
     IDENT["new"] = NEW
     IDENT["class"] = CLASS
-    IDENT["string"] = STRING
 
     #Operadores
     EQ = r'=='

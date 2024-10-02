@@ -15,7 +15,7 @@ def serie_fourier(t, N):
     """
     y = np.zeros_like(t)
     for n in range(1, N + 1):
-        term = ( (119 / (50*n * np.pi)) - (5/(2*(n**2)*((np.pi)**2)))  ) * np.cos(n * t) + ( (-167 / (50*n * np.pi)) + (243/(2500*(n**2)*((np.pi)**2)))  ) * np.sin(n * t)
+        term = 
         y += term
     return (8/5) + y
 

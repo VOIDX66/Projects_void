@@ -18,11 +18,11 @@ def serie_fourier_sympy(t, N):
     - y: expresión simbólica de la serie de Fourier.
     """
     y = 0
+    T= 16/5
     for n in range(1, N + 1):
-        term = ( (119 / (50*n * sp.pi)) - (5/(2*(n**2)*(sp.pi)**2)) ) * sp.cos(n * t) + \
-               ( (-167 / (50*n * sp.pi)) + (243/(2500*(n**2)*(sp.pi)**2)) ) * sp.sin(n * t)
+        term = (2*sp.sin(2*n)+sp.sin(n/5))*(sp.cos(n*t)/(n*sp.pi)) + (2*sp.cos(n/5)-sp.sin(2*n))*(sp.sin(n*t)/(n*sp.pi))
         y += term
-    return (8/5) + y
+    return (2/T) + y
 
 def graficar_serie_fourier_sympy(N, xlim=None, ylim=None):
     """Grafica la serie de Fourier calculada simbólicamente usando SymPy,
@@ -58,7 +58,7 @@ def graficar_serie_fourier_sympy(N, xlim=None, ylim=None):
     plt.show()
 
 # Parámetro
-N = 5  # Número de términos en la serie de Fourier
+N = 100  # Número de términos en la serie de Fourier
 
 # Definir los límites de los ejes (opcional)
 xlim = (-10, 10)  # Límites del eje t

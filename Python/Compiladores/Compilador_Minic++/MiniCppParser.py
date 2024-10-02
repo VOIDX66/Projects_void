@@ -6,6 +6,7 @@ Analizador Sintactico (LALR)
 '''
 from rich import print
 from MiniCppLexer import Lexer
+from MiniCppCaster import *
 import sly
 
 class Parser(sly.Parser):
@@ -29,101 +30,158 @@ class Parser(sly.Parser):
 
     )
 
-    @_("decl { decl }")
+    @_("decl_list")
     def program(self, p):
-        '''
-        program ::= decl+
-        '''
+        return Program(p.decl_list)
 
-    @_("var_decl", "func_decl")
+    @_("decl_list decl")
+    def decl_list(self, p):
+        return p.decl_list + [ p.decl ]
+
+    @_("decl")
+    def decl_list(self, p):
+        return [ p.decl ]
+
+    @_("var_decl", "func_decl", "class_decl")
     def decl(self, p):
         '''
         decl ::= var_decl | func_decl | class_decl
         '''
+        return p[0]
 
+    # Inicializar variable
     @_("type_spec IDENT ';'")
     def var_decl(self, p):
         '''
         var_decl ::=  type_spec IDENT ';'
         '''
+        return VarDeclStmt(p.type_spec, p.IDENT)
 
+    # Declarar variable normal
+    @_("var_decl IDENT '=' expr ';'")
+    def var_decl(self, p):
+        '''
+        var_decl ::= type_spec IDENT '=' expr ';'
+        '''
+        return VarDeclStmt(p.type_spec, p.IDENT, p.expr)
+
+    # Inicializar un array
     @_("type_spec IDENT '[' ']' ';'")
     def var_decl(self, p):
         '''
         var_decl ::=  type_spec IDENT '[' ']' ';'
         '''
+        # Este nodo representa la declaración de un arreglo sin tamaño
+        #return VarDeclStmt(p.type_spec, p.IDENT, is_array=True)
+        return VarDeclStmt(p.type_spec, p.IDENT)
+
+    # Inicializar array con un tamaño en específico
+    @_("type_spec IDENT '[' expr ']' ';'")
+    def var_decl(self, p):
+        '''
+        var_decl ::= type_spec IDENT '[' expr ']' ';'
+        '''
+        # Este nodo representa la declaración de un arreglo con tamaño
+        #return VarDeclStmt(p.type_spec, p.IDENT, is_array=True, size=p.expr)
+        return VarDeclStmt(p.type_spec, p.IDENT, size=p.expr)
 
     @_("VOID", "BOOL", "INT", "FLOAT")
     def type_spec(self, p):
         '''
-        type_spec ::= VOID | BOOL  | INT | FLOAT
+        type_spec ::= VOID | BOOL | INT | FLOAT
         '''
+        return p[0]
 
     @_("type_spec IDENT '(' params ')' compound_stmt")
     def func_decl(self, p):
         '''
         func_decl ::= type_spec IDENT '(' params ')' compound_stmt
         '''
+        return FuncDeclStmt(p.type_spec, p.IDENT, p.params, p.compound_stmt)
 
     @_("param_list", "VOID")
     def params(self, p):
         '''
         params ::= param_list | VOID
         '''
+        return p.param_list if hasattr(p, 'param_list') else []
 
     @_("param { ',' param }")
     def param_list(self, p):
         '''
         param_list ::= param ( ',' param )*
         '''
+        return [p.param0] + p.param1
 
     @_("type_spec IDENT")
     def param(self, p):
         '''
         param ::= type_spec IDENT
         '''
+        # Nodo que representa un parámetro de función
+        return VarDeclStmt(p.type_spec, p.IDENT)
 
     @_("type_spec IDENT '[' ']'")
     def param(self, p):
         '''
         param ::= type_spec IDENT '[' ']'
         '''
+        # Nodo que representa un parámetro de función que es un arreglo
+        #return VarDeclStmt(p.type_spec, p.IDENT, is_array=True)
+        return VarDeclStmt(p.type_spec, p.IDENT)
 
     @_("'{' local_decls stmt_list '}'")
     def compound_stmt(self, p):
         '''
         compound_stmt ::= '{' local_decls stmt_list '}'
         '''
-    
-    @_("local_decl", "empty")
-    def local_decls(self, p):
-        '''
-        local_decls ::= local_decl |
-        '''
+        return p.local_decls + p.stmt_list
 
-    @_("type_spec IDENT ';'")
+    @_("local_decl local_decls")
+    def local_decls(self, p):
+        return [p.local_decl] + p.local_decls
+
+    @_("empty")
+    def local_decls(self, p):
+        return []
+
+    @_("var_decl")
     def local_decl(self, p):
         '''
         local_decl ::= type_spec IDENT ';'
         '''
+        return p.var_decl
 
-    @_("type_spec IDENT '[' ']' ';'")
-    def local_decl(self, p):
-        '''
-        local_decl ::= type_spec IDENT '[' ']' ';'
-        '''
-
-    @_("{ stmt }")
+    @_("stmt stmt_list")
     def stmt_list(self, p):
-        '''
-        stmt_list ::= stmt*
-        '''
+        return [p.stmt] + p.stmt_list
+
+    @_("empty")
+    def stmt_list(self, p):
+        return []
 
     @_("expr_stmt", "compound_stmt", "if_stmt", "while_stmt", "return_stmt", "break_stmt")
     def stmt(self, p):
         '''
         stmt ::= expr_stmt | compound_stmt | if_stmt | while_stmt | return_stmt | break_stmt
         '''
+        return p[0]
+
+    @_("CLASS IDENT '{' var_decl_list '}'")
+    def class_decl(self, p):
+        '''
+        class_decl ::= CLASS IDENT '{' var_decl_list '}'
+        '''
+        return ClassDecl(p.IDENT, p.var_decl_list)
+
+    @_("var_decl_list var_decl")
+    def var_decl_list(self, p):
+        return p.var_decl_list + [p.var_decl]
+
+    @_("var_decl")
+    def var_decl_list(self, p):
+        return [p.var_decl]
+
 
     @_("expr ';'")
     def expr_stmt(self, p):
@@ -143,18 +201,22 @@ class Parser(sly.Parser):
         while_stmt ::= WHILE '(' expr ')' stmt
         '''
 
+    @_("IF '(' expr ')' stmt")
+    def if_stmt(self, p):
+        return IfStmt(p.expr, p.stmt)
+
     @_("IF '(' expr ')' stmt ELSE stmt ",
        "IF '(' expr ')' stmt %prec IF")
     def if_stmt(self, p):
-        '''
-        if_stmt ::= IF '(' expr ')' stmt [ ELSE stmt ]? 
-        '''
+        return IfStmt(p.expr, p.stmt0, p.stmt1)
 
-    @_("RETURN [ expr ] ';'")
+    @_("RETURN expr ';'")
     def return_stmt(self, p):
-        '''
-        return_stmt ::= RETURN expr? ';'
-        '''
+        return ReturnStmt(p.expr)
+
+    @_("RETURN ';'")
+    def return_stmt(self, p):
+        return ReturnStmt()
 
     @_("BREAK ';'", "CONTINUE ';'")
     def break_stmt(self, p):
@@ -233,10 +295,10 @@ class Parser(sly.Parser):
         expr ::= IDENT '.' SIZE
         '''
 
-    @_("BOOL_LIT", "INT_LIT", "FLOAT_LIT", "STRING")
+    @_("BOOL_LIT", "INT_LIT", "FLOAT_LIT", "STRING_LIT", "CHAR_LIT")
     def expr(self, p):
         '''
-        expr ::= BOOL_LIT | INT_LIT | FLOAT_LIT | STRING
+        expr ::= BOOL_LIT | INT_LIT | FLOAT_LIT | STRING_LIT | CHAR_LIT
         '''
 
     @_("NEW type_spec '[' expr ']'")
