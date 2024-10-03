@@ -99,6 +99,7 @@ class Lexer(sly.Lexer):
     IDENT["bool"] = BOOL
     IDENT["int"] = INT
     IDENT["float"] = FLOAT
+    IDENT["double"] = DOUBLE
     IDENT["char"] = CHAR
     IDENT["while"] = WHILE
     IDENT["if"] = IF

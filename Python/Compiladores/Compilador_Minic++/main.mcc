@@ -1,20 +1,66 @@
-/* ******************************************************* *
- *                                                         *
- * HOLA MUNDO                                              *
- *                                                         *
- ***********************************************************
- */
+// Declaraciones de variables
+double x = 2.718;
+char letter = 'A';
+bool isActive = false;
 
- void main(void) {
-    // Imprimimos una cadena
-    int i;
-    float pi;
+void coso(void){
+   if (x >= 1){
+      isActive = true;
+   }
+   while (x < 10){
+      score = 1 + 2;
+   }
+}
 
-    i = 10;
-    pi = 3.1415;
+// Declaración de arreglos
+double values[5]; 
+char letters[26];
 
-    printf("Hola Clase");
+// Función simple sin parámetros
+void initialize(void) {
+   double pi;
+   pi = 3.14159;
+}
 
-    // Salimos del programa, retornando 0=Ok
-    return 0;
- }
+// Función con parámetros y una declaración local
+double multiply(double a, double b) {
+   double product;
+   product = a * b;
+   return product;
+}
+
+// Función con control de flujo (if-else anidados)
+char getGrade(int score) {
+   char grade;
+   if (score >= 90 && score <= 100) {
+      grade = 'A';
+   }
+   else{
+      if (score >= 80 && score < 90) {
+         grade = 'B';
+      }
+      else {
+         if (score >= 70 && score < 80) {
+            grade = 'C';
+         }
+         else{
+            if (score >= 60 && score < 70) {
+               grade = 'D';
+            }
+            else {
+               grade = 'F';
+            }
+         }
+      }
+   }
+   return grade;
+}
+
+// Bucle while
+void countDown(void) {
+   int i = 10;
+   while (i > 0) {
+      // Hacer algo en cada iteración
+      i = i - 1;
+   }
+}
