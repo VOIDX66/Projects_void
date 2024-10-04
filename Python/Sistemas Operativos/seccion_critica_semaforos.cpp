@@ -56,7 +56,7 @@ void mostrar_buffer() {
         cout << "[";
         for (int i = 0; i < current_size; ++i) {
             int pos = (consumer_pos + i) % MAX_SIZE;
-            cout << "Posición " << (pos + 1) << ": " << buffer[pos] << (i < current_size - 1 ? ", " : "");
+            cout << "Posición " << pos << ": " << buffer[pos] << (i < current_size - 1 ? ", " : "");
         }
         cout << "]" << endl;
     }
@@ -65,12 +65,12 @@ void mostrar_buffer() {
 
 // Función para mostrar las posiciones del productor y del consumidor
 void mostrar_posiciones() {
-    cout << "Posición del productor: " << producer_pos + 1 << ", Posición del consumidor: " << consumer_pos + 1 << endl;
+    cout << "Posición del productor: " << producer_pos << ", Posición del consumidor: " << consumer_pos << endl;
 }
 
 // Función para producir un elemento
 void producir() {
-    buffer[producer_pos] = "d" + to_string(global_process_counter++); // Asignar nombre como p1, p2, etc.
+    buffer[producer_pos] = "d" + to_string(global_process_counter++); // Asignar nombre como d1, d2, etc.
     producer_pos = (producer_pos + 1) % MAX_SIZE;
     current_size++;
 }
