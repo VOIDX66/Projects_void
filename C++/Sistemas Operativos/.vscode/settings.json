@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "iostream": "cpp",
-        "ostream": "cpp",
-        "atomic": "cpp",
-        "condition_variable": "cpp"
-    },
-    "C_Cpp.errorSquiggles": "disabled"
-}
