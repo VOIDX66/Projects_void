@@ -94,7 +94,7 @@ class IfStmt(Statement):
 
 @dataclass
 class ReturnStmt(Statement):
-    expr : Expression = None
+    expr : Expression
 
 # =====================================================================
 # Expresiones
@@ -134,18 +134,13 @@ class VarDeclStmt(Statement):
     type_spec : str
     ident : str
     expr: Expression = None
+    size : Expression = None
 
 @dataclass
 class ArrayAssignmentExpr(Expression):
     ident : str
     index : Expression
     expr  : Expression
-
-@dataclass
-class ArrayDeclStmt(Statement):
-    type_spec : str
-    ident: str
-    size: Expression
 
 @dataclass
 class FuncDeclStmt(Statement):
@@ -195,10 +190,16 @@ class LiteralExpr(Expression):
     value: Union[int, float, bool, str]
 
 @dataclass
+class IOFuncExpr(Expression):
+    ident: str
+    args: List[Expression] = field(default_factory=list)
+
+@dataclass
 class NewArrayExpr(Expression):
     type_spec: str
     size: Expression
 
+class MakeDot(Visitor):
     node_default = {
         'shape': 'box',
         'color': 'coral2',
@@ -217,6 +218,14 @@ class NewArrayExpr(Expression):
     def name(self):
         self.seq += 1
         return f'n{self.seq}'
+
+    # Metodo
+    def visit(self, n: Program):
+        name = self.name()  # Crea un nombre para el nodo del programa
+        self.dot.node(name, label='PROGRAM')  # Agrega el nodo al gráfico
+        for stmt in n.stmts:  # Itera sobre las declaraciones en el programa
+            self.dot.edge(name, stmt.accept(self), label='stmt')  # Agrega una arista para cada declaración
+        return name
 
     # Método para visitar constantes
     def visit(self, n: ConstExpr):
@@ -249,12 +258,14 @@ class NewArrayExpr(Expression):
     # Método para visitar declaraciones de variables
     def visit(self, n: VarDeclStmt):
         name = self.name()
-        self.dot.node(name, label=f'VAR_DECL({n.ident}:{n.type_spec})')
-        if n.expr:
-            self.dot.edge(name, n.expr.accept(self), label='init')
         if n.size:
-            self.dot.edge(name, n.size.accept(self), label='size')
+            self.dot.node(name, label=f'VAR_DECL({n.ident}:{n.type_spec}[{n.size}])')
+        else:
+            self.dot.node(name, label=f'VAR_DECL({n.ident}:{n.type_spec})')
+            if n.expr:
+                self.dot.edge(name, n.expr.accept(self), label='init')
         return name
+        
 
     # Método para visitar declaraciones de funciones
     def visit(self, n: FuncDeclStmt):
@@ -304,7 +315,38 @@ class NewArrayExpr(Expression):
         name = self.name()
         self.dot.node(name, label='WHILE')
         self.dot.edge(name, n.expr.accept(self), label='condition')
-        self.dot.edge(name, n.then.accept(self), label='body')
+        for body_stmt in n.then:  # Asumiendo que stmt.then es una lista de declaraciones
+            self.dot.edge(name, body_stmt.accept(self), label='body')
         return name
 
+    # Método para visitar expresiones de entrada/salida
+    def visit(self, n: IOFuncExpr):
+        name = self.name()
+        if n.ident == 'printf':
+            self.dot.node(name, label='PRINTF')
+        elif n.ident == 'scanf':
+            self.dot.node(name, label='SCANF')
+        
+        for arg in n.args:
+            self.dot.edge(name, arg.accept(self), label='arg')
+        
+        return name
 
+    # Método para visitar expresiones literales
+    def visit(self, n: LiteralExpr):
+        name = self.name()  # Genera un nombre único para el nodo
+        self.dot.node(name, label=f'LITERAL({n.value})')  # Usa el valor literal
+        return name
+    
+    # Método para visitar declaraciones de retorno
+    def visit(self, n: ReturnStmt):
+        name = f'return_stmt_{id(n.expr)}'
+        self.dot.node(name, 'return')
+        self.dot.edge(name, n.expr.accept(self), label='expr')
+        return name
+
+    def visit(self, n: ExprStmt):
+        name = f'expr_stmt_{id(n.expr)}'
+        self.dot.node(name, 'expr_stmt')  # Asigna un nombre a tu nodo
+        self.dot.edge(name, n.expr.accept(self), label='expr')  # Suponiendo que `stmt.expr` es una expresión válida
+        return name

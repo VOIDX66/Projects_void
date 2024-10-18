@@ -36,17 +36,17 @@ class Parser(sly.Parser):
     def decl(self, p):
         return p[0]
 
+    @_("type_spec IDENT '=' expr ';'")
+    def var_decl(self, p):
+        return VarDeclStmt(p.type_spec, p.IDENT, p.expr)
+
     @_("type_spec IDENT ';'")
     def var_decl(self, p):
         return VarDeclStmt(p.type_spec, p.IDENT)
-
-    @_("type_spec IDENT '=' expr ';'")
-    def var_decl(self, p):
-        return VarDeclStmt(p.type_spec, p.IDENT, expr=p.expr)
     
     @_("type_spec IDENT '[' expr ']' ';'")
     def var_decl(self, p):
-        return ArrayDeclStmt(p.type_spec, p.IDENT, p.expr)
+        return VarDeclStmt(p.type_spec, p.IDENT, size = p.expr)
 
     @_("VOID", "BOOL", "INT", "FLOAT", "DOUBLE", "CHAR")
     def type_spec(self, p):
@@ -103,7 +103,7 @@ class Parser(sly.Parser):
     @_("CLASS IDENT '{' var_decl_list '}'")
     def class_decl(self, p):
         return ClassDecl(p.IDENT, p.var_decl_list)
-
+    
     @_("var_decl_list var_decl")
     def var_decl_list(self, p):
         return p.var_decl_list + [p.var_decl]
@@ -119,6 +119,14 @@ class Parser(sly.Parser):
     @_("';'")
     def expr_stmt(self, p):
         return ExprStmt()
+    
+    @_("PRINTF '(' expr ',' args ')' ';'")
+    def expr_stmt(self, p):
+        return CallExpr("printf", [p.expr] + p.args)
+    
+    @_("SCANF '(' expr ',' args ')' ';'")
+    def expr_stmt(self, p):
+        return CallExpr("scanf", [p.expr] + p.args)
 
     @_("WHILE '(' expr ')' stmt")
     def while_stmt(self, p):
@@ -134,11 +142,11 @@ class Parser(sly.Parser):
 
     @_("RETURN expr ';'")
     def return_stmt(self, p):
-        return ReturnStmt(p.expr)
+        return ReturnStmt(expr = p.expr)
 
-    @_("RETURN ';'")
-    def return_stmt(self, p):
-        return ReturnStmt()
+    #@_("RETURN ';'")
+    #def return_stmt(self, p):
+    #    return ReturnStmt()
 
     @_("BREAK ';'", "CONTINUE ';'")
     def break_stmt(self, p):
@@ -204,9 +212,13 @@ class Parser(sly.Parser):
     def args(self, p):
         return p.arg_list if hasattr(p, 'arg_list') else []
 
-    @_("expr [ ',' expr ]")
+    @_("expr")
     def arg_list(self, p):
-        return [p.expr0] + (p.expr1 if p.expr1 else [])
+        return [p.expr]
+    
+    @_("arg_list ',' expr")
+    def arg_list(self, p):
+        return p.arg_list + [p.expr]
     
     @_("")
     def empty(self, p):
@@ -228,8 +240,15 @@ def parse(source):
     
     return ast_root  # Devuelve el AST generado
 
-if __name__ == '__main__':
+def gen_ast(data,name):
+    ast = parse(data)
+    dot_visitor = MakeDot()
+    ast.accept(dot_visitor)
+    #Guardamos en formato png
+    dot_visitor.dot.render(filename=f'{name}_ast', format='png', cleanup=True)
+    return None,ast 
 
-    ast = parse(open("main.mcc", encoding='utf-8').read())
-    print(ast)
+if __name__ == '__main__':
+    data = open("isqrt.mcc", encoding='utf-8').read()
+    gen_ast(data)
 
