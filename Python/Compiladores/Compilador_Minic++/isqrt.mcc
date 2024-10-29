@@ -1,7 +1,6 @@
 // isqrt.mcc
 
 int num;
-int array[5];
 
 /* ********************************************* *
  * Función: Raiz cuadrada entera.                *

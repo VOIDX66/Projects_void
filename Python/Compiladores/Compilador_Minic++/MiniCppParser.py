@@ -144,17 +144,13 @@ class Parser(sly.Parser):
     def return_stmt(self, p):
         return ReturnStmt(expr = p.expr)
 
-    #@_("RETURN ';'")
-    #def return_stmt(self, p):
-    #    return ReturnStmt()
-
     @_("BREAK ';'", "CONTINUE ';'")
     def break_stmt(self, p):
         return BreakStmt() if p[0] == 'BREAK' else ContinueStmt()
 
     @_("IDENT '=' expr")
     def expr(self, p):
-        return VarAssignmentExpr(p.IDENT, p.expr)
+        return VarAssignmentExpr(p[0], p[2])
 
     @_("IDENT '[' expr ']' '=' expr")
     def expr(self, p):
@@ -243,6 +239,7 @@ def parse(source):
 def gen_ast(data,name):
     ast = parse(data)
     dot_visitor = MakeDot()
+    print(ast)
     ast.accept(dot_visitor)
     #Guardamos en formato png
     dot_visitor.dot.render(filename=f'{name}_ast', format='png', cleanup=True)
@@ -250,5 +247,5 @@ def gen_ast(data,name):
 
 if __name__ == '__main__':
     data = open("isqrt.mcc", encoding='utf-8').read()
-    gen_ast(data)
+    gen_ast(data,"isqrt")
 
