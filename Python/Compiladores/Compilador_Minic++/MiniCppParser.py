@@ -54,7 +54,7 @@ class Parser(sly.Parser):
 
     @_("type_spec IDENT '(' params ')' compound_stmt")
     def func_decl(self, p):
-        return FuncDeclStmt(p.type_spec, p.IDENT, p.params, p.compound_stmt)
+        return FuncDeclStmt(p.type_spec, p.IDENT, p.params, CompoundStatement(p.compound_stmt))
 
     @_("param_list", "VOID")
     def params(self, p):
@@ -150,7 +150,7 @@ class Parser(sly.Parser):
 
     @_("expr OR expr",
        "expr AND expr",
-       #"expr EQ expr",
+       "expr EQ expr",
        "expr NE expr",
        "expr LE expr",
        "expr '<' expr",
