@@ -148,17 +148,9 @@ class Parser(sly.Parser):
     def break_stmt(self, p):
         return BreakStmt() if p[0] == 'BREAK' else ContinueStmt()
 
-    @_("IDENT '=' expr")
-    def expr(self, p):
-        return VarAssignmentExpr(p[0], p[2])
-
-    @_("IDENT '[' expr ']' '=' expr")
-    def expr(self, p):
-        return ArrayAssignmentExpr(p.IDENT, p.expr0, p.expr1)
-
     @_("expr OR expr",
        "expr AND expr",
-       "expr EQ expr",
+       #"expr EQ expr",
        "expr NE expr",
        "expr LE expr",
        "expr '<' expr",
@@ -183,6 +175,14 @@ class Parser(sly.Parser):
     @_("IDENT")
     def expr(self, p):
         return VarExpr(p[0])
+
+    @_("IDENT '=' expr")
+    def expr(self, p):
+        return VarAssignmentExpr(VarExpr(p[0]), p[2])
+
+    @_("IDENT '[' expr ']' '=' expr")
+    def expr(self, p):
+        return ArrayAssignmentExpr(p.IDENT, p.expr0, p.expr1)
 
     @_("IDENT '[' expr ']'")
     def expr(self, p):

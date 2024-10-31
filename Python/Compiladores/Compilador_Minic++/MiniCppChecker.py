@@ -57,13 +57,6 @@ class Checker(Visitor):
 		env[n.ident] = True
 
 	# Statements
-
-	def visit(self, n:CompoundStmt, env: ChainMap, interp):
-		newenv = env.new_child()
-		for decl in n.decls:
-			decl.accept(self, newenv, interp)
-		for stmt in n.stmts:
-			stmt.accept(self, newenv, interp)
 		
 	def visit(self, n:IfStmt, env:ChainMap, interp):
 		n.expr.accept(self, env, interp)
