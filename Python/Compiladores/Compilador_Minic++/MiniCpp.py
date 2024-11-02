@@ -18,15 +18,6 @@ optional arguments:
   --sym              Dump the symbol table
   -S, --asm          Store the generated assembly file
   -R, --exec         Execute the generated program
-<<<<<<< Updated upstream
-  adios adios adios
-=======
-<<<<<<< HEAD
-  bola jua la bolaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-=======
-  adios adios adios
->>>>>>> 74b8ecf9de1d6ce12a973ddf45717831716d11ee
->>>>>>> Stashed changes
 '''
 from contextlib import redirect_stdout
 from rich       import print
