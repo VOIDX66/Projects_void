@@ -110,6 +110,13 @@ if __name__ == '__main__':
         image = Image.open(fdot)
         image.show()
 
+    #Llamado de la tabla de simbolos
+    elif args.sym:
+      print('Generating symbol table...')
+      symbol_table = context.generate_symbol_table(source)
+      print('Symbol Table:')
+      print(symbol_table)
+
     else:
       context.parse(source)
       context.run()

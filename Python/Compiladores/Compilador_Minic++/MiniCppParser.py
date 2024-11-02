@@ -54,7 +54,7 @@ class Parser(sly.Parser):
 
     @_("type_spec IDENT '(' params ')' compound_stmt")
     def func_decl(self, p):
-        return FuncDeclStmt(p.type_spec, p.IDENT, p.params, p.compound_stmt)
+        return FuncDeclStmt(p.type_spec, p.IDENT, p.params, CompoundStmt(p.compound_stmt))
 
     @_("param_list", "VOID")
     def params(self, p):
@@ -96,7 +96,7 @@ class Parser(sly.Parser):
     def stmt_list(self, p):
         return []
 
-    @_("expr_stmt", "compound_stmt", "if_stmt", "while_stmt", "for_stmt", "return_stmt", "break_stmt")
+    @_("expr_stmt", "compound_stmt", "if_stmt", "while_stmt", "return_stmt", "break_stmt")
     def stmt(self, p):
         return p[0]
 
@@ -131,10 +131,6 @@ class Parser(sly.Parser):
     @_("WHILE '(' expr ')' stmt")
     def while_stmt(self, p):
         return WhileStmt(p.expr, p.stmt)
-    
-    @_("FOR '(' expr ';' expr ';' expr ')' stmt")
-    def for_stmt(self, p):
-        return ForStmt(p.expr0, p.expr1, p.expr2, p.stmt)
 
     @_("IF '(' expr ')' stmt ELSE stmt")
     def if_stmt(self, p):
@@ -151,14 +147,6 @@ class Parser(sly.Parser):
     @_("BREAK ';'", "CONTINUE ';'")
     def break_stmt(self, p):
         return BreakStmt() if p[0] == 'BREAK' else ContinueStmt()
-
-    @_("IDENT '=' expr")
-    def expr(self, p):
-        return VarAssignmentExpr(VarExpr(p[0]), p[2])
-
-    @_("IDENT '[' expr ']' '=' expr")
-    def expr(self, p):
-        return ArrayAssignmentExpr(p.IDENT, p.expr0, p.expr1)
 
     @_("expr OR expr",
        "expr AND expr",
@@ -187,6 +175,14 @@ class Parser(sly.Parser):
     @_("IDENT")
     def expr(self, p):
         return VarExpr(p[0])
+
+    @_("IDENT '=' expr")
+    def expr(self, p):
+        return VarAssignmentExpr(VarExpr(p[0]), p[2])
+
+    @_("IDENT '[' expr ']' '=' expr")
+    def expr(self, p):
+        return ArrayAssignmentExpr(p.IDENT, p.expr0, p.expr1)
 
     @_("IDENT '[' expr ']'")
     def expr(self, p):
