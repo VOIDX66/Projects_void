@@ -18,6 +18,7 @@ optional arguments:
   --sym              Dump the symbol table
   -S, --asm          Store the generated assembly file
   -R, --exec         Execute the generated program
+  adios adios adios
 '''
 from contextlib import redirect_stdout
 from rich       import print
