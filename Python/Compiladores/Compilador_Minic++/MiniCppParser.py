@@ -96,7 +96,7 @@ class Parser(sly.Parser):
     def stmt_list(self, p):
         return []
 
-    @_("expr_stmt", "compound_stmt", "if_stmt", "while_stmt", "return_stmt", "break_stmt")
+    @_("expr_stmt", "compound_stmt", "if_stmt", "while_stmt", "for_stmt", "return_stmt", "break_stmt")
     def stmt(self, p):
         return p[0]
 
@@ -131,6 +131,10 @@ class Parser(sly.Parser):
     @_("WHILE '(' expr ')' stmt")
     def while_stmt(self, p):
         return WhileStmt(p.expr, p.stmt)
+    
+    @_("FOR '(' expr ';' expr ';' expr ')' stmt")
+    def for_stmt(self, p):
+        return ForStmt(p.expr0, p.expr1, p.expr2, p.stmt)
 
     @_("IF '(' expr ')' stmt ELSE stmt")
     def if_stmt(self, p):

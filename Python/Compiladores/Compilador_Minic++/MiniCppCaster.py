@@ -164,6 +164,13 @@ class WhileStmt(Statement):
     then : Statement
 
 @dataclass
+class ForStmt(Statement):
+    init : Expression
+    expr : Expression
+    update: Expression
+    then : Statement
+
+@dataclass
 class BreakStmt(Statement):
     break_s : Expression
 
