@@ -87,10 +87,6 @@ class NullStmt(Statement):
     pass
 
 @dataclass
-class CompoundStatement(Statement):
-    stmts : List[Statement] = field(default_factory=list)
-
-@dataclass
 class IfStmt(Statement):
     expr : Expression
     then : Statement
@@ -151,7 +147,7 @@ class FuncDeclStmt(Statement):
     return_type : str
     ident : str
     params: List[VarDeclStmt]
-    compound_stmt : CompoundStatement#List[Statement]
+    compound_stmt : List[Statement]
 
 @dataclass
 class ClassDecl(Statement):
@@ -258,22 +254,21 @@ class MakeDot(Visitor):
             self.dot.edge(name, stmt.accept(self), label='var_decl')
         return name
 
-    def visit(self, n: CompoundStatement):
-        name = self.name()
-        self.dot.node(name, label='COMPOUND_STATEMENT')
-        for stmt in n.stmts:
-            self.dot.edge(name, stmt.accept(self), label='stmt')
-        return name
+    #def visit(self, n: CompoundStatement):
+    #    name = self.name()
+    #    self.dot.node(name, label='COMPOUND_STATEMENT')
+    #    for stmt in n.stmts:
+    #        self.dot.edge(name, stmt.accept(self), label='stmt')
+    #    return name
 
     # Método para visitar declaraciones de funciones
     def visit(self, n: FuncDeclStmt):
         name = self.name()
         self.dot.node(name, label=f'FUNC_DECL({n.ident}:{n.return_type})')
-        self.dot.edge(name, n.compound_stmt.accept(self), label='compund_stmts')
         for param in n.params:
             self.dot.edge(name, param.accept(self), label='param')
-        #for stmt in n.compound_stmt:
-        #    self.dot.edge(name, stmt.accept(self), label='stmt')
+        for stmt in n.compound_stmt:
+            self.dot.edge(name, stmt.accept(self), label='stmt')
         return name
     
     # Método para visitar declaraciones de variables

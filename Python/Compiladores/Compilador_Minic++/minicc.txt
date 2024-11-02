@@ -61,26 +61,26 @@ Rule 57    expr -> BOOL_LIT
 Rule 58    expr -> IDENT . SIZE
 Rule 59    expr -> IDENT ( args )
 Rule 60    expr -> IDENT [ expr ]
-Rule 61    expr -> IDENT [ expr ] = expr  [precedence=right, level=3]
-Rule 62    expr -> IDENT = expr  [precedence=right, level=3]
-Rule 63    expr -> IDENT
-Rule 64    expr -> ( expr )
-Rule 65    expr -> + expr  [precedence=right, level=10]
-Rule 66    expr -> - expr  [precedence=right, level=10]
-Rule 67    expr -> ! expr  [precedence=right, level=10]
-Rule 68    expr -> expr % expr  [precedence=left, level=9]
-Rule 69    expr -> expr / expr  [precedence=left, level=9]
-Rule 70    expr -> expr * expr  [precedence=left, level=9]
-Rule 71    expr -> expr - expr  [precedence=left, level=8]
-Rule 72    expr -> expr + expr  [precedence=left, level=8]
-Rule 73    expr -> expr > expr  [precedence=left, level=7]
-Rule 74    expr -> expr GE expr  [precedence=left, level=7]
-Rule 75    expr -> expr < expr  [precedence=left, level=7]
-Rule 76    expr -> expr LE expr  [precedence=left, level=7]
-Rule 77    expr -> expr NE expr  [precedence=left, level=6]
-Rule 78    expr -> expr EQ expr  [precedence=left, level=6]
-Rule 79    expr -> expr AND expr  [precedence=left, level=5]
-Rule 80    expr -> expr OR expr  [precedence=left, level=4]
+Rule 61    expr -> IDENT
+Rule 62    expr -> ( expr )
+Rule 63    expr -> + expr  [precedence=right, level=10]
+Rule 64    expr -> - expr  [precedence=right, level=10]
+Rule 65    expr -> ! expr  [precedence=right, level=10]
+Rule 66    expr -> expr % expr  [precedence=left, level=9]
+Rule 67    expr -> expr / expr  [precedence=left, level=9]
+Rule 68    expr -> expr * expr  [precedence=left, level=9]
+Rule 69    expr -> expr - expr  [precedence=left, level=8]
+Rule 70    expr -> expr + expr  [precedence=left, level=8]
+Rule 71    expr -> expr > expr  [precedence=left, level=7]
+Rule 72    expr -> expr GE expr  [precedence=left, level=7]
+Rule 73    expr -> expr < expr  [precedence=left, level=7]
+Rule 74    expr -> expr LE expr  [precedence=left, level=7]
+Rule 75    expr -> expr NE expr  [precedence=left, level=6]
+Rule 76    expr -> expr EQ expr  [precedence=left, level=6]
+Rule 77    expr -> expr AND expr  [precedence=left, level=5]
+Rule 78    expr -> expr OR expr  [precedence=left, level=4]
+Rule 79    expr -> IDENT [ expr ] = expr  [precedence=right, level=3]
+Rule 80    expr -> IDENT = expr  [precedence=right, level=3]
 Rule 81    args -> empty
 Rule 82    args -> arg_list
 Rule 83    arg_list -> arg_list , expr
@@ -89,21 +89,21 @@ Rule 85    empty -> <empty>
 
 Terminals, with rules where they appear:
 
-!                    : 67
-%                    : 68
-(                    : 16 42 43 46 47 48 59 64
-)                    : 16 42 43 46 47 48 59 64
-*                    : 70
-+                    : 65 72
+!                    : 65
+%                    : 66
+(                    : 16 42 43 46 47 48 59 62
+)                    : 16 42 43 46 47 48 59 62
+*                    : 68
++                    : 63 70
 ,                    : 24 42 43 83
--                    : 66 71
+-                    : 64 69
 .                    : 58
-/                    : 69
+/                    : 67
 ;                    : 7 8 9 42 43 44 45 49 50 51
-<                    : 75
-=                    : 9 61 62
->                    : 73
-AND                  : 79
+<                    : 73
+=                    : 9 79 80
+>                    : 71
+AND                  : 77
 BOOL                 : 14
 BOOL_LIT             : 57
 BREAK                : 51
@@ -113,18 +113,18 @@ CLASS                : 39
 CONTINUE             : 50
 DOUBLE               : 11
 ELSE                 : 48
-EQ                   : 78
+EQ                   : 76
 FLOAT                : 12
 FLOAT_LIT            : 55
-GE                   : 74
-IDENT                : 7 8 9 16 25 26 39 58 59 60 61 62 63
+GE                   : 72
+IDENT                : 7 8 9 16 25 26 39 58 59 60 61 79 80
 IF                   : 47 48
 INT                  : 13
 INT_LIT              : 56
-LE                   : 76
-NE                   : 77
+LE                   : 74
+NE                   : 75
 NEW                  : 52
-OR                   : 80
+OR                   : 78
 PRINTF               : 43
 RETURN               : 49
 SCANF                : 42
@@ -132,8 +132,8 @@ SIZE                 : 58
 STRING_LIT           : 54
 VOID                 : 15 17
 WHILE                : 46
-[                    : 7 25 52 60 61
-]                    : 7 25 52 60 61
+[                    : 7 25 52 60 79
+]                    : 7 25 52 60 79
 error                : 
 {                    : 27 39
 }                    : 27 39
@@ -151,7 +151,7 @@ compound_stmt        : 16 37
 decl                 : 2 3
 decl_list            : 1 3
 empty                : 28 31 81
-expr                 : 7 9 42 43 45 46 47 48 49 52 60 61 61 62 64 65 66 67 68 68 69 69 70 70 71 71 72 72 73 73 74 74 75 75 76 76 77 77 78 78 79 79 80 80 83 84
+expr                 : 7 9 42 43 45 46 47 48 49 52 60 62 63 64 65 66 66 67 67 68 68 69 69 70 70 71 71 72 72 73 73 74 74 75 75 76 76 77 77 78 78 79 79 80 83 84
 expr_stmt            : 38
 func_decl            : 5
 if_stmt              : 36
@@ -447,26 +447,26 @@ state 20
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -527,26 +527,26 @@ state 22
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -652,48 +652,48 @@ state 31
     (58) expr -> IDENT . . SIZE
     (59) expr -> IDENT . ( args )
     (60) expr -> IDENT . [ expr ]
-    (61) expr -> IDENT . [ expr ] = expr
-    (62) expr -> IDENT . = expr
-    (63) expr -> IDENT .
+    (61) expr -> IDENT .
+    (79) expr -> IDENT . [ expr ] = expr
+    (80) expr -> IDENT . = expr
     .               shift and go to state 53
     (               shift and go to state 54
     [               shift and go to state 55
+    ]               reduce using rule 61 (expr -> IDENT .)
+    %               reduce using rule 61 (expr -> IDENT .)
+    /               reduce using rule 61 (expr -> IDENT .)
+    *               reduce using rule 61 (expr -> IDENT .)
+    -               reduce using rule 61 (expr -> IDENT .)
+    +               reduce using rule 61 (expr -> IDENT .)
+    >               reduce using rule 61 (expr -> IDENT .)
+    GE              reduce using rule 61 (expr -> IDENT .)
+    <               reduce using rule 61 (expr -> IDENT .)
+    LE              reduce using rule 61 (expr -> IDENT .)
+    NE              reduce using rule 61 (expr -> IDENT .)
+    EQ              reduce using rule 61 (expr -> IDENT .)
+    AND             reduce using rule 61 (expr -> IDENT .)
+    OR              reduce using rule 61 (expr -> IDENT .)
+    ;               reduce using rule 61 (expr -> IDENT .)
+    )               reduce using rule 61 (expr -> IDENT .)
+    ,               reduce using rule 61 (expr -> IDENT .)
     =               shift and go to state 56
-    ]               reduce using rule 63 (expr -> IDENT .)
-    %               reduce using rule 63 (expr -> IDENT .)
-    /               reduce using rule 63 (expr -> IDENT .)
-    *               reduce using rule 63 (expr -> IDENT .)
-    -               reduce using rule 63 (expr -> IDENT .)
-    +               reduce using rule 63 (expr -> IDENT .)
-    >               reduce using rule 63 (expr -> IDENT .)
-    GE              reduce using rule 63 (expr -> IDENT .)
-    <               reduce using rule 63 (expr -> IDENT .)
-    LE              reduce using rule 63 (expr -> IDENT .)
-    NE              reduce using rule 63 (expr -> IDENT .)
-    EQ              reduce using rule 63 (expr -> IDENT .)
-    AND             reduce using rule 63 (expr -> IDENT .)
-    OR              reduce using rule 63 (expr -> IDENT .)
-    ;               reduce using rule 63 (expr -> IDENT .)
-    )               reduce using rule 63 (expr -> IDENT .)
-    ,               reduce using rule 63 (expr -> IDENT .)
 
 
 state 32
 
     (7) var_decl -> type_spec IDENT [ expr . ] ;
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ]               shift and go to state 57
     %               shift and go to state 58
     /               shift and go to state 59
@@ -840,7 +840,7 @@ state 38
 
 state 39
 
-    (64) expr -> ( . expr )
+    (62) expr -> ( . expr )
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -850,26 +850,26 @@ state 39
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -886,7 +886,7 @@ state 39
 
 state 40
 
-    (65) expr -> + . expr
+    (63) expr -> + . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -896,26 +896,26 @@ state 40
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -932,7 +932,7 @@ state 40
 
 state 41
 
-    (66) expr -> - . expr
+    (64) expr -> - . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -942,26 +942,26 @@ state 41
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -978,7 +978,7 @@ state 41
 
 state 42
 
-    (67) expr -> ! . expr
+    (65) expr -> ! . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -988,26 +988,26 @@ state 42
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1025,19 +1025,19 @@ state 42
 state 43
 
     (9) var_decl -> type_spec IDENT = expr . ;
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ;               shift and go to state 76
     %               shift and go to state 58
     /               shift and go to state 59
@@ -1173,26 +1173,26 @@ state 54
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     )               reduce using rule 85 (empty -> .)
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
@@ -1214,7 +1214,7 @@ state 54
 state 55
 
     (60) expr -> IDENT [ . expr ]
-    (61) expr -> IDENT [ . expr ] = expr
+    (79) expr -> IDENT [ . expr ] = expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1224,26 +1224,26 @@ state 55
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1260,7 +1260,7 @@ state 55
 
 state 56
 
-    (62) expr -> IDENT = . expr
+    (80) expr -> IDENT = . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1270,26 +1270,26 @@ state 56
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1312,7 +1312,7 @@ state 57
 
 state 58
 
-    (68) expr -> expr % . expr
+    (66) expr -> expr % . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1322,26 +1322,26 @@ state 58
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1358,7 +1358,7 @@ state 58
 
 state 59
 
-    (69) expr -> expr / . expr
+    (67) expr -> expr / . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1368,26 +1368,26 @@ state 59
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1404,7 +1404,7 @@ state 59
 
 state 60
 
-    (70) expr -> expr * . expr
+    (68) expr -> expr * . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1414,26 +1414,26 @@ state 60
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1450,7 +1450,7 @@ state 60
 
 state 61
 
-    (71) expr -> expr - . expr
+    (69) expr -> expr - . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1460,26 +1460,26 @@ state 61
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1496,7 +1496,7 @@ state 61
 
 state 62
 
-    (72) expr -> expr + . expr
+    (70) expr -> expr + . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1506,26 +1506,26 @@ state 62
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1542,7 +1542,7 @@ state 62
 
 state 63
 
-    (73) expr -> expr > . expr
+    (71) expr -> expr > . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1552,26 +1552,26 @@ state 63
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1588,7 +1588,7 @@ state 63
 
 state 64
 
-    (74) expr -> expr GE . expr
+    (72) expr -> expr GE . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1598,26 +1598,26 @@ state 64
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1634,7 +1634,7 @@ state 64
 
 state 65
 
-    (75) expr -> expr < . expr
+    (73) expr -> expr < . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1644,26 +1644,26 @@ state 65
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1680,7 +1680,7 @@ state 65
 
 state 66
 
-    (76) expr -> expr LE . expr
+    (74) expr -> expr LE . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1690,26 +1690,26 @@ state 66
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1726,7 +1726,7 @@ state 66
 
 state 67
 
-    (77) expr -> expr NE . expr
+    (75) expr -> expr NE . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1736,26 +1736,26 @@ state 67
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1772,7 +1772,7 @@ state 67
 
 state 68
 
-    (78) expr -> expr EQ . expr
+    (76) expr -> expr EQ . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1782,26 +1782,26 @@ state 68
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1818,7 +1818,7 @@ state 68
 
 state 69
 
-    (79) expr -> expr AND . expr
+    (77) expr -> expr AND . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1828,26 +1828,26 @@ state 69
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1864,7 +1864,7 @@ state 69
 
 state 70
 
-    (80) expr -> expr OR . expr
+    (78) expr -> expr OR . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -1874,26 +1874,26 @@ state 70
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -1916,20 +1916,20 @@ state 71
 
 state 72
 
-    (64) expr -> ( expr . )
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (62) expr -> ( expr . )
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     )               shift and go to state 104
     %               shift and go to state 58
     /               shift and go to state 59
@@ -1948,107 +1948,107 @@ state 72
 
 state 73
 
-    (65) expr -> + expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 65 (expr -> + expr .)
-    %               reduce using rule 65 (expr -> + expr .)
-    /               reduce using rule 65 (expr -> + expr .)
-    *               reduce using rule 65 (expr -> + expr .)
-    -               reduce using rule 65 (expr -> + expr .)
-    +               reduce using rule 65 (expr -> + expr .)
-    >               reduce using rule 65 (expr -> + expr .)
-    GE              reduce using rule 65 (expr -> + expr .)
-    <               reduce using rule 65 (expr -> + expr .)
-    LE              reduce using rule 65 (expr -> + expr .)
-    NE              reduce using rule 65 (expr -> + expr .)
-    EQ              reduce using rule 65 (expr -> + expr .)
-    AND             reduce using rule 65 (expr -> + expr .)
-    OR              reduce using rule 65 (expr -> + expr .)
-    ;               reduce using rule 65 (expr -> + expr .)
-    )               reduce using rule 65 (expr -> + expr .)
-    ,               reduce using rule 65 (expr -> + expr .)
+    (63) expr -> + expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 63 (expr -> + expr .)
+    %               reduce using rule 63 (expr -> + expr .)
+    /               reduce using rule 63 (expr -> + expr .)
+    *               reduce using rule 63 (expr -> + expr .)
+    -               reduce using rule 63 (expr -> + expr .)
+    +               reduce using rule 63 (expr -> + expr .)
+    >               reduce using rule 63 (expr -> + expr .)
+    GE              reduce using rule 63 (expr -> + expr .)
+    <               reduce using rule 63 (expr -> + expr .)
+    LE              reduce using rule 63 (expr -> + expr .)
+    NE              reduce using rule 63 (expr -> + expr .)
+    EQ              reduce using rule 63 (expr -> + expr .)
+    AND             reduce using rule 63 (expr -> + expr .)
+    OR              reduce using rule 63 (expr -> + expr .)
+    ;               reduce using rule 63 (expr -> + expr .)
+    )               reduce using rule 63 (expr -> + expr .)
+    ,               reduce using rule 63 (expr -> + expr .)
 
 
 state 74
 
-    (66) expr -> - expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 66 (expr -> - expr .)
-    %               reduce using rule 66 (expr -> - expr .)
-    /               reduce using rule 66 (expr -> - expr .)
-    *               reduce using rule 66 (expr -> - expr .)
-    -               reduce using rule 66 (expr -> - expr .)
-    +               reduce using rule 66 (expr -> - expr .)
-    >               reduce using rule 66 (expr -> - expr .)
-    GE              reduce using rule 66 (expr -> - expr .)
-    <               reduce using rule 66 (expr -> - expr .)
-    LE              reduce using rule 66 (expr -> - expr .)
-    NE              reduce using rule 66 (expr -> - expr .)
-    EQ              reduce using rule 66 (expr -> - expr .)
-    AND             reduce using rule 66 (expr -> - expr .)
-    OR              reduce using rule 66 (expr -> - expr .)
-    ;               reduce using rule 66 (expr -> - expr .)
-    )               reduce using rule 66 (expr -> - expr .)
-    ,               reduce using rule 66 (expr -> - expr .)
+    (64) expr -> - expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 64 (expr -> - expr .)
+    %               reduce using rule 64 (expr -> - expr .)
+    /               reduce using rule 64 (expr -> - expr .)
+    *               reduce using rule 64 (expr -> - expr .)
+    -               reduce using rule 64 (expr -> - expr .)
+    +               reduce using rule 64 (expr -> - expr .)
+    >               reduce using rule 64 (expr -> - expr .)
+    GE              reduce using rule 64 (expr -> - expr .)
+    <               reduce using rule 64 (expr -> - expr .)
+    LE              reduce using rule 64 (expr -> - expr .)
+    NE              reduce using rule 64 (expr -> - expr .)
+    EQ              reduce using rule 64 (expr -> - expr .)
+    AND             reduce using rule 64 (expr -> - expr .)
+    OR              reduce using rule 64 (expr -> - expr .)
+    ;               reduce using rule 64 (expr -> - expr .)
+    )               reduce using rule 64 (expr -> - expr .)
+    ,               reduce using rule 64 (expr -> - expr .)
 
 
 state 75
 
-    (67) expr -> ! expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 67 (expr -> ! expr .)
-    %               reduce using rule 67 (expr -> ! expr .)
-    /               reduce using rule 67 (expr -> ! expr .)
-    *               reduce using rule 67 (expr -> ! expr .)
-    -               reduce using rule 67 (expr -> ! expr .)
-    +               reduce using rule 67 (expr -> ! expr .)
-    >               reduce using rule 67 (expr -> ! expr .)
-    GE              reduce using rule 67 (expr -> ! expr .)
-    <               reduce using rule 67 (expr -> ! expr .)
-    LE              reduce using rule 67 (expr -> ! expr .)
-    NE              reduce using rule 67 (expr -> ! expr .)
-    EQ              reduce using rule 67 (expr -> ! expr .)
-    AND             reduce using rule 67 (expr -> ! expr .)
-    OR              reduce using rule 67 (expr -> ! expr .)
-    ;               reduce using rule 67 (expr -> ! expr .)
-    )               reduce using rule 67 (expr -> ! expr .)
-    ,               reduce using rule 67 (expr -> ! expr .)
+    (65) expr -> ! expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 65 (expr -> ! expr .)
+    %               reduce using rule 65 (expr -> ! expr .)
+    /               reduce using rule 65 (expr -> ! expr .)
+    *               reduce using rule 65 (expr -> ! expr .)
+    -               reduce using rule 65 (expr -> ! expr .)
+    +               reduce using rule 65 (expr -> ! expr .)
+    >               reduce using rule 65 (expr -> ! expr .)
+    GE              reduce using rule 65 (expr -> ! expr .)
+    <               reduce using rule 65 (expr -> ! expr .)
+    LE              reduce using rule 65 (expr -> ! expr .)
+    NE              reduce using rule 65 (expr -> ! expr .)
+    EQ              reduce using rule 65 (expr -> ! expr .)
+    AND             reduce using rule 65 (expr -> ! expr .)
+    OR              reduce using rule 65 (expr -> ! expr .)
+    ;               reduce using rule 65 (expr -> ! expr .)
+    )               reduce using rule 65 (expr -> ! expr .)
+    ,               reduce using rule 65 (expr -> ! expr .)
 
 
 state 76
@@ -2213,19 +2213,19 @@ state 85
 state 86
 
     (84) arg_list -> expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ,               reduce using rule 84 (arg_list -> expr .)
     )               reduce using rule 84 (arg_list -> expr .)
     %               shift and go to state 58
@@ -2246,20 +2246,20 @@ state 86
 state 87
 
     (60) expr -> IDENT [ expr . ]
-    (61) expr -> IDENT [ expr . ] = expr
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (79) expr -> IDENT [ expr . ] = expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ]               shift and go to state 112
     %               shift and go to state 58
     /               shift and go to state 59
@@ -2278,24 +2278,24 @@ state 87
 
 state 88
 
-    (62) expr -> IDENT = expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 62 (expr -> IDENT = expr .)
-    ;               reduce using rule 62 (expr -> IDENT = expr .)
-    )               reduce using rule 62 (expr -> IDENT = expr .)
-    ,               reduce using rule 62 (expr -> IDENT = expr .)
+    (80) expr -> IDENT = expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 80 (expr -> IDENT = expr .)
+    ;               reduce using rule 80 (expr -> IDENT = expr .)
+    )               reduce using rule 80 (expr -> IDENT = expr .)
+    ,               reduce using rule 80 (expr -> IDENT = expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2347,139 +2347,139 @@ state 89
 
 state 90
 
-    (68) expr -> expr % expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 68 (expr -> expr % expr .)
-    %               reduce using rule 68 (expr -> expr % expr .)
-    /               reduce using rule 68 (expr -> expr % expr .)
-    *               reduce using rule 68 (expr -> expr % expr .)
-    -               reduce using rule 68 (expr -> expr % expr .)
-    +               reduce using rule 68 (expr -> expr % expr .)
-    >               reduce using rule 68 (expr -> expr % expr .)
-    GE              reduce using rule 68 (expr -> expr % expr .)
-    <               reduce using rule 68 (expr -> expr % expr .)
-    LE              reduce using rule 68 (expr -> expr % expr .)
-    NE              reduce using rule 68 (expr -> expr % expr .)
-    EQ              reduce using rule 68 (expr -> expr % expr .)
-    AND             reduce using rule 68 (expr -> expr % expr .)
-    OR              reduce using rule 68 (expr -> expr % expr .)
-    ;               reduce using rule 68 (expr -> expr % expr .)
-    )               reduce using rule 68 (expr -> expr % expr .)
-    ,               reduce using rule 68 (expr -> expr % expr .)
+    (66) expr -> expr % expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 66 (expr -> expr % expr .)
+    %               reduce using rule 66 (expr -> expr % expr .)
+    /               reduce using rule 66 (expr -> expr % expr .)
+    *               reduce using rule 66 (expr -> expr % expr .)
+    -               reduce using rule 66 (expr -> expr % expr .)
+    +               reduce using rule 66 (expr -> expr % expr .)
+    >               reduce using rule 66 (expr -> expr % expr .)
+    GE              reduce using rule 66 (expr -> expr % expr .)
+    <               reduce using rule 66 (expr -> expr % expr .)
+    LE              reduce using rule 66 (expr -> expr % expr .)
+    NE              reduce using rule 66 (expr -> expr % expr .)
+    EQ              reduce using rule 66 (expr -> expr % expr .)
+    AND             reduce using rule 66 (expr -> expr % expr .)
+    OR              reduce using rule 66 (expr -> expr % expr .)
+    ;               reduce using rule 66 (expr -> expr % expr .)
+    )               reduce using rule 66 (expr -> expr % expr .)
+    ,               reduce using rule 66 (expr -> expr % expr .)
 
 
 state 91
 
-    (69) expr -> expr / expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 69 (expr -> expr / expr .)
-    %               reduce using rule 69 (expr -> expr / expr .)
-    /               reduce using rule 69 (expr -> expr / expr .)
-    *               reduce using rule 69 (expr -> expr / expr .)
-    -               reduce using rule 69 (expr -> expr / expr .)
-    +               reduce using rule 69 (expr -> expr / expr .)
-    >               reduce using rule 69 (expr -> expr / expr .)
-    GE              reduce using rule 69 (expr -> expr / expr .)
-    <               reduce using rule 69 (expr -> expr / expr .)
-    LE              reduce using rule 69 (expr -> expr / expr .)
-    NE              reduce using rule 69 (expr -> expr / expr .)
-    EQ              reduce using rule 69 (expr -> expr / expr .)
-    AND             reduce using rule 69 (expr -> expr / expr .)
-    OR              reduce using rule 69 (expr -> expr / expr .)
-    ;               reduce using rule 69 (expr -> expr / expr .)
-    )               reduce using rule 69 (expr -> expr / expr .)
-    ,               reduce using rule 69 (expr -> expr / expr .)
+    (67) expr -> expr / expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 67 (expr -> expr / expr .)
+    %               reduce using rule 67 (expr -> expr / expr .)
+    /               reduce using rule 67 (expr -> expr / expr .)
+    *               reduce using rule 67 (expr -> expr / expr .)
+    -               reduce using rule 67 (expr -> expr / expr .)
+    +               reduce using rule 67 (expr -> expr / expr .)
+    >               reduce using rule 67 (expr -> expr / expr .)
+    GE              reduce using rule 67 (expr -> expr / expr .)
+    <               reduce using rule 67 (expr -> expr / expr .)
+    LE              reduce using rule 67 (expr -> expr / expr .)
+    NE              reduce using rule 67 (expr -> expr / expr .)
+    EQ              reduce using rule 67 (expr -> expr / expr .)
+    AND             reduce using rule 67 (expr -> expr / expr .)
+    OR              reduce using rule 67 (expr -> expr / expr .)
+    ;               reduce using rule 67 (expr -> expr / expr .)
+    )               reduce using rule 67 (expr -> expr / expr .)
+    ,               reduce using rule 67 (expr -> expr / expr .)
 
 
 state 92
 
-    (70) expr -> expr * expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 70 (expr -> expr * expr .)
-    %               reduce using rule 70 (expr -> expr * expr .)
-    /               reduce using rule 70 (expr -> expr * expr .)
-    *               reduce using rule 70 (expr -> expr * expr .)
-    -               reduce using rule 70 (expr -> expr * expr .)
-    +               reduce using rule 70 (expr -> expr * expr .)
-    >               reduce using rule 70 (expr -> expr * expr .)
-    GE              reduce using rule 70 (expr -> expr * expr .)
-    <               reduce using rule 70 (expr -> expr * expr .)
-    LE              reduce using rule 70 (expr -> expr * expr .)
-    NE              reduce using rule 70 (expr -> expr * expr .)
-    EQ              reduce using rule 70 (expr -> expr * expr .)
-    AND             reduce using rule 70 (expr -> expr * expr .)
-    OR              reduce using rule 70 (expr -> expr * expr .)
-    ;               reduce using rule 70 (expr -> expr * expr .)
-    )               reduce using rule 70 (expr -> expr * expr .)
-    ,               reduce using rule 70 (expr -> expr * expr .)
+    (68) expr -> expr * expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 68 (expr -> expr * expr .)
+    %               reduce using rule 68 (expr -> expr * expr .)
+    /               reduce using rule 68 (expr -> expr * expr .)
+    *               reduce using rule 68 (expr -> expr * expr .)
+    -               reduce using rule 68 (expr -> expr * expr .)
+    +               reduce using rule 68 (expr -> expr * expr .)
+    >               reduce using rule 68 (expr -> expr * expr .)
+    GE              reduce using rule 68 (expr -> expr * expr .)
+    <               reduce using rule 68 (expr -> expr * expr .)
+    LE              reduce using rule 68 (expr -> expr * expr .)
+    NE              reduce using rule 68 (expr -> expr * expr .)
+    EQ              reduce using rule 68 (expr -> expr * expr .)
+    AND             reduce using rule 68 (expr -> expr * expr .)
+    OR              reduce using rule 68 (expr -> expr * expr .)
+    ;               reduce using rule 68 (expr -> expr * expr .)
+    )               reduce using rule 68 (expr -> expr * expr .)
+    ,               reduce using rule 68 (expr -> expr * expr .)
 
 
 state 93
 
-    (71) expr -> expr - expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 71 (expr -> expr - expr .)
-    -               reduce using rule 71 (expr -> expr - expr .)
-    +               reduce using rule 71 (expr -> expr - expr .)
-    >               reduce using rule 71 (expr -> expr - expr .)
-    GE              reduce using rule 71 (expr -> expr - expr .)
-    <               reduce using rule 71 (expr -> expr - expr .)
-    LE              reduce using rule 71 (expr -> expr - expr .)
-    NE              reduce using rule 71 (expr -> expr - expr .)
-    EQ              reduce using rule 71 (expr -> expr - expr .)
-    AND             reduce using rule 71 (expr -> expr - expr .)
-    OR              reduce using rule 71 (expr -> expr - expr .)
-    ;               reduce using rule 71 (expr -> expr - expr .)
-    )               reduce using rule 71 (expr -> expr - expr .)
-    ,               reduce using rule 71 (expr -> expr - expr .)
+    (69) expr -> expr - expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 69 (expr -> expr - expr .)
+    -               reduce using rule 69 (expr -> expr - expr .)
+    +               reduce using rule 69 (expr -> expr - expr .)
+    >               reduce using rule 69 (expr -> expr - expr .)
+    GE              reduce using rule 69 (expr -> expr - expr .)
+    <               reduce using rule 69 (expr -> expr - expr .)
+    LE              reduce using rule 69 (expr -> expr - expr .)
+    NE              reduce using rule 69 (expr -> expr - expr .)
+    EQ              reduce using rule 69 (expr -> expr - expr .)
+    AND             reduce using rule 69 (expr -> expr - expr .)
+    OR              reduce using rule 69 (expr -> expr - expr .)
+    ;               reduce using rule 69 (expr -> expr - expr .)
+    )               reduce using rule 69 (expr -> expr - expr .)
+    ,               reduce using rule 69 (expr -> expr - expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2487,34 +2487,34 @@ state 93
 
 state 94
 
-    (72) expr -> expr + expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 72 (expr -> expr + expr .)
-    -               reduce using rule 72 (expr -> expr + expr .)
-    +               reduce using rule 72 (expr -> expr + expr .)
-    >               reduce using rule 72 (expr -> expr + expr .)
-    GE              reduce using rule 72 (expr -> expr + expr .)
-    <               reduce using rule 72 (expr -> expr + expr .)
-    LE              reduce using rule 72 (expr -> expr + expr .)
-    NE              reduce using rule 72 (expr -> expr + expr .)
-    EQ              reduce using rule 72 (expr -> expr + expr .)
-    AND             reduce using rule 72 (expr -> expr + expr .)
-    OR              reduce using rule 72 (expr -> expr + expr .)
-    ;               reduce using rule 72 (expr -> expr + expr .)
-    )               reduce using rule 72 (expr -> expr + expr .)
-    ,               reduce using rule 72 (expr -> expr + expr .)
+    (70) expr -> expr + expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 70 (expr -> expr + expr .)
+    -               reduce using rule 70 (expr -> expr + expr .)
+    +               reduce using rule 70 (expr -> expr + expr .)
+    >               reduce using rule 70 (expr -> expr + expr .)
+    GE              reduce using rule 70 (expr -> expr + expr .)
+    <               reduce using rule 70 (expr -> expr + expr .)
+    LE              reduce using rule 70 (expr -> expr + expr .)
+    NE              reduce using rule 70 (expr -> expr + expr .)
+    EQ              reduce using rule 70 (expr -> expr + expr .)
+    AND             reduce using rule 70 (expr -> expr + expr .)
+    OR              reduce using rule 70 (expr -> expr + expr .)
+    ;               reduce using rule 70 (expr -> expr + expr .)
+    )               reduce using rule 70 (expr -> expr + expr .)
+    ,               reduce using rule 70 (expr -> expr + expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2522,32 +2522,32 @@ state 94
 
 state 95
 
-    (73) expr -> expr > expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 73 (expr -> expr > expr .)
-    >               reduce using rule 73 (expr -> expr > expr .)
-    GE              reduce using rule 73 (expr -> expr > expr .)
-    <               reduce using rule 73 (expr -> expr > expr .)
-    LE              reduce using rule 73 (expr -> expr > expr .)
-    NE              reduce using rule 73 (expr -> expr > expr .)
-    EQ              reduce using rule 73 (expr -> expr > expr .)
-    AND             reduce using rule 73 (expr -> expr > expr .)
-    OR              reduce using rule 73 (expr -> expr > expr .)
-    ;               reduce using rule 73 (expr -> expr > expr .)
-    )               reduce using rule 73 (expr -> expr > expr .)
-    ,               reduce using rule 73 (expr -> expr > expr .)
+    (71) expr -> expr > expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 71 (expr -> expr > expr .)
+    >               reduce using rule 71 (expr -> expr > expr .)
+    GE              reduce using rule 71 (expr -> expr > expr .)
+    <               reduce using rule 71 (expr -> expr > expr .)
+    LE              reduce using rule 71 (expr -> expr > expr .)
+    NE              reduce using rule 71 (expr -> expr > expr .)
+    EQ              reduce using rule 71 (expr -> expr > expr .)
+    AND             reduce using rule 71 (expr -> expr > expr .)
+    OR              reduce using rule 71 (expr -> expr > expr .)
+    ;               reduce using rule 71 (expr -> expr > expr .)
+    )               reduce using rule 71 (expr -> expr > expr .)
+    ,               reduce using rule 71 (expr -> expr > expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2557,32 +2557,32 @@ state 95
 
 state 96
 
-    (74) expr -> expr GE expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 74 (expr -> expr GE expr .)
-    >               reduce using rule 74 (expr -> expr GE expr .)
-    GE              reduce using rule 74 (expr -> expr GE expr .)
-    <               reduce using rule 74 (expr -> expr GE expr .)
-    LE              reduce using rule 74 (expr -> expr GE expr .)
-    NE              reduce using rule 74 (expr -> expr GE expr .)
-    EQ              reduce using rule 74 (expr -> expr GE expr .)
-    AND             reduce using rule 74 (expr -> expr GE expr .)
-    OR              reduce using rule 74 (expr -> expr GE expr .)
-    ;               reduce using rule 74 (expr -> expr GE expr .)
-    )               reduce using rule 74 (expr -> expr GE expr .)
-    ,               reduce using rule 74 (expr -> expr GE expr .)
+    (72) expr -> expr GE expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 72 (expr -> expr GE expr .)
+    >               reduce using rule 72 (expr -> expr GE expr .)
+    GE              reduce using rule 72 (expr -> expr GE expr .)
+    <               reduce using rule 72 (expr -> expr GE expr .)
+    LE              reduce using rule 72 (expr -> expr GE expr .)
+    NE              reduce using rule 72 (expr -> expr GE expr .)
+    EQ              reduce using rule 72 (expr -> expr GE expr .)
+    AND             reduce using rule 72 (expr -> expr GE expr .)
+    OR              reduce using rule 72 (expr -> expr GE expr .)
+    ;               reduce using rule 72 (expr -> expr GE expr .)
+    )               reduce using rule 72 (expr -> expr GE expr .)
+    ,               reduce using rule 72 (expr -> expr GE expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2592,32 +2592,32 @@ state 96
 
 state 97
 
-    (75) expr -> expr < expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 75 (expr -> expr < expr .)
-    >               reduce using rule 75 (expr -> expr < expr .)
-    GE              reduce using rule 75 (expr -> expr < expr .)
-    <               reduce using rule 75 (expr -> expr < expr .)
-    LE              reduce using rule 75 (expr -> expr < expr .)
-    NE              reduce using rule 75 (expr -> expr < expr .)
-    EQ              reduce using rule 75 (expr -> expr < expr .)
-    AND             reduce using rule 75 (expr -> expr < expr .)
-    OR              reduce using rule 75 (expr -> expr < expr .)
-    ;               reduce using rule 75 (expr -> expr < expr .)
-    )               reduce using rule 75 (expr -> expr < expr .)
-    ,               reduce using rule 75 (expr -> expr < expr .)
+    (73) expr -> expr < expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 73 (expr -> expr < expr .)
+    >               reduce using rule 73 (expr -> expr < expr .)
+    GE              reduce using rule 73 (expr -> expr < expr .)
+    <               reduce using rule 73 (expr -> expr < expr .)
+    LE              reduce using rule 73 (expr -> expr < expr .)
+    NE              reduce using rule 73 (expr -> expr < expr .)
+    EQ              reduce using rule 73 (expr -> expr < expr .)
+    AND             reduce using rule 73 (expr -> expr < expr .)
+    OR              reduce using rule 73 (expr -> expr < expr .)
+    ;               reduce using rule 73 (expr -> expr < expr .)
+    )               reduce using rule 73 (expr -> expr < expr .)
+    ,               reduce using rule 73 (expr -> expr < expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2627,32 +2627,32 @@ state 97
 
 state 98
 
-    (76) expr -> expr LE expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 76 (expr -> expr LE expr .)
-    >               reduce using rule 76 (expr -> expr LE expr .)
-    GE              reduce using rule 76 (expr -> expr LE expr .)
-    <               reduce using rule 76 (expr -> expr LE expr .)
-    LE              reduce using rule 76 (expr -> expr LE expr .)
-    NE              reduce using rule 76 (expr -> expr LE expr .)
-    EQ              reduce using rule 76 (expr -> expr LE expr .)
-    AND             reduce using rule 76 (expr -> expr LE expr .)
-    OR              reduce using rule 76 (expr -> expr LE expr .)
-    ;               reduce using rule 76 (expr -> expr LE expr .)
-    )               reduce using rule 76 (expr -> expr LE expr .)
-    ,               reduce using rule 76 (expr -> expr LE expr .)
+    (74) expr -> expr LE expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 74 (expr -> expr LE expr .)
+    >               reduce using rule 74 (expr -> expr LE expr .)
+    GE              reduce using rule 74 (expr -> expr LE expr .)
+    <               reduce using rule 74 (expr -> expr LE expr .)
+    LE              reduce using rule 74 (expr -> expr LE expr .)
+    NE              reduce using rule 74 (expr -> expr LE expr .)
+    EQ              reduce using rule 74 (expr -> expr LE expr .)
+    AND             reduce using rule 74 (expr -> expr LE expr .)
+    OR              reduce using rule 74 (expr -> expr LE expr .)
+    ;               reduce using rule 74 (expr -> expr LE expr .)
+    )               reduce using rule 74 (expr -> expr LE expr .)
+    ,               reduce using rule 74 (expr -> expr LE expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2662,28 +2662,28 @@ state 98
 
 state 99
 
-    (77) expr -> expr NE expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 77 (expr -> expr NE expr .)
-    NE              reduce using rule 77 (expr -> expr NE expr .)
-    EQ              reduce using rule 77 (expr -> expr NE expr .)
-    AND             reduce using rule 77 (expr -> expr NE expr .)
-    OR              reduce using rule 77 (expr -> expr NE expr .)
-    ;               reduce using rule 77 (expr -> expr NE expr .)
-    )               reduce using rule 77 (expr -> expr NE expr .)
-    ,               reduce using rule 77 (expr -> expr NE expr .)
+    (75) expr -> expr NE expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 75 (expr -> expr NE expr .)
+    NE              reduce using rule 75 (expr -> expr NE expr .)
+    EQ              reduce using rule 75 (expr -> expr NE expr .)
+    AND             reduce using rule 75 (expr -> expr NE expr .)
+    OR              reduce using rule 75 (expr -> expr NE expr .)
+    ;               reduce using rule 75 (expr -> expr NE expr .)
+    )               reduce using rule 75 (expr -> expr NE expr .)
+    ,               reduce using rule 75 (expr -> expr NE expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2697,28 +2697,28 @@ state 99
 
 state 100
 
-    (78) expr -> expr EQ expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 78 (expr -> expr EQ expr .)
-    NE              reduce using rule 78 (expr -> expr EQ expr .)
-    EQ              reduce using rule 78 (expr -> expr EQ expr .)
-    AND             reduce using rule 78 (expr -> expr EQ expr .)
-    OR              reduce using rule 78 (expr -> expr EQ expr .)
-    ;               reduce using rule 78 (expr -> expr EQ expr .)
-    )               reduce using rule 78 (expr -> expr EQ expr .)
-    ,               reduce using rule 78 (expr -> expr EQ expr .)
+    (76) expr -> expr EQ expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 76 (expr -> expr EQ expr .)
+    NE              reduce using rule 76 (expr -> expr EQ expr .)
+    EQ              reduce using rule 76 (expr -> expr EQ expr .)
+    AND             reduce using rule 76 (expr -> expr EQ expr .)
+    OR              reduce using rule 76 (expr -> expr EQ expr .)
+    ;               reduce using rule 76 (expr -> expr EQ expr .)
+    )               reduce using rule 76 (expr -> expr EQ expr .)
+    ,               reduce using rule 76 (expr -> expr EQ expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2732,26 +2732,26 @@ state 100
 
 state 101
 
-    (79) expr -> expr AND expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 79 (expr -> expr AND expr .)
-    AND             reduce using rule 79 (expr -> expr AND expr .)
-    OR              reduce using rule 79 (expr -> expr AND expr .)
-    ;               reduce using rule 79 (expr -> expr AND expr .)
-    )               reduce using rule 79 (expr -> expr AND expr .)
-    ,               reduce using rule 79 (expr -> expr AND expr .)
+    (77) expr -> expr AND expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 77 (expr -> expr AND expr .)
+    AND             reduce using rule 77 (expr -> expr AND expr .)
+    OR              reduce using rule 77 (expr -> expr AND expr .)
+    ;               reduce using rule 77 (expr -> expr AND expr .)
+    )               reduce using rule 77 (expr -> expr AND expr .)
+    ,               reduce using rule 77 (expr -> expr AND expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2767,25 +2767,25 @@ state 101
 
 state 102
 
-    (80) expr -> expr OR expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 80 (expr -> expr OR expr .)
-    OR              reduce using rule 80 (expr -> expr OR expr .)
-    ;               reduce using rule 80 (expr -> expr OR expr .)
-    )               reduce using rule 80 (expr -> expr OR expr .)
-    ,               reduce using rule 80 (expr -> expr OR expr .)
+    (78) expr -> expr OR expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 78 (expr -> expr OR expr .)
+    OR              reduce using rule 78 (expr -> expr OR expr .)
+    ;               reduce using rule 78 (expr -> expr OR expr .)
+    )               reduce using rule 78 (expr -> expr OR expr .)
+    ,               reduce using rule 78 (expr -> expr OR expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -2812,26 +2812,26 @@ state 103
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -2848,24 +2848,24 @@ state 103
 
 state 104
 
-    (64) expr -> ( expr ) .
-    ]               reduce using rule 64 (expr -> ( expr ) .)
-    %               reduce using rule 64 (expr -> ( expr ) .)
-    /               reduce using rule 64 (expr -> ( expr ) .)
-    *               reduce using rule 64 (expr -> ( expr ) .)
-    -               reduce using rule 64 (expr -> ( expr ) .)
-    +               reduce using rule 64 (expr -> ( expr ) .)
-    >               reduce using rule 64 (expr -> ( expr ) .)
-    GE              reduce using rule 64 (expr -> ( expr ) .)
-    <               reduce using rule 64 (expr -> ( expr ) .)
-    LE              reduce using rule 64 (expr -> ( expr ) .)
-    NE              reduce using rule 64 (expr -> ( expr ) .)
-    EQ              reduce using rule 64 (expr -> ( expr ) .)
-    AND             reduce using rule 64 (expr -> ( expr ) .)
-    OR              reduce using rule 64 (expr -> ( expr ) .)
-    ;               reduce using rule 64 (expr -> ( expr ) .)
-    )               reduce using rule 64 (expr -> ( expr ) .)
-    ,               reduce using rule 64 (expr -> ( expr ) .)
+    (62) expr -> ( expr ) .
+    ]               reduce using rule 62 (expr -> ( expr ) .)
+    %               reduce using rule 62 (expr -> ( expr ) .)
+    /               reduce using rule 62 (expr -> ( expr ) .)
+    *               reduce using rule 62 (expr -> ( expr ) .)
+    -               reduce using rule 62 (expr -> ( expr ) .)
+    +               reduce using rule 62 (expr -> ( expr ) .)
+    >               reduce using rule 62 (expr -> ( expr ) .)
+    GE              reduce using rule 62 (expr -> ( expr ) .)
+    <               reduce using rule 62 (expr -> ( expr ) .)
+    LE              reduce using rule 62 (expr -> ( expr ) .)
+    NE              reduce using rule 62 (expr -> ( expr ) .)
+    EQ              reduce using rule 62 (expr -> ( expr ) .)
+    AND             reduce using rule 62 (expr -> ( expr ) .)
+    OR              reduce using rule 62 (expr -> ( expr ) .)
+    ;               reduce using rule 62 (expr -> ( expr ) .)
+    )               reduce using rule 62 (expr -> ( expr ) .)
+    ,               reduce using rule 62 (expr -> ( expr ) .)
 
 
 state 105
@@ -2907,26 +2907,26 @@ state 106
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     }               reduce using rule 85 (empty -> .)
     CONTINUE        shift and go to state 123
     BREAK           shift and go to state 125
@@ -3102,26 +3102,26 @@ state 111
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -3139,7 +3139,7 @@ state 111
 state 112
 
     (60) expr -> IDENT [ expr ] .
-    (61) expr -> IDENT [ expr ] . = expr
+    (79) expr -> IDENT [ expr ] . = expr
     ]               reduce using rule 60 (expr -> IDENT [ expr ] .)
     %               reduce using rule 60 (expr -> IDENT [ expr ] .)
     /               reduce using rule 60 (expr -> IDENT [ expr ] .)
@@ -3163,19 +3163,19 @@ state 112
 state 113
 
     (52) expr -> NEW type_spec [ expr . ]
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ]               shift and go to state 135
     %               shift and go to state 58
     /               shift and go to state 59
@@ -3236,26 +3236,26 @@ state 116
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     }               reduce using rule 85 (empty -> .)
     CONTINUE        shift and go to state 123
     BREAK           shift and go to state 125
@@ -3502,26 +3502,26 @@ state 126
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -3539,19 +3539,19 @@ state 126
 state 127
 
     (45) expr_stmt -> expr . ;
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ;               shift and go to state 141
     %               shift and go to state 58
     /               shift and go to state 59
@@ -3622,19 +3622,19 @@ state 132
 state 133
 
     (83) arg_list -> arg_list , expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ,               reduce using rule 83 (arg_list -> arg_list , expr .)
     )               reduce using rule 83 (arg_list -> arg_list , expr .)
     %               shift and go to state 58
@@ -3654,7 +3654,7 @@ state 133
 
 state 134
 
-    (61) expr -> IDENT [ expr ] = . expr
+    (79) expr -> IDENT [ expr ] = . expr
     (52) expr -> . NEW type_spec [ expr ]
     (53) expr -> . CHAR_LIT
     (54) expr -> . STRING_LIT
@@ -3664,26 +3664,26 @@ state 134
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -3818,19 +3818,19 @@ state 139
 state 140
 
     (49) return_stmt -> RETURN expr . ;
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ;               shift and go to state 147
     %               shift and go to state 58
     /               shift and go to state 59
@@ -3886,26 +3886,26 @@ state 142
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -3933,26 +3933,26 @@ state 143
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -3979,26 +3979,26 @@ state 144
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -4025,26 +4025,26 @@ state 145
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
     STRING_LIT      shift and go to state 35
@@ -4061,24 +4061,24 @@ state 145
 
 state 146
 
-    (61) expr -> IDENT [ expr ] = expr .
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
-    ]               reduce using rule 61 (expr -> IDENT [ expr ] = expr .)
-    ;               reduce using rule 61 (expr -> IDENT [ expr ] = expr .)
-    )               reduce using rule 61 (expr -> IDENT [ expr ] = expr .)
-    ,               reduce using rule 61 (expr -> IDENT [ expr ] = expr .)
+    (79) expr -> IDENT [ expr ] = expr .
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
+    ]               reduce using rule 79 (expr -> IDENT [ expr ] = expr .)
+    ;               reduce using rule 79 (expr -> IDENT [ expr ] = expr .)
+    )               reduce using rule 79 (expr -> IDENT [ expr ] = expr .)
+    ,               reduce using rule 79 (expr -> IDENT [ expr ] = expr .)
     %               shift and go to state 58
     /               shift and go to state 59
     *               shift and go to state 60
@@ -4124,19 +4124,19 @@ state 147
 state 148
 
     (46) while_stmt -> WHILE ( expr . ) stmt
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     )               shift and go to state 152
     %               shift and go to state 58
     /               shift and go to state 59
@@ -4157,19 +4157,19 @@ state 149
 
     (47) if_stmt -> IF ( expr . ) stmt
     (48) if_stmt -> IF ( expr . ) stmt ELSE stmt
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     )               shift and go to state 153
     %               shift and go to state 58
     /               shift and go to state 59
@@ -4189,19 +4189,19 @@ state 149
 state 150
 
     (42) expr_stmt -> SCANF ( expr . , args ) ;
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ,               shift and go to state 154
     %               shift and go to state 58
     /               shift and go to state 59
@@ -4221,19 +4221,19 @@ state 150
 state 151
 
     (43) expr_stmt -> PRINTF ( expr . , args ) ;
-    (68) expr -> expr . % expr
-    (69) expr -> expr . / expr
-    (70) expr -> expr . * expr
-    (71) expr -> expr . - expr
-    (72) expr -> expr . + expr
-    (73) expr -> expr . > expr
-    (74) expr -> expr . GE expr
-    (75) expr -> expr . < expr
-    (76) expr -> expr . LE expr
-    (77) expr -> expr . NE expr
-    (78) expr -> expr . EQ expr
-    (79) expr -> expr . AND expr
-    (80) expr -> expr . OR expr
+    (66) expr -> expr . % expr
+    (67) expr -> expr . / expr
+    (68) expr -> expr . * expr
+    (69) expr -> expr . - expr
+    (70) expr -> expr . + expr
+    (71) expr -> expr . > expr
+    (72) expr -> expr . GE expr
+    (73) expr -> expr . < expr
+    (74) expr -> expr . LE expr
+    (75) expr -> expr . NE expr
+    (76) expr -> expr . EQ expr
+    (77) expr -> expr . AND expr
+    (78) expr -> expr . OR expr
     ,               shift and go to state 155
     %               shift and go to state 58
     /               shift and go to state 59
@@ -4279,26 +4279,26 @@ state 152
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     CONTINUE        shift and go to state 123
     BREAK           shift and go to state 125
     RETURN          shift and go to state 126
@@ -4359,26 +4359,26 @@ state 153
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     CONTINUE        shift and go to state 123
     BREAK           shift and go to state 125
     RETURN          shift and go to state 126
@@ -4426,26 +4426,26 @@ state 154
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     )               reduce using rule 85 (empty -> .)
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
@@ -4481,26 +4481,26 @@ state 155
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     )               reduce using rule 85 (empty -> .)
     NEW             shift and go to state 33
     CHAR_LIT        shift and go to state 34
@@ -4615,26 +4615,26 @@ state 160
     (58) expr -> . IDENT . SIZE
     (59) expr -> . IDENT ( args )
     (60) expr -> . IDENT [ expr ]
-    (61) expr -> . IDENT [ expr ] = expr
-    (62) expr -> . IDENT = expr
-    (63) expr -> . IDENT
-    (64) expr -> . ( expr )
-    (65) expr -> . + expr
-    (66) expr -> . - expr
-    (67) expr -> . ! expr
-    (68) expr -> . expr % expr
-    (69) expr -> . expr / expr
-    (70) expr -> . expr * expr
-    (71) expr -> . expr - expr
-    (72) expr -> . expr + expr
-    (73) expr -> . expr > expr
-    (74) expr -> . expr GE expr
-    (75) expr -> . expr < expr
-    (76) expr -> . expr LE expr
-    (77) expr -> . expr NE expr
-    (78) expr -> . expr EQ expr
-    (79) expr -> . expr AND expr
-    (80) expr -> . expr OR expr
+    (61) expr -> . IDENT
+    (62) expr -> . ( expr )
+    (63) expr -> . + expr
+    (64) expr -> . - expr
+    (65) expr -> . ! expr
+    (66) expr -> . expr % expr
+    (67) expr -> . expr / expr
+    (68) expr -> . expr * expr
+    (69) expr -> . expr - expr
+    (70) expr -> . expr + expr
+    (71) expr -> . expr > expr
+    (72) expr -> . expr GE expr
+    (73) expr -> . expr < expr
+    (74) expr -> . expr LE expr
+    (75) expr -> . expr NE expr
+    (76) expr -> . expr EQ expr
+    (77) expr -> . expr AND expr
+    (78) expr -> . expr OR expr
+    (79) expr -> . IDENT [ expr ] = expr
+    (80) expr -> . IDENT = expr
     CONTINUE        shift and go to state 123
     BREAK           shift and go to state 125
     RETURN          shift and go to state 126
