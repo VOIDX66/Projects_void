@@ -78,13 +78,15 @@ def parse_args():
 if __name__ == '__main__':
 
   args = parse_args()
-  context = Context()
 
   if args.input:
     fname = args.input
 
     with open(fname, encoding='utf-8') as file:
       source = file.read()
+
+    context = Context()
+    context.parse(source)
 
     if args.lex:
       flex = fname.split('.')[0] + '.lex'

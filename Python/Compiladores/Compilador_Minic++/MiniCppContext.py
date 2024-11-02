@@ -7,7 +7,7 @@ Sirve como repositorio de información sobre el programa,
 inluido el codigo fuente, informe de errores, etc.
 '''
 from rich     import print
-
+from collections import ChainMap
 from MiniCppCaster    import Node
 from MiniCppLexer    import Lexer
 from MiniCppParser import Parser
@@ -19,11 +19,13 @@ class Context:
         self.source = ''
         self.ast    = None
         self.have_errors = False
+        self.env = ChainMap()
 
     def parse(self, source):
         self.have_errors = False
         self.source = source
         self.ast = self.parser.parse(self.lexer.tokenize(self.source))
+        #print(f"AST: {self.ast}")
     
     def run(self):
         if not self.have_errors:
