@@ -4,8 +4,6 @@ usage: mc.py [-h] [-d] [-o OUT] [-l] [-D] [-p] [-I] [--sym] [-S] [-R] input
 
 Compiler for MiniC programs
 
-penpenpnepnepenpeepepenenpenpenepenpe
-
 positional arguments:
   input              MiniC program file to compile
 
