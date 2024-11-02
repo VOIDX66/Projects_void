@@ -111,11 +111,19 @@ if __name__ == '__main__':
         image.show()
 
     #Llamado de la tabla de simbolos
-    elif args.sym:
-      print('Generating symbol table...')
-      symbol_table = context.generate_symbol_table(source)
-      print('Symbol Table:')
-      print(symbol_table)
+    if args.sym:
+      from MiniCppChecker import Checker  # Importa Checker desde el archivo correspondiente
+      try:
+        Checker.check(context.ast, context.env, context)
+        # Genera un archivo de salida para la tabla de símbolos
+        symfile = fname.split('.')[0] + '.sym'
+        print(f'Generando tabla de símbolos en: {symfile}')
+        with open(symfile, 'w', encoding='utf-8') as f:
+            for scope in context.env.maps:
+                for name, entry in scope.items():
+                    f.write(f"{name}: {entry}\n")
+      except:
+        print(f"Error de chequeo")
 
     else:
       context.parse(source)
