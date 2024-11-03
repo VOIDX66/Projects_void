@@ -78,6 +78,26 @@ class Checker(Visitor):
         del env['while']  # Limpiar el entorno
         return env  # Retornar el entorno
 
+    def visit(self, n: ForStmt, env: ChainMap):
+        env['for'] = True  # Indicar que estamos dentro de un ciclo for
+
+        if n.init:  # Validar la expresión de inicialización, si existe
+            n.init.accept(self, env)
+        
+        if n.cond:  # Validar la condición, si existe
+            n.cond.accept(self, env)
+        
+        if n.update:  # Validar la actualización, si existe
+            n.update.accept(self, env)
+        
+        # Recorrer el cuerpo del for
+        for body_stmt in n.then:
+            body_stmt.accept(self, env)  # Visitar cada declaración en el cuerpo del ciclo
+
+        del env['for']  # Limpiar el entorno
+        return env  # Retornar el entorno actualizado
+
+
     def visit(self, n: Union[BreakStmt, ContinueStmt], env: ChainMap):
         if 'while' not in env and 'for' not in env:
             raise CheckError(f"{'break' if isinstance(n, BreakStmt) else 'continue'} usado fuera de un ciclo")
@@ -117,14 +137,12 @@ class Checker(Visitor):
         return env  # Retornar el entorno
 
     def visit(self, n: CallExpr, env: ChainMap):
-        for arg in n.args:
-            arg.accept(self, env)  # Visitar argumentos
-        return env  # Retornar el entorno
+        if n.ident not in env:
+            raise CheckError(f"'{n.ident}' no está definido")
+        else:
+          for arg in n.args:
+              arg.accept(self, env)  # Visitar argumentos
+          return env  # Retornar el entorno
 
     def visit(self, node: LiteralExpr, env: ChainMap):
         return node.value  # Retornar el valor del literal
-
-# Código para probar el verificador
-if __name__ == "__main__":
-    # Aquí puedes crear un AST de prueba y pasar a Checker.check()
-    pass

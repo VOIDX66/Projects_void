@@ -168,12 +168,19 @@ class WhileStmt(Statement):
     then : CompoundStmt
 
 @dataclass
+class ForStmt(Statement):
+    init: Expression  
+    cond: Expression  
+    update: Expression 
+    then: CompoundStmt  
+
+@dataclass
 class BreakStmt(Statement):
-    break_s : Expression
+    pass
 
 @dataclass
 class ContinueStmt(Statement):
-    continue_s : Expression
+    pass
 
 @dataclass
 class Identifier(Expression):
@@ -319,6 +326,28 @@ class MakeDot(Visitor):
         for body_stmt in n.then:  # Asumiendo que stmt.then es una lista de declaraciones
             self.dot.edge(name, body_stmt.accept(self), label='body')
         self.dot.edge(name, n.expr.accept(self), label='condition')
+        return name
+
+    # Método para visitar ciclos For
+    def visit(self, n: ForStmt):
+        name = self.name()
+        self.dot.node(name, label='FOR')
+        
+        # Conecta la inicialización
+        if n.init:
+            self.dot.edge(name, n.init.accept(self), label='init')
+        
+        # Conecta la condición
+        self.dot.edge(name, n.cond.accept(self), label='condition')
+        
+        # Conecta la actualización
+        if n.update:
+            self.dot.edge(name, n.update.accept(self), label='update')
+        
+        # Conecta el cuerpo del bucle
+        for body_stmt in n.then:  # Asumiendo que `then` es una lista de declaraciones
+            self.dot.edge(name, body_stmt.accept(self), label='body')
+        
         return name
 
     # Método para visitar expresiones de entrada/salida

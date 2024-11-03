@@ -90,6 +90,7 @@ if __name__ == '__main__':
     context.parse(source)
 
     if args.lex:
+      print_lexer(source)
       flex = fname.split('.')[0] + '.lex'
       print(f'print lexer: {flex}')
       with open(flex, 'w', encoding='utf-8') as f:

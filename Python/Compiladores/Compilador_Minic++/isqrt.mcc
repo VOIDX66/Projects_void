@@ -9,8 +9,8 @@ int num;
  * iterativamente la sqrt(x).                    *
  * ********************************************* *
  */
-
- int isqrt(int x) {
+ 
+ int isqrt(int x, int y, int z) {
     int guess;
     int xprev;
 
@@ -21,12 +21,21 @@ int num;
         xprev = guess;
         guess = (guess + x / guess) / 2;
     }
+    
     return guess;
  }
-
  void main(void) {
     int x;
-    num = iread();
+    int i;
+    //z = 10;
+    scanf("%d",num);
     x = isqrt(num);
     printf("isqrt(%d) = %f\n", num, x);
+
+
+    for(i = 0; i < 10; i = i + 1) {
+       x = x + 1;
+       break;
+    }
+    return 0;
  }
