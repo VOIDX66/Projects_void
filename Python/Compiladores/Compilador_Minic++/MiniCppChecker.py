@@ -7,6 +7,7 @@ class CheckError(Exception):
 
 def _check_name(name, env: ChainMap):
     for e in env.maps:
+        print(type(name),name)
         if name in e:
             if not e[name]:
                 raise CheckError("No se puede hacer referencia a una variable en su propia inicialización")
@@ -22,6 +23,10 @@ class Checker(Visitor):
         return checker
 
     # Declarations
+    def visit(self, node, env):
+        print(f"No hay un método visit definido para {type(node)}")
+        raise NotImplementedError(f"No se puede visitar {type(node)}")
+
     def visit(self, n: Program, env: ChainMap):
         '''
         1. Crear una nueva tabla de simbolos
@@ -48,10 +53,10 @@ class Checker(Visitor):
         '''
         env[n.ident] = n
         env = env.new_child()
+        env['fun'] = True
         for p in n.params:
-            env[p] = True  
-        for stmt in n.stmts:
-            stmt.accept(self, env)
+            env[p.ident] = len(env)
+        n.compound_stmt.accept(self, env)
 
     def visit(self, n: VarDeclStmt, env: ChainMap):
         '''
@@ -136,7 +141,7 @@ class Checker(Visitor):
         '''
         1. Verificar si n.ident existe en TS y obtener el tipo
         '''
-        _check_name(n.name, env)
+        _check_name(n.ident, env)
 
     def visit(self, n: VarAssignmentExpr, env: ChainMap):
         '''
@@ -144,7 +149,7 @@ class Checker(Visitor):
         2. Visitar n.expr
         3. Verificar si son tipos compatibles
         '''
-        _check_name(n.name, env)
+        _check_name(n.ident, env)
         n.expr.accept(self, env)
 
     def visit(self, n: CallExpr, env: ChainMap):
@@ -154,7 +159,22 @@ class Checker(Visitor):
         3. verificar que len(n.args) == len(fun.params)
         4. verificar que cada arg sea compatible con cada param de la función
         '''
-        _check_name(n.func.name, env)
+       # _check_name(n.func.name, env)
         for arg in n.args:
             arg.accept(self, env)
+
+    def visit(self, node: LiteralExpr, env):
+        # Guardar el valor del literal en el entorno
+        value = node.value
+        
+        # Aquí se podría usar una clave que identifique el literal, 
+        # en este caso simplemente lo guardamos con una clave genérica.
+        # Puedes ajustar esto según cómo gestiones las claves en tu entorno.
+        env['literal_value'] = value
+        
+        # También puedes imprimirlo para depuración
+        print(f"Stored literal value in env: {value}")
+
+        return value  # Puedes seguir devolviendo el valor si es necesario
+
 
