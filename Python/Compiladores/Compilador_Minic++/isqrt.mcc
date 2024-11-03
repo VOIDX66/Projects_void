@@ -15,18 +15,18 @@ int num;
     int xprev;
 
     // evitar que sqrt de numeros negativos
-    if (x < 0) return 0;
-    guess = (xprev = x) / 2;
-    while (guess != xprev) {
-        xprev = guess;
-        guess = (guess + x / guess) / 2;
-    }
+    //if (x < 0) return 0;
+    //guess = (xprev = x) / 2;
+    //while (guess != xprev) {
+    //    xprev = guess;
+    //    guess = (guess + x / guess) / 2;
+    //}
     return guess;
  }
 
  void main(void) {
     int x;
-    num = iread();
+    //num = iread();
     x = isqrt(num);
-    printf("isqrt(%d) = %f\n", num, x);
+    //printf("isqrt(%d) = %f\n", num, x);
  }

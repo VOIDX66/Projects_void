@@ -117,10 +117,9 @@ if __name__ == '__main__':
     if args.sym:
       try:
           symbol_table = Checker.check(context.ast, context.env)
-          print("Tabla de símbolos global generada:")
+          print("\n")
           for table in symbol_table:  # Asegúrate de recorrer correctamente la ChainMap
-              for symbol in table.maps:
-                print(symbol)
+            print(f"{table}\n")
       except CheckError as e:
           print(f"Error de chequeo: {e}")
 

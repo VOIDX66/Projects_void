@@ -13,127 +13,85 @@ def _check_name(name, env: ChainMap):
             return
     raise CheckError(f"'{name}' no está definido")
 
-class Checker(Visitor):
+mapas = []
 
+class Checker(Visitor):
+    
     @classmethod
     def check(cls, n: Node, env: ChainMap):
         checker = cls()
-        ts = n.accept(checker, env)
-        return ts
+        mapas.append(n.accept(checker, env))
+        return mapas
 
     # Declarations
-
     def visit(self, n: Program, env: ChainMap):
-        '''
-        1. Crear una nueva tabla de simbolos
-        2. Insertar dentro de esa tabla funciones como: scanf, printf
-        3. Visitar todas las declaraciones
-        '''
-        env = ChainMap({'scanf': True, 'printf': True})  # Usar un dict para iniciar el contexto
+        env = ChainMap({'scanf': True, 'printf': True})
         main_defined = False
 
-        all_maps = []
         for stmt in n.stmts:
             if isinstance(stmt, FuncDeclStmt) and stmt.ident == "main":
                 main_defined = True
-            map = stmt.accept(self, env)
-            all_maps.append(map)
-            
+            stmt.accept(self, env)
 
         if not main_defined:
             raise CheckError("No se ha definido la función 'main'")
-        
-        return all_maps  # Retornar el entorno
+
+        return env  # Retornar el entorno global
 
     def visit(self, n: FuncDeclStmt, env: ChainMap):
-        '''
-        1. Guardar la función en la TS
-        2. Crear una TS para la función
-        3. Agregar n.params dentro de la TS
-        4. Visitar n.stmts 
-        '''
+        # Guardar la función en la TS
         env[n.ident] = type(n)
-        fun_env = env.new_child()
+        fun_env = env.new_child()  # Crear tabla de símbolos para la función
         fun_env['fun'] = True
-        for p in n.params:
-            fun_env[p.ident] = type(p)
-        n.compound_stmt.accept(self, fun_env)
+        fun_env['fun_name'] = n.ident
 
-        print(fun_env)
-        return fun_env  
+        for p in n.params:
+            fun_env[p.ident] = type(p)  # Agregar parámetros a la tabla de símbolos de la función
+        mapas.append(n.compound_stmt.accept(self, fun_env))  # Visitar el cuerpo de la función
+        return fun_env  # Retornar el entorno de la función
+        
 
     def visit(self, n: VarDeclStmt, env: ChainMap):
-        '''
-        1. Agregar n.ident a la TS actual
-        '''
         if n.ident in env:
             raise CheckError(f"La variable '{n.ident}' ya ha sido declarada.")
         env[n.ident] = type(n)
 
-        # Retornar el entorno actualizado
-        return env  
-
     # Statements
     def visit(self, n: CompoundStmt, env: ChainMap):
-        '''
-        1. Crear una tabla de simbolos
-        2. Visitar Declaration/Statement
-        '''
-        env = env.new_child()
+        comp_env = env.new_child()  # Crear una nueva tabla de símbolos
         for stmt in n.stmts:
-            stmt.accept(self, env)
-
-        #print(env)
-        return env  
+            stmt.accept(self, comp_env)  # Visitar cada declaración/statement
+        return comp_env
 
     def visit(self, n: IfStmt, env: ChainMap):
-        '''
-        1. Visitar n.expr (validar tipos)
-        2. Visitar Stament por n.then
-        3. Si existe opcion n.else_, visitar
-        '''
-        n.expr.accept(self, env)
-        n.then.accept(self, env)
+        n.expr.accept(self, env)  # Validar expresión
+        n.then.accept(self, env)  # Visitar el bloque then
         if n.else_:
-            n.else_.accept(self, env)
-
+            n.else_.accept(self, env)  # Visitar el bloque else
         return env  # Retornar el entorno
 
     def visit(self, n: WhileStmt, env: ChainMap):
-        '''
-        1. Visitar n.expr (validar tipos)
-        2. visitar n.then (es un stmt)
-        '''
-        env['while'] = True
-        n.expr.accept(self, env)
-        for body_stmt in n.then:  # Asumiendo que stmt.then es una lista de declaraciones
-            body_stmt.accept(self, env)
-        del env['while']
-
+        env['while'] = True  # Indicar que estamos dentro de un ciclo
+        n.expr.accept(self, env)  # Validar expresión
+        for body_stmt in n.then:
+            body_stmt.accept(self, env)  # Visitar el cuerpo del ciclo
+        del env['while']  # Limpiar el entorno
         return env  # Retornar el entorno
 
     def visit(self, n: Union[BreakStmt, ContinueStmt], env: ChainMap):
-        '''
-        1. Verificar que esta dentro de un ciclo while
-        '''
         if 'while' not in env and 'for' not in env:
             raise CheckError(f"{'break' if isinstance(n, BreakStmt) else 'continue'} usado fuera de un ciclo")
-
         return env  # Retornar el entorno
 
     def visit(self, n: ReturnStmt, env: ChainMap):
-        '''
-        1. Si se ha definido n.expr, validar que sea del mismo tipo de la función
-        '''
         if n.expr:
-            n.expr.accept(self, env)
+            n.expr.accept(self, env)  # Validar expresión
         if 'fun' not in env:
             raise CheckError("return usado fuera de una función")
-
         return env  # Retornar el entorno
 
     def visit(self, node: ExprStmt, env: ChainMap):
-        node.expr.accept(self, env)
+        node.expr.accept(self, env)  # Validar expresión
         return env  # Retornar el entorno
 
     # Expressions
@@ -141,59 +99,32 @@ class Checker(Visitor):
         return env  # Retornar el entorno
 
     def visit(self, n: BinaryOpExpr, env: ChainMap):
-        '''
-        1. visitar n.left y luego n.right
-        2. Verificar compatibilidad de tipos
-        '''
-        n.left.accept(self, env)
-        n.right.accept(self, env)
-
+        n.left.accept(self, env)  # Visitar lado izquierdo
+        n.right.accept(self, env)  # Visitar lado derecho
         return env  # Retornar el entorno
 
     def visit(self, n: UnaryOpExpr, env: ChainMap):
-        '''
-        1. visitar n.expr
-        2. validar si es un operador unario valido
-        '''
-        n.expr.accept(self, env)
-
+        n.expr.accept(self, env)  # Visitar expresión
         return env  # Retornar el entorno
 
     def visit(self, n: VarExpr, env: ChainMap):
-        '''
-        1. Verificar si n.ident existe en TS y obtener el tipo
-        '''
-        _check_name(n.ident, env)
-        return env  # Retornar el entorno
+        _check_name(n.ident, env)  # Verificar si la variable existe
+        return env[n.ident]  # Retornar el tipo de la variable
 
     def visit(self, n: VarAssignmentExpr, env: ChainMap):
-        '''
-        1. Validar n.ident
-        2. Visitar n.expr
-        3. Verificar si son tipos compatibles
-        '''
-        _check_name(n.var.ident, env)
-        n.expr.accept(self, env)
-
+        _check_name(n.var.ident, env)  # Validar variable
+        n.expr.accept(self, env)  # Visitar expresión
         return env  # Retornar el entorno
 
     def visit(self, n: CallExpr, env: ChainMap):
-        '''
-        1. Validar si n.ident existe
-        2. visitar n.args (si están definidos)
-        3. verificar que len(n.args) == len(fun.params)
-        4. verificar que cada arg sea compatible con cada param de la función
-        '''
         for arg in n.args:
-            arg.accept(self, env)
-
+            arg.accept(self, env)  # Visitar argumentos
         return env  # Retornar el entorno
 
     def visit(self, node: LiteralExpr, env: ChainMap):
-        # Guardar el valor del literal en el entorno
-        value = node.value
-        
-        # Aquí se podría usar una clave que identifique el literal.
-        env['literal_value'] = value
-        
-        return env  # Retornar el entorno
+        return node.value  # Retornar el valor del literal
+
+# Código para probar el verificador
+if __name__ == "__main__":
+    # Aquí puedes crear un AST de prueba y pasar a Checker.check()
+    pass
