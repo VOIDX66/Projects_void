@@ -19,7 +19,7 @@ class Checker(Visitor):
     def check(cls, n: Node, env: ChainMap):
         checker = cls()
         ts = n.accept(checker, env)
-        print(ts.maps)
+        #print(ts.maps)
         return ts
 
     # Declarations
@@ -53,15 +53,17 @@ class Checker(Visitor):
         3. Agregar n.params dentro de la TS
         4. Visitar n.stmts 
         '''
-        env[n.ident] = n
-        env = env.new_child()
-        env['fun'] = True
+        #env[n.ident] = type(n), newenv = env.new_child()
+        newenv = env.new_child()
+        newenv['fun'] = True
         for p in n.params:
-            env[p.ident] = len(env)
-        n.compound_stmt.accept(self, env)
+            newenv[p.ident] = len(newenv)
+        env[n.ident] = (type(n), newenv)
+        n.compound_stmt.accept(self, newenv)
 
         # Retornar el entorno actualizado
-        return env  
+        print(f"COSO HIJO: \n”{newenv}\n")
+        return newenv  
 
     def visit(self, n: VarDeclStmt, env: ChainMap):
         '''
@@ -69,7 +71,7 @@ class Checker(Visitor):
         '''
         if n.ident in env:
             raise CheckError(f"La variable '{n.ident}' ya ha sido declarada.")
-        env[n.ident] = True
+        env[n.ident] = type(n)
 
         # Retornar el entorno actualizado
         return env  

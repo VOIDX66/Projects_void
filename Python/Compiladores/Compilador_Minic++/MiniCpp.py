@@ -26,6 +26,7 @@ from MiniCppLexer      import print_lexer
 from MiniCppParser   import gen_ast
 from MiniCppContext   import Context
 from MiniCppChecker import Checker, CheckError
+from collections import ChainMap
 
 import argparse
 from PIL import Image
@@ -116,9 +117,16 @@ if __name__ == '__main__':
     if args.sym:
       try:
           symbol_table = Checker.check(context.ast, context.env)
-          print("Tabla de símbolos generada:")
-          for coso in symbol_table.maps:  # Asegúrate de recorrer correctamente la ChainMap
-              print(coso)
+          print("Tabla de símbolos global generada:")
+          for symbol in symbol_table.maps:  # Asegúrate de recorrer correctamente la ChainMap
+              print(symbol)
+              #if type(symbol) == ChainMap:
+              #  for sub_map in symbol.maps:  # Asegúrate de recorrer correctamente la ChainMap
+              #        print(sub_map)
+              #        print("\n")
+              #        print("si")
+              #else:
+              #    print(symbol)
       except CheckError as e:
           print(f"Error de chequeo: {e}")
 
