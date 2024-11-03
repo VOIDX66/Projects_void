@@ -92,11 +92,13 @@ class Checker(Visitor):
     def visit(self, n: WhileStmt, env: ChainMap):
         '''
         1. Visitar n.expr (validar tipos)
-        2. visitar n.stmt
+        2. visitar n.then (es un stmt)
         '''
         env['while'] = True
         n.expr.accept(self, env)
-        n.stmt.accept(self, env)
+        #n.then.accept(self, env)
+        for body_stmt in n.then:  # Asumiendo que stmt.then es una lista de declaraciones
+            body_stmt.accept(self, env)
         del env['while']
 
     def visit(self, n: Union[BreakStmt, ContinueStmt], env: ChainMap):
@@ -149,7 +151,7 @@ class Checker(Visitor):
         2. Visitar n.expr
         3. Verificar si son tipos compatibles
         '''
-        _check_name(n.ident, env)
+        _check_name(n.var.ident, env)
         n.expr.accept(self, env)
 
     def visit(self, n: CallExpr, env: ChainMap):
@@ -173,7 +175,7 @@ class Checker(Visitor):
         env['literal_value'] = value
         
         # También puedes imprimirlo para depuración
-        print(f"Stored literal value in env: {value}")
+        #print(f"Stored literal value in env: {value}")
 
         return value  # Puedes seguir devolviendo el valor si es necesario
 

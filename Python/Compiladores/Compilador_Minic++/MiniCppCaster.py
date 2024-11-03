@@ -118,7 +118,7 @@ class CallExpr(Expression):
 
 @dataclass
 class VarAssignmentExpr(Expression):
-    ident : Expression
+    var : Expression
     expr  : Expression
 
 @dataclass
@@ -165,7 +165,7 @@ class ExprStmt(Statement):
 @dataclass
 class WhileStmt(Statement):
     expr : Expression
-    then : Statement
+    then : CompoundStmt
 
 @dataclass
 class BreakStmt(Statement):
@@ -297,7 +297,7 @@ class MakeDot(Visitor):
     def visit(self, n: VarAssignmentExpr):
         name = self.name()
         self.dot.node(name, label='=', shape='circle', color='burlywood2')
-        self.dot.edge(name, n.ident.accept(self))
+        self.dot.edge(name, n.var.accept(self))
         self.dot.edge(name, n.expr.accept(self), label='assign_expr')
         return name
 

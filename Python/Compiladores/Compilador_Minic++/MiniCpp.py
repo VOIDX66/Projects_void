@@ -25,6 +25,7 @@ from rich       import print
 from MiniCppLexer      import print_lexer
 from MiniCppParser   import gen_ast
 from MiniCppContext   import Context
+from MiniCppChecker import Checker, CheckError
 
 import argparse
 from PIL import Image
@@ -84,7 +85,6 @@ if __name__ == '__main__':
 
     with open(fname, encoding='utf-8') as file:
       source = file.read()
-
     context = Context()
     context.parse(source)
 
@@ -114,7 +114,6 @@ if __name__ == '__main__':
 
     #Llamado de la tabla de simbolos
     if args.sym:
-      from MiniCppChecker import Checker, CheckError  # Importa Checker desde el archivo correspondiente
       try:
         Checker.check(context.ast, context.env)
         # Genera un archivo de salida para la tabla de símbolos
@@ -132,7 +131,7 @@ if __name__ == '__main__':
       context.run()
 
   else:
-
+    context = Context()
     try:
       while True:
         source = input('minic $ ')
