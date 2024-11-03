@@ -119,11 +119,15 @@ class Parser(sly.Parser):
     @_("';'")
     def expr_stmt(self, p):
         return ExprStmt()
-    
+
     @_("PRINTF '(' expr ',' args ')' ';'")
     def expr_stmt(self, p):
         return CallExpr("printf", [p.expr] + p.args)
     
+    @_("PRINTF '(' expr ')' ';'")
+    def expr_stmt(self, p):
+        return CallExpr("printf", [p.expr])
+
     @_("SCANF '(' expr ',' args ')' ';'")
     def expr_stmt(self, p):
         return CallExpr("scanf", [p.expr] + p.args)
@@ -142,6 +146,7 @@ class Parser(sly.Parser):
 
     @_("IF '(' expr ')' stmt %prec IF")
     def if_stmt(self, p):
+        #print("llamado2")
         return IfStmt(p.expr, CompoundStmt(p.stmt))
 
     @_("RETURN expr ';'")
