@@ -19,13 +19,9 @@ class Checker(Visitor):
     def check(cls, n: Node, env: ChainMap):
         checker = cls()
         ts = n.accept(checker, env)
-        #print(ts.maps)
         return ts
 
     # Declarations
-    #def visit(self, node, env):
-    #    print(f"No hay un método visit definido para {type(node)}")
-    #    raise NotImplementedError(f"No se puede visitar {type(node)}")
 
     def visit(self, n: Program, env: ChainMap):
         '''
@@ -36,15 +32,18 @@ class Checker(Visitor):
         env = ChainMap({'scanf': True, 'printf': True})  # Usar un dict para iniciar el contexto
         main_defined = False
 
+        all_maps = []
         for stmt in n.stmts:
             if isinstance(stmt, FuncDeclStmt) and stmt.ident == "main":
                 main_defined = True
-            stmt.accept(self, env)
+            map = stmt.accept(self, env)
+            all_maps.append(map)
+            
 
         if not main_defined:
             raise CheckError("No se ha definido la función 'main'")
         
-        return env  # Retornar el entorno
+        return all_maps  # Retornar el entorno
 
     def visit(self, n: FuncDeclStmt, env: ChainMap):
         '''
@@ -53,17 +52,15 @@ class Checker(Visitor):
         3. Agregar n.params dentro de la TS
         4. Visitar n.stmts 
         '''
-        #env[n.ident] = type(n), newenv = env.new_child()
-        newenv = env.new_child()
-        newenv['fun'] = True
+        env[n.ident] = type(n)
+        fun_env = env.new_child()
+        fun_env['fun'] = True
         for p in n.params:
-            newenv[p.ident] = len(newenv)
-        env[n.ident] = (type(n), newenv)
-        n.compound_stmt.accept(self, newenv)
+            fun_env[p.ident] = type(p)
+        n.compound_stmt.accept(self, fun_env)
 
-        # Retornar el entorno actualizado
-        print(f"COSO HIJO: \n”{newenv}\n")
-        return newenv  
+        print(fun_env)
+        return fun_env  
 
     def visit(self, n: VarDeclStmt, env: ChainMap):
         '''
@@ -82,12 +79,12 @@ class Checker(Visitor):
         1. Crear una tabla de simbolos
         2. Visitar Declaration/Statement
         '''
-        newenv = env.new_child()
+        env = env.new_child()
         for stmt in n.stmts:
-            stmt.accept(self, newenv)
+            stmt.accept(self, env)
 
-        # Retornar el nuevo entorno
-        return newenv  
+        #print(env)
+        return env  
 
     def visit(self, n: IfStmt, env: ChainMap):
         '''
