@@ -1,4 +1,4 @@
-# mctypesys.py
+
 '''
 Sistema de Tipos
 ================
