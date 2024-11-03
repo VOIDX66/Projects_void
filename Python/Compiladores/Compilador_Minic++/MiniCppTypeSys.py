@@ -19,7 +19,7 @@ punto de partida.
 Puede volver y refactorizar el sistema de tipos mas tarde.
 '''
 # Conjunto valido de typenames
-typenames = {'int', 'float', 'bool'}
+typenames = {'int', 'float', 'bool', 'double', 'char', 'string'}
 
 # Tabla de todas las operaciones binarias soportadas y el tipo resultante
 _binary_ops = {
@@ -54,6 +54,106 @@ _binary_ops = {
     ('||', 'bool', 'bool') : 'bool',
     ('==', 'bool', 'bool') : 'bool',
     ('!=', 'bool', 'bool') : 'bool',
+
+    # Double
+    ('+', 'double', 'double') : 'double',
+    ('-', 'double', 'double') : 'double',
+    ('*', 'double', 'double') : 'double',
+    ('/', 'double', 'double') : 'double',
+
+    ('<',  'double', 'double') : 'bool',
+    ('<=', 'double', 'double') : 'bool',
+    ('>',  'double', 'double') : 'bool',
+    ('>=', 'double', 'double') : 'bool',
+    ('==', 'double', 'double') : 'bool',
+    ('!=', 'double', 'double') : 'bool',
+
+    # Char
+    ('+', 'char', 'char') : 'string',
+    ('+', 'char', 'string') : 'string',
+    ('+', 'string', 'char') : 'string',
+    ('==', 'char', 'char') : 'bool',
+    ('!=', 'char', 'char') : 'bool',
+
+    # String
+    ('+', 'string', 'string') : 'string',
+    ('==', 'string', 'string') : 'bool',
+    ('!=', 'string', 'string') : 'bool',
+
+    # Operaciones entre int y float
+    ('+', 'int', 'float') : 'float',
+    ('-', 'int', 'float') : 'float',
+    ('*', 'int', 'float') : 'float',
+    ('/', 'int', 'float') : 'float',
+
+    ('+', 'float', 'int') : 'float',
+    ('-', 'float', 'int') : 'float',
+    ('*', 'float', 'int') : 'float',
+    ('/', 'float', 'int') : 'float',
+
+    ('<',  'int', 'float') : 'bool',
+    ('<=', 'int', 'float') : 'bool',
+    ('>',  'int', 'float') : 'bool',
+    ('>=', 'int', 'float') : 'bool',
+    ('==', 'int', 'float') : 'bool',
+    ('!=', 'int', 'float') : 'bool',
+
+    ('<',  'float', 'int') : 'bool',
+    ('<=', 'float', 'int') : 'bool',
+    ('>',  'float', 'int') : 'bool',
+    ('>=', 'float', 'int') : 'bool',
+    ('==', 'float', 'int') : 'bool',
+    ('!=', 'float', 'int') : 'bool', 
+
+    # Operaciones entre int y double
+    ('+', 'int', 'double') : 'double',
+    ('-', 'int', 'double') : 'double',
+    ('*', 'int', 'double') : 'double',
+    ('/', 'int', 'double') : 'double',
+
+    ('+', 'double', 'int') : 'double',
+    ('-', 'double', 'int') : 'double',
+    ('*', 'double', 'int') : 'double',
+    ('/', 'double', 'int') : 'double',
+
+    ('<',  'int', 'double') : 'bool',
+    ('<=', 'int', 'double') : 'bool',
+    ('>',  'int', 'double') : 'bool',
+    ('>=', 'int', 'double') : 'bool',
+    ('==', 'int', 'double') : 'bool',
+    ('!=', 'int', 'double') : 'bool',
+
+    ('<',  'double', 'int') : 'bool',
+    ('<=', 'double', 'int') : 'bool',
+    ('>',  'double', 'int') : 'bool',
+    ('>=', 'double', 'int') : 'bool',
+    ('==', 'double', 'int') : 'bool',
+    ('!=', 'double', 'int') : 'bool',
+
+    # Operaciones entre float y double
+    ('+', 'float', 'double') : 'double',
+    ('-', 'float', 'double') : 'double',
+    ('*', 'float', 'double') : 'double',
+    ('/', 'float', 'double') : 'double',
+
+    ('+', 'double', 'float') : 'double',
+    ('-', 'double', 'float') : 'double',
+    ('*', 'double', 'float') : 'double',
+    ('/', 'double', 'float') : 'double',
+
+    ('<',  'float', 'double') : 'bool',
+    ('<=', 'float', 'double') : 'bool',
+    ('>',  'float', 'double') : 'bool',
+    ('>=', 'float', 'double') : 'bool',
+    ('==', 'float', 'double') : 'bool',
+    ('!=', 'float', 'double') : 'bool',
+
+    ('<',  'double', 'float') : 'bool',
+    ('<=', 'double', 'float') : 'bool',
+    ('>',  'double', 'float') : 'bool',
+    ('>=', 'double', 'float') : 'bool',
+    ('==', 'double', 'float') : 'bool',
+    ('!=', 'double', 'float') : 'bool', 
 }
 
 _unary_ops = {
