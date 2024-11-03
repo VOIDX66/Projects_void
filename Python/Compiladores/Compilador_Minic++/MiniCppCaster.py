@@ -93,8 +93,8 @@ class CompoundStmt(Statement):
 @dataclass
 class IfStmt(Statement):
     expr : Expression
-    then : Statement
-    else_: Statement = None
+    then : CompoundStmt
+    else_: CompoundStmt = None
 
 @dataclass
 class ReturnStmt(Statement):
@@ -229,6 +229,14 @@ class MakeDot(Visitor):
     def name(self):
         self.seq += 1
         return f'n{self.seq}'
+    
+    # Método para nodos no definidos
+    def visit_default(self, node):
+        name = self.name()
+        node_type = type(node).__name__
+        self.dot.node(name, label=f'UNDEFINED_NODE({node_type})')
+        print(f"Advertencia: Nodo de tipo '{node_type}' no tiene un método de visita definido.")
+        return name
 
     # Metodo
     def visit(self, n: Program):
@@ -314,18 +322,23 @@ class MakeDot(Visitor):
         name = self.name()
         self.dot.node(name, label='IF')
         self.dot.edge(name, n.expr.accept(self), label='condition')
-        self.dot.edge(name, n.then.accept(self), label='then')
+        #for then_stmt in n.then:
+        #    self.dot.edge(name, then_stmt.accept(self), label='then')
+        self.dot.edge(name, n.then.accept(self), label='then_stmts')
         if n.else_:
-            self.dot.edge(name, n.else_.accept(self), label='else')
+            self.dot.edge(name, n.else_.accept(self), label='else_stmts')
+        #    for else_stmt in n.else_:
+        #        self.dot.edge(name, else_stmt.accept(self), label='else')
         return name
 
     # Método para visitar ciclos While
     def visit(self, n: WhileStmt):
         name = self.name()
         self.dot.node(name, label='WHILE')
-        for body_stmt in n.then:  # Asumiendo que stmt.then es una lista de declaraciones
-            self.dot.edge(name, body_stmt.accept(self), label='body')
+        #for body_stmt in n.then:  # Asumiendo que stmt.then es una lista de declaraciones
+        #    self.dot.edge(name, body_stmt.accept(self), label='body')
         self.dot.edge(name, n.expr.accept(self), label='condition')
+        self.dot.edge(name, n.then.accept(self), label='then_stmts')
         return name
 
     # Método para visitar ciclos For
@@ -345,9 +358,23 @@ class MakeDot(Visitor):
             self.dot.edge(name, n.update.accept(self), label='update')
         
         # Conecta el cuerpo del bucle
-        for body_stmt in n.then:  # Asumiendo que `then` es una lista de declaraciones
-            self.dot.edge(name, body_stmt.accept(self), label='body')
+        #for body_stmt in n.then:  # Asumiendo que `then` es una lista de declaraciones
+        #    self.dot.edge(name, body_stmt.accept(self), label='body')
+        self.dot.edge(name, n.then.accept(self), label='then_stmts')
+        return name
         
+        return name
+    
+    # Método para visitar el nodo BreakStmt
+    def visit(self, n: BreakStmt):
+        name = self.name()
+        self.dot.node(name, label='BREAK')
+        return name
+
+    # Método para visitar el nodo ContinueStmt
+    def visit(self, n: ContinueStmt):
+        name = self.name()
+        self.dot.node(name, label='CONTINUE')
         return name
 
     # Método para visitar expresiones de entrada/salida

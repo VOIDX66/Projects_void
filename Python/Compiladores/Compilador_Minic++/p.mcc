@@ -1,0 +1,25 @@
+float xmin;
+float xmax;
+float ymin;
+float ymax;
+float width;
+float height;
+int threshhold;
+
+bool in_mandelbrot(float x0, float y0, int n) {
+  float x;
+  float y;
+  float xtemp;
+  
+  x = 0.0;
+  y = 0.0;
+  while (n > 0) {
+    xtemp = x*x - y*y + x0;
+    y = 2.0*x*y + y0;
+    x = xtemp;
+    n = n - 1;
+    if (x*x + y*y > 4.0) {
+      return false;
+    }
+  }
+}

@@ -13,9 +13,14 @@ int num;
  int isqrt(int x, int y, int z) {
     int guess;
     int xprev;
-
     // evitar que sqrt de numeros negativos
-    if (x < 0) return 0;
+   if (x < 0){
+      return 0;
+   }
+   else{
+     xprev = 1;
+     return xprev;
+   }
     guess = (xprev = x) / 2;
     while (guess != xprev) {
         xprev = guess;

@@ -130,19 +130,19 @@ class Parser(sly.Parser):
 
     @_("WHILE '(' expr ')' stmt")
     def while_stmt(self, p):
-        return WhileStmt(p.expr, p.stmt)
+        return WhileStmt(p.expr, CompoundStmt(p.stmt))
     
     @_("FOR '(' expr ';' expr ';' expr ')' stmt")
     def for_stmt(self, p):
-        return ForStmt(p.expr0, p.expr1, p.expr2, p.stmt)
+        return ForStmt(p.expr0, p.expr1, p.expr2, CompoundStmt(p.stmt))
 
     @_("IF '(' expr ')' stmt ELSE stmt")
     def if_stmt(self, p):
-        return IfStmt(p.expr, p.stmt0, p.stmt1)
+        return IfStmt(p.expr, CompoundStmt(p.stmt0), CompoundStmt(p.stmt1))
 
     @_("IF '(' expr ')' stmt %prec IF")
     def if_stmt(self, p):
-        return IfStmt(p.expr, p.stmt)
+        return IfStmt(p.expr, CompoundStmt(p.stmt))
 
     @_("RETURN expr ';'")
     def return_stmt(self, p):

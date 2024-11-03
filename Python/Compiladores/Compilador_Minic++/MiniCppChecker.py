@@ -65,16 +65,21 @@ class Checker(Visitor):
 
     def visit(self, n: IfStmt, env: ChainMap):
         n.expr.accept(self, env)  # Validar expresión
-        n.then.accept(self, env)  # Visitar el bloque then
+        n.then.accept(self, env)
+        #for then_stmt in n.then:
+        #    then_stmt.accept(self, env)  # Visitar el bloque then    
         if n.else_:
-            n.else_.accept(self, env)  # Visitar el bloque else
+            n.else_.accept(self, env)
+        #    for else_stmt in n.else_:
+        #        else_stmt.accept(self, env)
         return env  # Retornar el entorno
 
     def visit(self, n: WhileStmt, env: ChainMap):
         env['while'] = True  # Indicar que estamos dentro de un ciclo
         n.expr.accept(self, env)  # Validar expresión
-        for body_stmt in n.then:
-            body_stmt.accept(self, env)  # Visitar el cuerpo del ciclo
+        n.then.accept(self, env)
+        #for body_stmt in n.then:
+        #    body_stmt.accept(self, env)  # Visitar el cuerpo del ciclo
         del env['while']  # Limpiar el entorno
         return env  # Retornar el entorno
 
@@ -91,8 +96,9 @@ class Checker(Visitor):
             n.update.accept(self, env)
         
         # Recorrer el cuerpo del for
-        for body_stmt in n.then:
-            body_stmt.accept(self, env)  # Visitar cada declaración en el cuerpo del ciclo
+        #for body_stmt in n.then:
+        #    body_stmt.accept(self, env)  # Visitar cada declaración en el cuerpo del ciclo
+        n.then.accept(self, env)
 
         del env['for']  # Limpiar el entorno
         return env  # Retornar el entorno actualizado
