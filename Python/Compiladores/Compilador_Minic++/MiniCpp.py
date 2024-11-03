@@ -116,7 +116,7 @@ if __name__ == '__main__':
     if args.sym:
       from MiniCppChecker import Checker, CheckError  # Importa Checker desde el archivo correspondiente
       try:
-        Checker.check(context.ast, context.env, context)
+        Checker.check(context.ast, context.env)
         # Genera un archivo de salida para la tabla de símbolos
         symfile = fname.split('.')[0] + '.sym'
         print(f'Generando tabla de símbolos en: {symfile}')
