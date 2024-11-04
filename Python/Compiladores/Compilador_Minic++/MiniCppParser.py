@@ -147,7 +147,6 @@ class Parser(sly.Parser):
 
     @_("IF '(' expr ')' stmt %prec IF")
     def if_stmt(self, p):
-        #print("llamado2")
         return IfStmt(p.expr, CompoundStmt(p.stmt))
 
     @_("RETURN expr ';'")
