@@ -9,7 +9,9 @@ int num;
  * iterativamente la sqrt(x).                    *
  * ********************************************* *
  */
- 
+
+ num = 1 + 'c'
+
  int isqrt(int x, int y, int z) {
     int guess;
     int xprev;

@@ -1,6 +1,7 @@
 from collections import ChainMap  # Tabla de Símbolos
 from typing import Union
 from MiniCppCaster import *
+from MiniCppTypeSys import *
 
 class CheckError(Exception):
     pass
@@ -127,6 +128,8 @@ class Checker(Visitor):
     def visit(self, n: BinaryOpExpr, env: ChainMap):
         n.left.accept(self, env)  # Visitar lado izquierdo
         n.right.accept(self, env)  # Visitar lado derecho
+        # Verificar compatibilidad de tipos
+        check_binary_op(n.op, str(type(n.left)), str(type(n.right)))
         return env  # Retornar el entorno
 
     def visit(self, n: UnaryOpExpr, env: ChainMap):

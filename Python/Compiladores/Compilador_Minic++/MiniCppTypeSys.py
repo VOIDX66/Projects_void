@@ -185,7 +185,11 @@ def check_binary_op(op, left, right):
     Revisa si una operacion binaria es permitida o no. Retorna el type
     resultante or None si no es soportado
     '''
-    return _binary_ops.get((op, left, right))
+    if _binary_ops.get((op, left, right)) is None:
+        print(f"Operacion no soportada: {op} {left} {right}")
+        return None
+    else:
+        return _binary_ops.get((op, right, left))
 
 def check_unary_op(op, expr):
     '''
