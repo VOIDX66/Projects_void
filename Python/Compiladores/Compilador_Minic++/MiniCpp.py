@@ -123,8 +123,6 @@ if __name__ == '__main__':
             print(f"{table}\n")
       except CheckError as e:
           print(f"Error de chequeo: {e}")
-
-
     else:
       context.parse(source)
       context.run()

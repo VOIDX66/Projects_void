@@ -1,5 +1,0 @@
-int main(void){
-    float a;
-    int n = (bool)a;
-    
-}

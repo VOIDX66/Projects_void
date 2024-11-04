@@ -14,7 +14,7 @@ int num;
  int isqrt(int x, int y, int z) {
     int guess;
     int xprev;
-    num = 1 + 'c';
+
     // evitar que sqrt de numeros negativos
    if (x < 0){
       return 0;
@@ -38,11 +38,10 @@ int num;
     scanf("%d",num);
     x = isqrt(num);
     printf("isqrt(%d) = %f\n", num, x);
-
+    
 
     for(i = 0; i < 10; i = i + 1) {
        x = x + 1;
        break;
     }
-    return 0;
  }

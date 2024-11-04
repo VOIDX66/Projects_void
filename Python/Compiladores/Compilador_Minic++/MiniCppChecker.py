@@ -14,6 +14,7 @@ def _check_name(name, env: ChainMap):
             return
     raise CheckError(f"'{name}' no está definido")
 
+#Lista para guardar los distintos ChainMaps
 mapas = []
 
 class Checker(Visitor):
@@ -29,6 +30,7 @@ class Checker(Visitor):
         env = ChainMap({'scanf': True, 'printf': True})
         main_defined = False
 
+        # Visitar los declaraciones y verificar que la función main se haya definido
         for stmt in n.stmts:
             if isinstance(stmt, FuncDeclStmt) and stmt.ident == "main":
                 main_defined = True
@@ -43,9 +45,10 @@ class Checker(Visitor):
         # Guardar la función en la TS
         env[n.ident] = type(n)
         fun_env = env.new_child()  # Crear tabla de símbolos para la función
-        fun_env['fun'] = True
+        fun_env['fun'] = True # Guardamos que es un ChainMap de una funcion
         fun_env['fun_name'] = n.ident
 
+        # Agregar parámetros a la tabla de símbolos de la función
         for p in n.params:
             fun_env[p.ident] = type(p)  # Agregar parámetros a la tabla de símbolos de la función
         mapas.append(n.compound_stmt.accept(self, fun_env))  # Visitar el cuerpo de la función
@@ -56,13 +59,21 @@ class Checker(Visitor):
         if n.ident in env:
             raise CheckError(f"La variable '{n.ident}' ya ha sido declarada.")
         
+        # Guardamos en el ChainMap con su respectivo tipo de clase y tipo de la función int, float, bool, etc...
         env[n.ident] = (type(n),n.type_spec)
+        # Si le asignamos valor a la función
         if n.expr:
             expre = n.expr.accept(self, env)
-            if isinstance(expre, LiteralExpr):
+            # Solo verificamos compatibilidad de tipos cuando tenemos los valores literales
+            if isinstance(n.expr, LiteralExpr):
                 #Verificar compatibilidad de tipos
                 if env[n.ident][1] != type(expre).__name__:
                     raise CheckError(f"Tipos incompatibles en la declaración de '{n.ident}'")
+            #casos unarios
+            if isinstance(n.expr, UnaryOpExpr):
+                if isinstance(n.expr.expr , LiteralExpr):
+                    if env[n.ident][1] != type(n.expr.expr.accept(self,env)).__name__:
+                        raise CheckError(f"Tipos incompatibles en la declaración de '{n.ident}'")
 
     # Statements
     def visit(self, n: CompoundStmt, env: ChainMap):
@@ -73,21 +84,15 @@ class Checker(Visitor):
 
     def visit(self, n: IfStmt, env: ChainMap):
         n.expr.accept(self, env)  # Validar expresión
-        n.then.accept(self, env)
-        #for then_stmt in n.then:
-        #    then_stmt.accept(self, env)  # Visitar el bloque then    
-        if n.else_:
+        n.then.accept(self, env)  # Validamos los statements del then
+        if n.else_: # Si tenemos un else validamos los statements del else
             n.else_.accept(self, env)
-        #    for else_stmt in n.else_:
-        #        else_stmt.accept(self, env)
         return env  # Retornar el entorno
 
     def visit(self, n: WhileStmt, env: ChainMap):
         env['while'] = True  # Indicar que estamos dentro de un ciclo
         n.expr.accept(self, env)  # Validar expresión
         n.then.accept(self, env)
-        #for body_stmt in n.then:
-        #    body_stmt.accept(self, env)  # Visitar el cuerpo del ciclo
         del env['while']  # Limpiar el entorno
         return env  # Retornar el entorno
 
@@ -103,9 +108,6 @@ class Checker(Visitor):
         if n.update:  # Validar la actualización, si existe
             n.update.accept(self, env)
         
-        # Recorrer el cuerpo del for
-        #for body_stmt in n.then:
-        #    body_stmt.accept(self, env)  # Visitar cada declaración en el cuerpo del ciclo
         n.then.accept(self, env)
 
         del env['for']  # Limpiar el entorno
@@ -113,6 +115,7 @@ class Checker(Visitor):
 
 
     def visit(self, n: Union[BreakStmt, ContinueStmt], env: ChainMap):
+        # Validamos si las intrucciones break y continue estan dentro de un ciclo While / For
         if 'while' not in env and 'for' not in env:
             raise CheckError(f"{'break' if isinstance(n, BreakStmt) else 'continue'} usado fuera de un ciclo")
         return env  # Retornar el entorno
@@ -135,14 +138,18 @@ class Checker(Visitor):
     def visit(self, n: BinaryOpExpr, env: ChainMap):
         left = n.left.accept(self, env)  # Visitar lado izquierdo
         right = n.right.accept(self, env)  # Visitar lado derecho
-        # Verificar compatibilidad de tipos
-        if isinstance(left, LiteralExpr) and isinstance(right, LiteralExpr):
-            check_binary_op(n.opr, type(left).__name__, type(right).__name__)
+        
+        if isinstance(n.left, LiteralExpr) and isinstance(n.right, LiteralExpr):
+            result = check_binary_op(n.opr, type(left).__name__, type(right).__name__)
+            if not result:
+                raise CheckError(f"Operación no soportada: {left} {n.opr} {right}")
         return env  # Retornar el entorno
 
     def visit(self, n: UnaryOpExpr, env: ChainMap):
         una = n.expr.accept(self, env)  # Visitar expresión
-        #check_unary_op(n.opr, type(una).__name__)
+        result = check_unary_op(n.opr, type(una).__name__)
+        if not result:
+            raise CheckError(f"Operación no soportada: {n.opr} {una}")
         return env  # Retornar el entorno
 
     def visit(self, n: VarExpr, env: ChainMap):
@@ -153,9 +160,14 @@ class Checker(Visitor):
         _check_name(n.var.ident, env)  # Validar variable
         expre = n.expr.accept(self, env)  # Visitar expresión
         # Verificar compatibilidad de tipos
-        if isinstance(expre, LiteralExpr):
+        if isinstance(n.expr, LiteralExpr):
             if env[n.var.ident][1] != type(expre).__name__:
-                raise CheckError(f"Tipos incompatibles en la asignación de '{n.var.ident}'")  
+                raise CheckError(f"Tipos incompatibles en la asignación de '{n.var.ident}'")
+        #casos unarios
+        if isinstance(n.expr, UnaryOpExpr):
+            if isinstance(n.expr.expr , LiteralExpr):
+                if env[n.var.ident][1] != type(n.expr.expr.accept(self,env)).__name__:
+                    raise CheckError(f"Tipos incompatibles en la declaración de '{n.var.ident}'")
         return env  # Retornar el entorno
 
     def visit(self, n: CallExpr, env: ChainMap):
@@ -176,6 +188,10 @@ class Checker(Visitor):
             result_type = check_cast(n.type_spec, source_type[1])
             if result_type is None:
                 raise CheckError(f"No se puede realizar el cast de {source_type[1]} a {n.type_spec}")
-
+        if isinstance(n.expr, UnaryOpExpr):
+            if isinstance(n.expr.expr, LiteralExpr):
+                result_type = check_cast(n.type_spec, type(n.expr.expr.value).__name__)
+                if result_type is None:
+                    raise CheckError(f"No se puede realizar el cast de {type(n.expr.expr.value).__name__} a {n.type_spec}")
                 # Retornar el tipo de destino si el cast es válido
         return env

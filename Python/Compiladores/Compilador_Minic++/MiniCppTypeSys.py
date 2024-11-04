@@ -55,26 +55,6 @@ _binary_ops = {
     ('==', 'bool', 'bool') : 'bool',
     ('!=', 'bool', 'bool') : 'bool',
 
-    # Double
-    ('+', 'double', 'double') : 'double',
-    ('-', 'double', 'double') : 'double',
-    ('*', 'double', 'double') : 'double',
-    ('/', 'double', 'double') : 'double',
-
-    ('<',  'double', 'double') : 'bool',
-    ('<=', 'double', 'double') : 'bool',
-    ('>',  'double', 'double') : 'bool',
-    ('>=', 'double', 'double') : 'bool',
-    ('==', 'double', 'double') : 'bool',
-    ('!=', 'double', 'double') : 'bool',
-
-    # Char
-    ('+', 'char', 'char') : 'string',
-    ('+', 'char', 'string') : 'string',
-    ('+', 'string', 'char') : 'string',
-    ('==', 'char', 'char') : 'bool',
-    ('!=', 'char', 'char') : 'bool',
-
     # String
     ('+', 'string', 'string') : 'string',
     ('==', 'string', 'string') : 'bool',
@@ -104,56 +84,6 @@ _binary_ops = {
     ('>=', 'float', 'int') : 'bool',
     ('==', 'float', 'int') : 'bool',
     ('!=', 'float', 'int') : 'bool', 
-
-    # Operaciones entre int y double
-    ('+', 'int', 'double') : 'double',
-    ('-', 'int', 'double') : 'double',
-    ('*', 'int', 'double') : 'double',
-    ('/', 'int', 'double') : 'double',
-
-    ('+', 'double', 'int') : 'double',
-    ('-', 'double', 'int') : 'double',
-    ('*', 'double', 'int') : 'double',
-    ('/', 'double', 'int') : 'double',
-
-    ('<',  'int', 'double') : 'bool',
-    ('<=', 'int', 'double') : 'bool',
-    ('>',  'int', 'double') : 'bool',
-    ('>=', 'int', 'double') : 'bool',
-    ('==', 'int', 'double') : 'bool',
-    ('!=', 'int', 'double') : 'bool',
-
-    ('<',  'double', 'int') : 'bool',
-    ('<=', 'double', 'int') : 'bool',
-    ('>',  'double', 'int') : 'bool',
-    ('>=', 'double', 'int') : 'bool',
-    ('==', 'double', 'int') : 'bool',
-    ('!=', 'double', 'int') : 'bool',
-
-    # Operaciones entre float y double
-    ('+', 'float', 'double') : 'double',
-    ('-', 'float', 'double') : 'double',
-    ('*', 'float', 'double') : 'double',
-    ('/', 'float', 'double') : 'double',
-
-    ('+', 'double', 'float') : 'double',
-    ('-', 'double', 'float') : 'double',
-    ('*', 'double', 'float') : 'double',
-    ('/', 'double', 'float') : 'double',
-
-    ('<',  'float', 'double') : 'bool',
-    ('<=', 'float', 'double') : 'bool',
-    ('>',  'float', 'double') : 'bool',
-    ('>=', 'float', 'double') : 'bool',
-    ('==', 'float', 'double') : 'bool',
-    ('!=', 'float', 'double') : 'bool',
-
-    ('<',  'double', 'float') : 'bool',
-    ('<=', 'double', 'float') : 'bool',
-    ('>',  'double', 'float') : 'bool',
-    ('>=', 'double', 'float') : 'bool',
-    ('==', 'double', 'float') : 'bool',
-    ('!=', 'double', 'float') : 'bool', 
 }
 
 _unary_ops = {
@@ -164,9 +94,6 @@ _unary_ops = {
     # Operaciones float
     ('+', 'float') : 'float',
     ('-', 'float') : 'float',
-
-    # Bools
-    ('!', 'bool') : 'bool',
 }
 
 valid_casts = {
@@ -192,7 +119,7 @@ def check_binary_op(op, left, right):
     resultante or None si no es soportado
     '''
     if _binary_ops.get((op, left, right)) is None:
-        print(f"Operacion no soportada: {op} {left} {right}")
+        #print(f"Operacion no soportada: {op} {left} {right}")
         return None
     else:
         return _binary_ops.get((op, right, left))
@@ -202,7 +129,11 @@ def check_unary_op(op, expr):
     Revisa si una operacion unaria es permitida o no. Retorna el type
     resultante or None si no es soportado
     '''
-    return _unary_ops.get((op, expr))
+    unary = _unary_ops.get((op, expr))
+    if unary is not None:
+        return unary
+    else:
+        return None
 
 #Checkear instruccion de Cast
 
