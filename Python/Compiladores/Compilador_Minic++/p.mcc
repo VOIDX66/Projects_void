@@ -1,4 +1,4 @@
-int main(void){
-    int s = 1 + 'c'; 
+int main(void){ 
+    int a = true;
     return 0;
 }

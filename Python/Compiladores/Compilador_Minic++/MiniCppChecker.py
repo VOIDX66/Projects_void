@@ -57,6 +57,9 @@ class Checker(Visitor):
             raise CheckError(f"La variable '{n.ident}' ya ha sido declarada.")
         env[n.ident] = type(n)
         n.expr.accept(self, env)
+        # Verificar compatibilidad de tipos
+        if type(env[n.ident]).__name__ != type(n.expr).__name__:
+            raise CheckError(f"Tipos incompatibles en la declaración de '{n.ident}'")
 
     # Statements
     def visit(self, n: CompoundStmt, env: ChainMap):
@@ -144,6 +147,9 @@ class Checker(Visitor):
     def visit(self, n: VarAssignmentExpr, env: ChainMap):
         _check_name(n.var.ident, env)  # Validar variable
         n.expr.accept(self, env)  # Visitar expresión
+        # Verificar compatibilidad de tipos
+        if type(env[n.var.ident]).__name__ != type(n.expr).__name__:
+            raise CheckError(f"Tipos incompatibles en la asignación de '{n.var.ident}'")
         return env  # Retornar el entorno
 
     def visit(self, n: CallExpr, env: ChainMap):
