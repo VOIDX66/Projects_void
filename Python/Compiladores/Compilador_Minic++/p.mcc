@@ -1,4 +1,5 @@
-int main(void){ 
-    int a = true;
+int main(void){
+    bool a;
+    a = 0;
     return 0;
 }

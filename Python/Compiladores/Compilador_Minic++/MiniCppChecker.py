@@ -55,11 +55,13 @@ class Checker(Visitor):
     def visit(self, n: VarDeclStmt, env: ChainMap):
         if n.ident in env:
             raise CheckError(f"La variable '{n.ident}' ya ha sido declarada.")
-        env[n.ident] = type(n)
-        n.expr.accept(self, env)
-        # Verificar compatibilidad de tipos
-        if type(env[n.ident]).__name__ != type(n.expr).__name__:
-            raise CheckError(f"Tipos incompatibles en la declaración de '{n.ident}'")
+        
+        env[n.ident] = (type(n),n.type_spec)
+        if n.expr:
+            expre = n.expr.accept(self, env)
+            #Verificar compatibilidad de tipos
+            if env[n.ident][1] != type(expre).__name__:
+                raise CheckError(f"Tipos incompatibles en la declaración de '{n.ident}'")
 
     # Statements
     def visit(self, n: CompoundStmt, env: ChainMap):
@@ -133,12 +135,13 @@ class Checker(Visitor):
         left = n.left.accept(self, env)  # Visitar lado izquierdo
         right = n.right.accept(self, env)  # Visitar lado derecho
         # Verificar compatibilidad de tipos
-        check_binary_op(n.opr, type(left).__name__, type(right).__name__)
+        if isinstance(left, LiteralExpr) and isinstance(right, LiteralExpr):
+            check_binary_op(n.opr, type(left).__name__, type(right).__name__)
         return env  # Retornar el entorno
 
     def visit(self, n: UnaryOpExpr, env: ChainMap):
         una = n.expr.accept(self, env)  # Visitar expresión
-        check_unary_op(n.opr, type(una).__name__)
+        #check_unary_op(n.opr, type(una).__name__)
         return env  # Retornar el entorno
 
     def visit(self, n: VarExpr, env: ChainMap):
@@ -147,14 +150,11 @@ class Checker(Visitor):
 
     def visit(self, n: VarAssignmentExpr, env: ChainMap):
         _check_name(n.var.ident, env)  # Validar variable
-        n.expr.accept(self, env)  # Visitar expresión
-<<<<<<< Updated upstream
+        expre = n.expr.accept(self, env)  # Visitar expresión
         # Verificar compatibilidad de tipos
-        if type(env[n.var.ident]).__name__ != type(n.expr).__name__:
-            raise CheckError(f"Tipos incompatibles en la asignación de '{n.var.ident}'")
-=======
-        
->>>>>>> Stashed changes
+        if isinstance(expre, LiteralExpr):
+            if env[n.var.ident][1] != type(expre).__name__:
+                raise CheckError(f"Tipos incompatibles en la asignación de '{n.var.ident}'")  
         return env  # Retornar el entorno
 
     def visit(self, n: CallExpr, env: ChainMap):

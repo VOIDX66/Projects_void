@@ -81,8 +81,8 @@ if __name__ == '__main__':
 
   args = parse_args()
 
-  if True:#args.input:
-    fname = "p.mcc"#args.input
+  if args.input:
+    fname = args.input
 
     with open(fname, encoding='utf-8') as file:
       source = file.read()
@@ -115,7 +115,7 @@ if __name__ == '__main__':
         image.show()
 
     #Llamado de la tabla de simbolos
-    if True:#args.sym:
+    if args.sym:
       try:
           symbol_table = Checker.check(context.ast, context.env)
           print("\n")
