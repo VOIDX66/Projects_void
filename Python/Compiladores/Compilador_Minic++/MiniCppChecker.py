@@ -137,7 +137,8 @@ class Checker(Visitor):
         return env  # Retornar el entorno
 
     def visit(self, n: UnaryOpExpr, env: ChainMap):
-        n.expr.accept(self, env)  # Visitar expresión
+        una = n.expr.accept(self, env)  # Visitar expresión
+        check_unary_op(n.opr, type(una).__name__)
         return env  # Retornar el entorno
 
     def visit(self, n: VarExpr, env: ChainMap):
@@ -147,9 +148,13 @@ class Checker(Visitor):
     def visit(self, n: VarAssignmentExpr, env: ChainMap):
         _check_name(n.var.ident, env)  # Validar variable
         n.expr.accept(self, env)  # Visitar expresión
+<<<<<<< Updated upstream
         # Verificar compatibilidad de tipos
         if type(env[n.var.ident]).__name__ != type(n.expr).__name__:
             raise CheckError(f"Tipos incompatibles en la asignación de '{n.var.ident}'")
+=======
+        
+>>>>>>> Stashed changes
         return env  # Retornar el entorno
 
     def visit(self, n: CallExpr, env: ChainMap):
