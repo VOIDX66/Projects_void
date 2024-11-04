@@ -56,6 +56,7 @@ class Checker(Visitor):
         if n.ident in env:
             raise CheckError(f"La variable '{n.ident}' ya ha sido declarada.")
         env[n.ident] = type(n)
+        n.expr.accept(self, env)
 
     # Statements
     def visit(self, n: CompoundStmt, env: ChainMap):
@@ -117,8 +118,8 @@ class Checker(Visitor):
             raise CheckError("return usado fuera de una función")
         return env  # Retornar el entorno
 
-    def visit(self, node: ExprStmt, env: ChainMap):
-        node.expr.accept(self, env)  # Validar expresión
+    def visit(self, n: ExprStmt, env: ChainMap):
+        n.expr.accept(self, env)  # Validar expresión
         return env  # Retornar el entorno
 
     # Expressions
@@ -126,10 +127,10 @@ class Checker(Visitor):
         return env  # Retornar el entorno
 
     def visit(self, n: BinaryOpExpr, env: ChainMap):
-        n.left.accept(self, env)  # Visitar lado izquierdo
-        n.right.accept(self, env)  # Visitar lado derecho
+        left = n.left.accept(self, env)  # Visitar lado izquierdo
+        right = n.right.accept(self, env)  # Visitar lado derecho
         # Verificar compatibilidad de tipos
-        check_binary_op(n.op, str(type(n.left)), str(type(n.right)))
+        check_binary_op(n.opr, type(left).__name__, type(right).__name__)
         return env  # Retornar el entorno
 
     def visit(self, n: UnaryOpExpr, env: ChainMap):

@@ -10,11 +10,11 @@ int num;
  * ********************************************* *
  */
 
- num = 1 + 'c'
 
  int isqrt(int x, int y, int z) {
     int guess;
     int xprev;
+    num = 1 + 'c';
     // evitar que sqrt de numeros negativos
    if (x < 0){
       return 0;
