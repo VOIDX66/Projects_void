@@ -206,6 +206,11 @@ class IOFuncExpr(Expression):
     args: List[Expression] = field(default_factory=list)
 
 @dataclass
+class CastExpr(Expression):
+    type_spec: str
+    expr: Expression
+
+@dataclass
 class NewArrayExpr(Expression):
     type_spec: str
     size: Expression
@@ -430,4 +435,11 @@ class MakeDot(Visitor):
         name = f'expr_stmt_{id(n.expr)}'
         self.dot.node(name, 'expr_stmt') 
         self.dot.edge(name, n.expr.accept(self), label='expr')  # Suponiendo que `stmt.expr` es una expresión válida
+        return name
+    
+    def visit(self, n: CastExpr):
+        name = f'cast_stmt_{id(n.expr)}'
+        self.dot.node(name, 'cast_stmt')
+        self.dot.edge(name, n.type_spec, label='type_spec')
+        self.dot.edge(name, n.expr.accept(self), label='expr')
         return name

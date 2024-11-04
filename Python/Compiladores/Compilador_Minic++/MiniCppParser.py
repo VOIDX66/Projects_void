@@ -18,6 +18,7 @@ class Parser(sly.Parser):
         ('left', '+', '-'),
         ('left', '*', '/', '%'),
         ('right', UNARY, '!'),
+        ('right', 'CAST')
     )
 
     @_("decl_list")
@@ -156,6 +157,10 @@ class Parser(sly.Parser):
     @_("BREAK ';'", "CONTINUE ';'")
     def break_stmt(self, p):
         return BreakStmt() if p[0] == 'break' else ContinueStmt()
+
+    @_("'(' type_spec ')' expr %prec CAST")
+    def expr(self, p):
+        return CastExpr(p.type_spec, p.expr)
 
     @_("expr OR expr",
        "expr AND expr",

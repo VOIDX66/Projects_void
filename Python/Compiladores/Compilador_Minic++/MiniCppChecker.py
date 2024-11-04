@@ -59,9 +59,10 @@ class Checker(Visitor):
         env[n.ident] = (type(n),n.type_spec)
         if n.expr:
             expre = n.expr.accept(self, env)
-            #Verificar compatibilidad de tipos
-            if env[n.ident][1] != type(expre).__name__:
-                raise CheckError(f"Tipos incompatibles en la declaración de '{n.ident}'")
+            if isinstance(expre, LiteralExpr):
+                #Verificar compatibilidad de tipos
+                if env[n.ident][1] != type(expre).__name__:
+                    raise CheckError(f"Tipos incompatibles en la declaración de '{n.ident}'")
 
     # Statements
     def visit(self, n: CompoundStmt, env: ChainMap):
@@ -165,5 +166,16 @@ class Checker(Visitor):
               arg.accept(self, env)  # Visitar argumentos
           return env  # Retornar el entorno
 
-    def visit(self, node: LiteralExpr, env: ChainMap):
-        return node.value  # Retornar el valor del literal
+    def visit(self, n: LiteralExpr, env: ChainMap):
+        return n.value  # Retornar el valor del literal
+    
+    def visit(self, n: CastExpr, env: ChainMap):
+        # Obtener el tipo de la expresión original
+        source_type = n.expr.accept(self, env)
+        if isinstance(source_type, tuple):
+            result_type = check_cast(n.type_spec, source_type[1])
+            if result_type is None:
+                raise CheckError(f"No se puede realizar el cast de {source_type[1]} a {n.type_spec}")
+
+                # Retornar el tipo de destino si el cast es válido
+        return env

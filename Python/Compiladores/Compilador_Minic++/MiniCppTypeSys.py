@@ -169,6 +169,12 @@ _unary_ops = {
     ('!', 'bool') : 'bool',
 }
 
+valid_casts = {
+    'int': {'float','string'},    # int puede venir de float, double, char
+    'float': {'int','string'},    # float puede venir de int, double, char
+    'double': {'int', 'float', 'string'},    # double puede venir de int, float, char
+    }
+
 def loockup_type(name):
     '''
     Dado el nombre de un tipo primitivo, se busca el objeto "type" apropiado.
@@ -197,3 +203,14 @@ def check_unary_op(op, expr):
     resultante or None si no es soportado
     '''
     return _unary_ops.get((op, expr))
+
+#Checkear instruccion de Cast
+
+def check_cast(target_type, source_type):
+    # Define los cast válidos entre tipos
+
+    if source_type in valid_casts.get(target_type, {}):
+        return target_type
+    else:
+        #print(f"Error: No se puede castear de {source_type} a {target_type}")
+        return None

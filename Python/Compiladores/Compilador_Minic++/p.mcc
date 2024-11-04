@@ -1,5 +1,5 @@
 int main(void){
-    bool a;
-    a = 0;
-    return 0;
+    float a;
+    int n = (bool)a;
+    
 }
