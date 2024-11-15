@@ -23,4 +23,8 @@ npm install express
 
 # Paquete para conectarnos por mysql
 npm install mysql2
+# Cifrar contraseñas
+npm install express bcryptjs
+# Vistas dinamicas
+npm install ejs
 

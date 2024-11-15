@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Registro</title>
+  <script>
+    // Función para validar contraseñas
+    function validarContrasenas(event) {
+      const contrasena = document.getElementById('contrasena').value;
+      const confirmarContrasena = document.getElementById('confirmar-contrasena').value;
+
+      if (contrasena !== confirmarContrasena) {
+        event.preventDefault(); // Evita el envío del formulario
+        alert('Las contraseñas no coinciden. Por favor, verifica.');
+        return false;
+      }
+      return true; // Permite el envío si las contraseñas coinciden
+    }
+  </script>
+</head>
+<body>
+  <h1>Formulario de Registro</h1>
+  <form action="/register" method="POST" onsubmit="return validarContrasenas(event)">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <br><br>
+
+    <label for="id_usuario">Identificacion:</label>
+    <input type="text" id="id_usuario" name="id_usuario" required>
+    <br><br>
+
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" id="contrasena" name="contrasena" required>
+    <br><br>
+
+    <label for="confirmar-contrasena">Confirmar Contraseña:</label>
+    <input type="password" id="confirmar-contrasena" name="confirmar_contrasena" required>
+    <br><br>
+
+    <button type="submit">Registrarse</button>
+  </form>
+</body>
+</html>
