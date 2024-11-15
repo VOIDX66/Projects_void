@@ -1,91 +1,105 @@
 import random
 import math
-import matplotlib.pyplot as plt
+import heapq
+import time
 
+# Clase City
 class City:
     def __init__(self, x, y, label):
         self.x = x
         self.y = y
-        self.label = label  # Nueva propiedad para almacenar la letra de la ciudad
+        self.label = label
+
+    def __lt__(self, other):  # Define less than for City objects
+        return (self.x, self.y) < (other.x, other.y)
 
     def __str__(self):
         return f"City({self.label}, {self.x}, {self.y})"
 
-def distance(city1, city2):
-    return math.sqrt((city1.x - city2.x) ** 2 + (city1.y - city2.y) ** 2)
+    def __hash__(self):
+        return ord(self.label)  # Usamos el label como hash (basado en su valor ASCII)
 
-def generate_random_cities(num_cities, x_limit, y_limit, num_connections):
-    # Generar letras para las ciudades
-    letters = [chr(i) for i in range(65, 65 + num_cities)]  # Letras A, B, C, ...
-    cities = [City(random.uniform(0, x_limit), random.uniform(0, y_limit), letters[i]) for i in range(num_cities)]
-    neighbors = {i: [] for i in range(num_cities)}
+    def __eq__(self, other):
+        return self.label == other.label  # Comparar ciudades por su label
 
-    # Conectar cada ciudad con varios vecinos cercanos
-    for i in range(num_cities):
-        # Calcular las distancias a todas las otras ciudades
-        distances = [(j, distance(cities[i], cities[j])) for j in range(num_cities) if i != j]
-        # Ordenar por distancia
-        distances.sort(key=lambda x: x[1])
+    def distance(self, other):
+        return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
 
-        # Conectar con un número específico de ciudades cercanas
-        for j in range(min(num_connections, len(distances))):
-            neighbor_index = distances[j][0]
-            if neighbor_index not in neighbors[i]:  # Evitar duplicados
-                neighbors[i].append(neighbor_index)
-            # Asegurarse de que la conexión sea bidireccional
-            if i not in neighbors[neighbor_index]:
-                neighbors[neighbor_index].append(i)
+# Función para generar ciudades aleatorias
+def generate_random_cities(num_cities, x_limit, y_limit):
+    letters = [chr(i) for i in range(65, 65 + num_cities)]  # Etiquetas de las ciudades ('A', 'B', ...)
+    cities = [City(random.randint(0, x_limit), random.randint(0, y_limit), letters[i]) for i in range(num_cities)]
+    return cities
 
-    return cities, neighbors
+# Heurística basada en el MST
+def mst_heuristic(cities, visited):
+    unvisited = [city for city in cities if city not in visited]
+    if len(unvisited) == 0:
+        return 0
 
-def plot_cities(cities, start_index, end_index, neighbors):
-    # Extraer coordenadas de las ciudades
-    x_coords = [city.x for city in cities]
-    y_coords = [city.y for city in cities]
+    total_cost = 0
+    selected_city = visited[-1]  # Empezamos desde la última ciudad visitada
+    while unvisited:
+        min_dist = float('inf')
+        next_city = None
+        for city in unvisited:
+            dist = selected_city.distance(city)
+            if dist < min_dist:
+                min_dist = dist
+                next_city = city
 
-    # Plotear todas las ciudades
-    plt.scatter(x_coords, y_coords, color='blue', label='Cities')
+        total_cost += min_dist
+        unvisited.remove(next_city)
+        selected_city = next_city
 
-    # Resaltar la ciudad inicial y la ciudad de destino
-    plt.scatter(cities[start_index].x, cities[start_index].y, color='green', label='Start City', s=100)
-    plt.scatter(cities[end_index].x, cities[end_index].y, color='red', label='End City', s=100)
+    return total_cost
 
-    # Conectar las ciudades de acuerdo a los vecinos
-    for i, city_neighbors in neighbors.items():
-        for neighbor in city_neighbors:
-            plt.plot([cities[i].x, cities[neighbor].x], 
-                     [cities[i].y, cities[neighbor].y], 
-                     color='gray', linestyle='--', alpha=0.5)
+# A* con heurística MST
+def a_star_tsp(cities):
+    num_cities = len(cities)
 
-    # Añadir etiquetas de letras a las ciudades
-    for city in cities:
-        plt.text(city.x, city.y, city.label, fontsize=12, ha='right')
+    def a_star_search(start_city):
+        open_set = []
+        heapq.heappush(open_set, (0 + mst_heuristic(cities, [start_city]), 0, start_city, [start_city], [start_city]))
 
-    # Etiquetas y leyenda
-    plt.title('Random Cities for TSP Problem with Bidirectional Connections')
-    plt.xlabel('X Coordinate')
-    plt.ylabel('Y Coordinate')
-    plt.legend()
-    plt.grid()
-    plt.axis('equal')
-    plt.show()
+        while open_set:
+            _, g, current_city, visited, path = heapq.heappop(open_set)
 
-# Parámetros
-num_cities = 5        # Número de ciudades a generar
-x_limit = 100         # Límite en el eje X
-y_limit = 100         # Límite en el eje Y
-start_index = random.randint(0, num_cities - 1)  # Índice de la ciudad inicial
-end_index = random.randint(0, num_cities - 1)    # Índice de la ciudad de destino
-while start_index == end_index:
-    end_index = random.randint(0, num_cities - 1)
-num_connections = 3  # Número máximo de conexiones por ciudad
+            if len(visited) == num_cities:
+                return path + [cities[0]], g + current_city.distance(start_city)  # Regresar a la ciudad de inicio
 
-# Generar ciudades aleatorias y sus vecinos
-cities, neighbors = generate_random_cities(num_cities, x_limit, y_limit, num_connections)
+            for neighbor in cities:
+                if neighbor not in visited:
+                    new_visited = visited.copy()
+                    new_visited.append(neighbor)  # Añadir la ciudad al recorrido (cambiar de set a list)
+                    new_path = path.copy()
+                    new_path.append(neighbor)
 
-# Imprimir los vecinos de cada ciudad
-for city_index, city_neighbors in neighbors.items():
-    print(f"Neighbors of City {cities[city_index].label}: {', '.join(cities[neighbor].label for neighbor in city_neighbors)}")
+                    new_g = g + current_city.distance(neighbor)
+                    mst_h = mst_heuristic(cities, new_visited)
 
-# Graficar las ciudades
-plot_cities(cities, start_index, end_index, neighbors)
+                    # La heurística es solo MST
+                    h = mst_h
+
+                    # Añadimos al open set
+                    heapq.heappush(open_set, (new_g + h, new_g, neighbor, new_visited, new_path))
+
+        return None, float('inf')  # Si no se encuentra un camino
+
+    best_path = None
+    best_cost = float('inf')
+
+    start_city = cities[0]  # Comenzamos siempre con la ciudad A (primer ciudad)
+
+    path, cost = a_star_search(start_city)
+
+    return path, cost
+
+# Ejemplo de uso
+cities = generate_random_cities(200, 100, 100)
+start_time = time.time()
+best_path, best_cost = a_star_tsp(cities)
+end_time = time.time()
+print("Tiempo de ejecución:", end_time - start_time)
+print("Mejor camino encontrado:", [city.label for city in best_path])
+print("Costo:", best_cost)

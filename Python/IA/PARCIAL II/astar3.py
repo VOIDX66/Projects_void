@@ -31,8 +31,8 @@ def generate_random_cities(num_cities, x_limit, y_limit):
     cities = [City(random.randint(0, x_limit), random.randint(0, y_limit), letters[i]) for i in range(num_cities)]
     return cities
 
-# Heurística basada en el MST
-def mst_heuristic(cities, visited):
+# Heurística basada en la Colonia de Hormigas (ACO)
+def aco_heuristic(cities, visited, pheromones, alpha, beta):
     unvisited = [city for city in cities if city not in visited]
     if len(unvisited) == 0:
         return 0
@@ -40,50 +40,53 @@ def mst_heuristic(cities, visited):
     total_cost = 0
     selected_city = visited[-1]  # Empezamos desde la última ciudad visitada
     while unvisited:
-        min_dist = float('inf')
+        min_prob = float('inf')
         next_city = None
         for city in unvisited:
-            dist = selected_city.distance(city)
-            if dist < min_dist:
-                min_dist = dist
+            pheromone_level = pheromones.get((selected_city.label, city.label), 1)
+            distance = selected_city.distance(city)
+            prob = (pheromone_level ** alpha) * ((1 / distance) ** beta)
+            if prob < min_prob:
+                min_prob = prob
                 next_city = city
 
-        total_cost += min_dist
+        total_cost += selected_city.distance(next_city)
         unvisited.remove(next_city)
         selected_city = next_city
 
     return total_cost
 
-# Inicialización de feromonas (ACO)
-def initialize_pheromones(num_cities):
-    pheromones = {city.label: {other.label: 1 for other in cities if other != city} for city in cities}
+# Inicialización de feromonas
+def initialize_pheromones(cities):
+    pheromones = {}
+    for city1 in cities:
+        for city2 in cities:
+            if city1 != city2:
+                pheromones[(city1.label, city2.label)] = 1.0  # Inicializamos todas las feromonas en 1
     return pheromones
 
-# Actualización de feromonas (ACO)
-def update_pheromones(pheromones, all_paths, rho, cities):
-    # Actualizar feromonas de acuerdo a los caminos encontrados
-    for city in pheromones:
-        for neighbor in pheromones[city]:
-            pheromones[city][neighbor] *= (1 - rho)
+# Actualización de feromonas
+def update_pheromones(pheromones, all_paths, rho):
+    # Evaporación de feromonas
+    for key in pheromones:
+        pheromones[key] *= (1 - rho)  # Factor de evaporación
 
+    # Depósito de feromonas en función del camino recorrido
     for path, cost in all_paths:
-        pheromone_deposit = 1 / cost
         for i in range(len(path) - 1):
-            current_city = path[i]
-            next_city = path[i + 1]
+            city1, city2 = path[i], path[i + 1]
+            pheromone_deposit = 1 / cost  # Se deposita más feromona si el camino es más corto
+            pheromones[(city1.label, city2.label)] += pheromone_deposit
+            pheromones[(city2.label, city1.label)] += pheromone_deposit  # Camino bidireccional
 
-            # Usamos los labels de las ciudades como índices en lugar de objetos City
-            pheromones[current_city.label][next_city.label] += pheromone_deposit
-            pheromones[next_city.label][current_city.label] += pheromone_deposit  # Camino bidireccional
-
-# A* con heurística MST y ACO combinada
+# A* con ACO como heurística
 def a_star_tsp(cities, num_ants=10, alpha=1, beta=2, rho=0.1, max_iter=100):
     num_cities = len(cities)
-    pheromones = initialize_pheromones(num_cities)
+    pheromones = initialize_pheromones(cities)
 
-    def a_star_search(start_city, pheromones, alpha, beta):
+    def a_star_search(start_city):
         open_set = []
-        heapq.heappush(open_set, (0 + mst_heuristic(cities, [start_city]), 0, start_city, [start_city], [start_city]))
+        heapq.heappush(open_set, (0 + aco_heuristic(cities, [start_city], pheromones, alpha, beta), 0, start_city, [start_city], [start_city]))
 
         while open_set:
             _, g, current_city, visited, path = heapq.heappop(open_set)
@@ -99,11 +102,10 @@ def a_star_tsp(cities, num_ants=10, alpha=1, beta=2, rho=0.1, max_iter=100):
                     new_path.append(neighbor)
 
                     new_g = g + current_city.distance(neighbor)
-                    mst_h = mst_heuristic(cities, new_visited)
-                    aco_h = mst_heuristic(cities, new_visited)  # Combinamos MST y ACO aquí
+                    aco_h = aco_heuristic(cities, new_visited, pheromones, alpha, beta)
 
-                    # Usamos una combinación de ambas heurísticas para guiar A*
-                    h = mst_h + aco_h
+                    # La heurística es ACO
+                    h = aco_h
 
                     # Añadimos al open set
                     heapq.heappush(open_set, (new_g + h, new_g, neighbor, new_visited, new_path))
@@ -118,7 +120,7 @@ def a_star_tsp(cities, num_ants=10, alpha=1, beta=2, rho=0.1, max_iter=100):
     for _ in range(max_iter):
         all_paths = []
         for _ in range(num_ants):
-            path, cost = a_star_search(start_city, pheromones, alpha, beta)
+            path, cost = a_star_search(start_city)
 
             if path and cost < best_cost:
                 best_path = path
@@ -127,7 +129,8 @@ def a_star_tsp(cities, num_ants=10, alpha=1, beta=2, rho=0.1, max_iter=100):
             if path:
                 all_paths.append((path, cost))
 
-        update_pheromones(pheromones, all_paths, rho, cities)
+        # Actualizamos las feromonas después de todas las hormigas
+        update_pheromones(pheromones, all_paths, rho)
 
     return best_path, best_cost
 
@@ -139,3 +142,4 @@ end_time = time.time()
 print("Tiempo de ejecución:", end_time - start_time)
 print("Mejor camino encontrado:", [city.label for city in best_path])
 print("Costo:", best_cost)
+
