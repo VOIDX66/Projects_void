@@ -1,0 +1,26 @@
+
+Comandos:
+
+# Iniciar server
+sudo systemctl enable --now mariadb
+
+# Reiniciar
+sudo systemctl restart mariadb
+
+# Configuracion seguridad
+sudo mysql_secure_installation
+
+# Conectarse con root
+mycli -u root --password "password"
+
+# NODE COMMANDS
+
+# Crea el archivo package.json
+npm init -y
+
+# Instalamos express
+npm install express
+
+# Paquete para conectarnos por mysql
+npm install mysql2
+
