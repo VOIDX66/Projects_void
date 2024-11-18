@@ -27,4 +27,7 @@ npm install mysql2
 npm install express bcryptjs
 # Vistas dinamicas
 npm install ejs
+# Middleware para las sesiones
+npm install express-session
+
 

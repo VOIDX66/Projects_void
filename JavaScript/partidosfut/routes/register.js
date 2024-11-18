@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
           return res.status(500).send('Error al registrar al jugador.');
         }
         // Renderizar la página de confirmación
-        res.render('confirmacion', { nombre });
+        res.redirect('/');
       });
     });
   });
