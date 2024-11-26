@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/ver_lista_jugadores.css">
+    <title>Document</title>
+</head>
+<body>
+    <table id="tabla-resultados">
+        <thead>
+            <tr>
+                <th>Id Usuario</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% jugadores.forEach(jugador => { %>
+                <tr data-id="<%= jugador.id_jugador %>" data-nombre="<%= jugador.nombre %>">
+                    <td><%= jugador.id_usuario %></td>
+                    <td><%= jugador.nombre %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <button id="gestionar-infracciones-btn" class="btn btn-primary">Gestionar Infracciones</button>
+    <button onclick="window.history.back();" class="btn btn-secondary">Volver Atrás</button>
+
+    <!-- Formulario oculto -->
+    <form id="form-gestionar-infracciones" action="/gestionar_infracciones" method="POST" style="display: none;">
+        <input type="hidden" name="id_jugador" id="input-id-jugador">
+        <input type="hidden" name="nombre" id="input-nombre">
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabla = document.getElementById('tabla-resultados');
+            const gestionarBtn = document.getElementById('gestionar-infracciones-btn');
+            const form = document.getElementById('form-gestionar-infracciones');
+            const inputId = document.getElementById('input-id-jugador');
+            const inputNombre = document.getElementById('input-nombre');
+            let idSeleccionado = null;
+            let nombreSeleccionado = null;
+
+            // Manejar clic en las filas de la tabla
+            tabla.addEventListener('click', (event) => {
+                const fila = event.target.closest('tr'); // Obtiene la fila clickeada
+                if (fila) {
+                    document.querySelectorAll('#tabla-resultados tr').forEach(tr => {
+                        tr.classList.remove('seleccionado'); // Remueve la clase de otros
+                    });
+                    fila.classList.add('seleccionado'); // Agrega clase a la fila seleccionada
+
+                    idSeleccionado = fila.getAttribute('data-id'); // Obtiene el ID
+                    nombreSeleccionado = fila.getAttribute('data-nombre'); // Obtiene el nombre
+                    console.log('ID seleccionado:', idSeleccionado);
+                    console.log('Nombre seleccionado:', nombreSeleccionado);
+                }
+            });
+
+            // Manejar clic en el botón
+            gestionarBtn.addEventListener('click', () => {
+                if (idSeleccionado && nombreSeleccionado) {
+                    inputId.value = idSeleccionado; // Asigna el ID seleccionado al input oculto
+                    inputNombre.value = nombreSeleccionado; // Asigna el nombre seleccionado al input oculto
+                    form.submit(); // Envía el formulario
+                } else {
+                    alert('Por favor, selecciona un jugador primero.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

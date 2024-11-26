@@ -6,14 +6,16 @@ const path = require('path'); // Para manejar rutas
 const registerRoutes = require('./routes/register');
 const loginRoutes = require('./routes/login');
 const logoutRoutes = require('./routes/logout');
-
+const ver_lista_jugadoresRoutes = require('./routes/ver_lista_jugadores');
+const gestionar_infraccionesRoutes = require('./routes/gestionar_infracciones');
 
 const app = express();
 const port = 3000;
 
 // Configurar el motor de vistas
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'public/views'));
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Configurar middleware de sesión
 app.use(session({
@@ -54,6 +56,12 @@ app.use('/login', loginRoutes);
 
 // Usar las rutas del módulo 'logout.js'
 app.use('/logout', logoutRoutes); 
+
+// Usar las rutas del módulo'ver_lista_jugadores.js'
+app.use('/ver_lista_jugadores', ver_lista_jugadoresRoutes);
+
+// Usar las rutas del módulo 'gestionar_infracciones.js'
+app.use('/gestionar_infracciones', gestionar_infraccionesRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {

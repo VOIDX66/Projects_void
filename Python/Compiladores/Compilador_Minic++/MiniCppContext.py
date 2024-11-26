@@ -28,8 +28,15 @@ class Context:
         #print(f"AST: {self.ast}")
     
     def run(self):
+        print(self.env)
         if not self.have_errors:
-            pass
+            main_function = self.env["main"]
+
+            # Ejecutar el cuerpo de `main`
+            print("[green]Ejecutando la función `main`...[/green]")
+            for stmt in main_function.body.stmts:
+                print(stmt)
+                #self.execute_statement(stmt)
     
     def find_source(self, node):
         indices = self.parser.index_position(node)

@@ -126,7 +126,6 @@ if __name__ == '__main__':
     else:
       context.parse(source)
       context.run()
-
   else:
     context = Context()
     try:

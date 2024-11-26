@@ -1,0 +1,14 @@
+body{
+    background-color: rgb(255, 255, 255);
+}
+
+/* Efecto al pasar el cursor solo en filas dentro de tbody */
+#tabla-resultados tbody tr:hover {
+    background-color: #8e9eb6; /* Color de fondo al pasar el mouse */
+    cursor: pointer;          /* Cambia el cursor a "pointer" */
+}
+
+/* Estilo para la fila seleccionada */
+#tabla-resultados tbody tr.seleccionado {
+    background-color: #6083b8; /* Verde claro para la fila seleccionada */
+}
