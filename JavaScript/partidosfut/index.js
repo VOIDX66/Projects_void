@@ -8,6 +8,7 @@ const loginRoutes = require('./routes/login');
 const logoutRoutes = require('./routes/logout');
 const ver_lista_jugadoresRoutes = require('./routes/ver_lista_jugadores');
 const gestionar_infraccionesRoutes = require('./routes/gestionar_infracciones');
+const crear_partidoRoutes = require('./routes/crear_partido');
 
 const app = express();
 const port = 3000;
@@ -62,6 +63,9 @@ app.use('/ver_lista_jugadores', ver_lista_jugadoresRoutes);
 
 // Usar las rutas del módulo 'gestionar_infracciones.js'
 app.use('/gestionar_infracciones', gestionar_infraccionesRoutes);
+
+// Usar las rutas del módulo 'crear_partido.js'
+app.use('/crear_partido', crear_partidoRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {

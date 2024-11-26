@@ -9,12 +9,19 @@
 <body>
   <h1>Hola, <%= user.nombre %>!</h1>
   <p>¡Bienvenido a la página principal!</p>
-  <button type="button" class="btn btn-primary">Crear Partido</button>
+
+  <form action="/crear_partido" method="post">
+    <button type="submit" class="btn btn-primary">Crear Partido</button>
+  </form>
+
   <form action="/ver_lista_jugadores" method="post">
     <button type="submit" class="btn btn-primary">Ver Lista de Jugadores</button>
   </form>
   
-  <button type="button" class="btn btn-primary">Ver Historial de Partidos</button>
+  <form action="/ver_historial_partidos">
+    <button type="submit" class="btn btn-primary">Ver Historial de Partidos</button>
+  </form>
+  
   <a href="/logout">Cerrar sesión</a>
 </body>
 </html>
