@@ -1,23 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Gestionar Infracciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/gestionar_infracciones.css">
 </head>
 <body>
-    <h1>Gestionar Infracciones</h1>
-    <p>Nombre: <%= nombreJugador %></p>
-    <% if(typeof jugador === 'undefined') { %>
-            <p>No hay infracciones registrados.</p>
-    <%  } else { %>
-            <p>infracciones registrados.</p>
-    <%  } %>
-    <button>Agregar Infraccion</button>
-    <button>Eliminar Infraccion</button>
-    <button onclick="window.history.back();" class="btn btn-secondary">Volver Atrás</button>
-    
-    <!-- Aquí puedes agregar más información y formularios -->
+    <h1>Gestionar Infracciones de <%= jugador %></h1>
+
+    <% if (infracciones.length > 0) { %>
+        <h2>Infracciones:</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Fecha del Partido</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% infracciones.forEach(function(infraccion) { %>
+                    <tr>
+                        <td><%= infraccion.descripcion %></td>
+                        <td><%= new Date(infraccion.fecha).toLocaleDateString() %></td>
+                        <td>
+                            <!-- Formulario para eliminar la infracción -->
+                            <form action="/eliminar_infraccion" method="post" style="display:inline;">
+                                <input type="hidden" name="id_infraccion" value="<%= infraccion.id_infraccion %>">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No hay infracciones para este jugador.</p>
+    <% } %>
+
+    <h2>Partidos Jugados:</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Equipos</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% partidos.forEach(function(partido) { %>
+                <tr>
+                    <td><%= new Date(partido.fecha).toLocaleDateString('es-ES') + ' ' + new Date(partido.fecha).toLocaleTimeString('es-ES', { hour12: false }) %></td>
+                    <td><%= partido.estado %></td>
+                    <td><%= partido.equipo_1 %> vs <%= partido.equipo_2 %></td>
+                    <td>
+                        <!-- Formulario para agregar infracción -->
+                        <form action="/nueva_infraccion" method="post">
+                            <input type="hidden" name="id_partido" value="<%= partido.id_partido %>">
+                            <input type="hidden" name="id_jugador" value="<%= idJugador %>">
+                            <input type="hidden" name="nombre" value="<%= jugador %>">
+                            <button type="submit" class="btn btn-primary">Agregar Infracción</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <button onclick="window.history.back();" class="btn btn-secondary mt-3">Volver Atrás</button>
 </body>
 </html>

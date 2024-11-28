@@ -3,13 +3,166 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Principal USUARIO</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Principal JUGADOR</title>
 </head>
 <body>
   <h1>Hola, <%= user.nombre %>!</h1>
   <p>¡Bienvenido a la página principal!</p>
-  <a href="#">Ver partidos</a>
-  <a href="#">Ver partidos</a>
+
+  <!-- Toasts -->
+  <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3">
+    <!-- El toast se agregará aquí dinámicamente -->
+  </div>
+
+  <!-- Mostrar notificaciones no leídas -->
+  
+  <div id="notificaciones" class="mb-4">
+    <h4>Notificaciones</h4>
+    <% if (notificaciones.length > 0) { %>
+      <ul class="list-group">
+        <% notificaciones.forEach(function(noti) { %>
+          <li class="list-group-item d-flex justify-content-between align-items-center" data-id="<%= noti.id_notificacion %>">
+            <span><%= noti.contenido %> Fecha: <%= new Date(noti.fecha_partido).toLocaleDateString('es-ES') + ' ' + new Date(noti.fecha_partido).toLocaleTimeString('es-ES', { hour12: false }) %></span>
+            <button 
+              class="btn btn-sm btn-success marcar-leida" 
+              data-id="<%= noti.id_notificacion %>">
+              Marcar como leída
+            </button>
+          </li>
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <!-- Si no hay notificaciones -->
+    <p id="no-notificaciones" <% if (notificaciones.length === 0) { %> style="display: block;" <% } else { %> style="display: none;" <% } %>>No tienes notificaciones nuevas.</p>
+  </div>
+
+  <!-- Formulario de suscripción -->
+  <div>
+    <label for="suscripcion">Modelo de suscripción:</label>
+    <select id="suscripcion" class="form-select mb-3" onchange="actualizarSuscripcion()">
+      <option value="OCASIONAL" <%= modelSel === 'OCASIONAL' && disponible === 1 ? 'selected' : '' %>>OCASIONAL</option>
+      <option value="FRECUENTE" <%= modelSel === 'FRECUENTE' && disponible === 1 ? 'selected' : '' %>>FRECUENTE</option>
+      <option value="NO DISPONIBLE" <%= disponible === 0 ? 'selected' : '' %>>NO DISPONIBLE</option>
+    </select>
+  </div>
+
+  <form action="/consultar_infracciones" method="post">
+    <input type="hidden" name="id_usuario" value="<%= user.id_usuario %>">
+    <button type="submit" class="btn btn-primary">Consultar Infracciones</button>
+  </form>
+
+  <form action="#" method="post">
+    <button type="submit" class="btn btn-primary">Gestionar Participación</button>
+  </form>
+
   <a href="/logout">Cerrar sesión</a>
+
+  <script>
+    // Contamos cuántas notificaciones hay inicialmente
+    let totalNotificaciones = <%= notificaciones.length %>;
+
+    // Función para manejar el cambio de modelo de suscripción
+    function actualizarSuscripcion() {
+      const suscripcion = document.getElementById('suscripcion').value;
+      const idUsuario = <%= user.id_usuario %>;  // Suponiendo que tienes el id del jugador disponible en la variable user
+
+      fetch('/actualizar_suscripcion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_usuario: idUsuario, suscripcion: suscripcion })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.success) {
+          mostrarToast(data.message, data.success);
+          // Si hay un error, se recarga la página y el select se mantiene con el valor anterior
+          setTimeout(() => location.reload(), 3000); // Esperar 3 segundos para mostrar el mensaje
+        } else {
+          mostrarToast(data.message, data.success);
+        }
+      })
+      .catch(err => {
+        console.error('Error al actualizar suscripción:', err);
+        mostrarToast('Error al actualizar suscripción.', false);
+      });
+    }
+
+    // Función para mostrar el toast con el mensaje
+    function mostrarToast(message, success) {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.classList.add('toast');
+      toast.classList.add(success ? 'bg-success' : 'bg-danger');
+      toast.setAttribute('role', 'alert');
+      toast.setAttribute('aria-live', 'assertive');
+      toast.setAttribute('aria-atomic', 'true');
+      toast.innerHTML = `
+        <div class="toast-body">
+          ${message}
+        </div>
+      `;
+      
+      toastContainer.appendChild(toast);
+      const toastInstance = new bootstrap.Toast(toast);
+      toastInstance.show();
+      
+      setTimeout(() => {
+        toastContainer.removeChild(toast);
+      }, 3000);  // El toast se elimina después de 3 segundos
+    }
+
+    // Marcar notificación como leída
+    document.querySelectorAll('.marcar-leida').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const idNotificacion = this.getAttribute('data-id');
+        
+        // Realizar la solicitud POST para marcar la notificación como leída
+        fetch('/marcar_notificacion_leida', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id: idNotificacion }) // Pasamos el ID de la notificación
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Eliminar la notificación del DOM (sin recargar la página)
+            const notificacionElement = document.querySelector(`li[data-id="${idNotificacion}"]`);
+            notificacionElement.remove();  // Eliminar completamente el <li> de la vista
+
+            // Actualizamos el conteo de notificaciones
+            totalNotificaciones -= 1;
+
+            // Mostrar un mensaje de notificación leída
+            mostrarToast('Notificación marcada como leída', true);
+            console.log(totalNotificaciones);
+
+            // Verificar si quedan notificaciones
+            const noNotificacionesMessage = document.getElementById('no-notificaciones');
+            
+            if (totalNotificaciones === 0) {
+              // Si no quedan notificaciones, mostrar el mensaje de "No hay notificaciones"
+              noNotificacionesMessage.style.display = 'block';  // Mostrar el mensaje de no notificaciones
+            } else {
+              // Si quedan notificaciones, asegurarnos de que el mensaje de "No hay notificaciones" esté oculto
+              noNotificacionesMessage.style.display = 'none';
+            }
+          } else {
+            alert('Error al marcar la notificación como leída');
+          }
+        })
+        .catch(error => {
+          console.error('Error en la solicitud:', error);
+        });
+      });
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

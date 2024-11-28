@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/ver_historeal_partidos.css">
+    <title>Historial de Partidos</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4">Historial de Partidos</h1>
+        <table id="tabla-partidos" class="table table-bordered table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Partido</th>
+                    <th>Fecha y Hora</th>
+                    <th>Equipos</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% partidos.forEach(partido => { %>
+                    <tr>
+                        <td><%= partido.id_partido %></td>
+                        <td><%= new Date(partido.fecha).toLocaleString() %></td>
+                        <td><%= partido.equipos %></td>
+                        <td><%= partido.estado %></td>
+                        <td>
+                            <% if (partido.estado === 'CONFIRMADO') { %>
+                                <form action="/marcar_jugado" method="POST" style="display: inline;">
+                                    <input type="hidden" name="id_partido" value="<%= partido.id_partido %>">
+                                    <button type="submit" class="btn btn-success">Marcar como Jugado</button>
+                                </form>
+                            <% } else { %>
+                                <span>No disponible</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <button onclick="window.history.back();" class="btn btn-secondary mt-3">Volver Atrás</button>
+    </div>
+</body>
+</html>

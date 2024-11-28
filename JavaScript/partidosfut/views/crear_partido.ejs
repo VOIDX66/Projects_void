@@ -34,26 +34,40 @@
         <button class="btn btn-primary mb-3" onclick="generarEquipos()">Generar Equipos</button>
 
         <div class="row">
+            <!-- Equipo 1 -->
             <div class="col-md-4">
                 <h3 class="text-center">Equipo 1</h3>
+                <input type="text" id="nombreEquipo1" class="form-control mb-2" placeholder="Nombre del Equipo 1" required>
                 <div id="equipo1" class="team-list" ondrop="drop(event, 'equipo1')" ondragover="allowDrop(event)">
                 </div>
             </div>
+
+            <!-- Jugadores Disponibles -->
             <div class="col-md-4">
                 <h3 class="text-center">Jugadores Disponibles</h3>
                 <div id="disponibles" class="team-list" ondrop="drop(event, 'disponibles')" ondragover="allowDrop(event)">
                 </div>
             </div>
+
+            <!-- Equipo 2 -->
             <div class="col-md-4">
                 <h3 class="text-center">Equipo 2</h3>
+                <input type="text" id="nombreEquipo2" class="form-control mb-2" placeholder="Nombre del Equipo 2" required>
                 <div id="equipo2" class="team-list" ondrop="drop(event, 'equipo2')" ondragover="allowDrop(event)">
                 </div>
             </div>
         </div>
 
-        <form action="/confirmar-equipos" method="POST" class="mt-4">
+        <!-- Campo para seleccionar la fecha del partido -->
+        <label for="fechaPartido" class="mt-4">Fecha y Hora del Partido:</label>
+        <input type="datetime-local" id="fechaPartido" name="fechaPartido" class="form-control mb-3" required>
+
+        <form action="/confirmar_equipos" method="POST" class="mt-4">
             <input type="hidden" name="equipo1" id="inputEquipo1">
             <input type="hidden" name="equipo2" id="inputEquipo2">
+            <input type="hidden" name="fecha" id="inputFecha">
+            <input type="hidden" name="nombreEquipo1" id="inputNombreEquipo1">
+            <input type="hidden" name="nombreEquipo2" id="inputNombreEquipo2">
             <button type="submit" class="btn btn-success w-100">Confirmar Equipos</button>
         </form>
 
@@ -86,20 +100,17 @@
         // Permite el "drop"
         function allowDrop(event) {
             event.preventDefault();
-            event.target.classList.add('drag-over'); // Añade efecto visual
+            event.target.classList.add('drag-over');
         }
 
-        // Limpia el efecto visual al salir del área
         function dragLeave(event) {
             event.target.classList.remove('drag-over');
         }
 
-        // Evento al iniciar el drag
         function drag(event) {
             event.dataTransfer.setData('id', event.target.dataset.id);
         }
 
-        // Evento al soltar
         function drop(event, targetId) {
             event.preventDefault();
             event.target.classList.remove('drag-over');
@@ -109,37 +120,32 @@
 
             if (!jugador) return;
 
-            // Eliminar el jugador de las listas actuales
             if (equipo1.includes(jugador)) equipo1 = equipo1.filter(j => j.id_jugador !== jugadorId);
             if (equipo2.includes(jugador)) equipo2 = equipo2.filter(j => j.id_jugador !== jugadorId);
             if (disponibles.includes(jugador)) disponibles = disponibles.filter(j => j.id_jugador !== jugadorId);
 
-            // Comprobar si el equipo está lleno antes de añadir
             if (targetId === 'equipo1') {
                 if (equipo1.length < 5) {
                     equipo1.push(jugador);
                 } else {
                     alert('Equipo 1 lleno');
-                    disponibles.push(jugador); // Regresar al jugador a disponibles
+                    disponibles.push(jugador);
                 }
             } else if (targetId === 'equipo2') {
                 if (equipo2.length < 5) {
                     equipo2.push(jugador);
                 } else {
                     alert('Equipo 2 lleno');
-                    disponibles.push(jugador); // Regresar al jugador a disponibles
+                    disponibles.push(jugador);
                 }
             } else if (targetId === 'disponibles') {
                 disponibles.push(jugador);
             }
 
-            renderEquipos(); // Re-renderiza las listas
-            console.debug(`Jugador ${jugador.nombre} movido a ${targetId}`);
+            renderEquipos();
         }
 
-        // Generación automática de equipos
         function generarEquipos() {
-            // Reiniciar equipos y jugadores disponibles
             equipo1 = [];
             equipo2 = [];
             disponibles = [...jugadores];
@@ -153,7 +159,7 @@
                 disponibles = sorted.slice(10);
             } else if (seleccionada === "2") {
                 const frecuentes = disponibles.filter(j => j.model_sel === "FRECUENTE");
-                if(frecuentes.length > 0) {
+                if (frecuentes.length > 0) {
                     const shuffled = shuffleArray(frecuentes);
                     equipo1 = shuffled.slice(0, 5);
                     equipo2 = shuffled.slice(5, 10);
@@ -171,12 +177,42 @@
             renderEquipos();
         }
 
-        // Aleatorización
         function shuffleArray(array) {
             return array.sort(() => Math.random() - 0.5);
         }
 
-        // Inicializar
+        document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const nombreEquipo1 = document.getElementById('nombreEquipo1').value.trim();
+            const nombreEquipo2 = document.getElementById('nombreEquipo2').value.trim();
+
+            if (!nombreEquipo1 || !nombreEquipo2) {
+                alert("Por favor, ingresa los nombres para ambos equipos antes de confirmar.");
+                return;
+            }
+
+            if (equipo1.length !== 5 || equipo2.length !== 5) {
+                alert("Ambos equipos deben tener exactamente 5 jugadores.");
+                return;
+            }
+
+            document.getElementById('inputEquipo1').value = JSON.stringify(equipo1);
+            document.getElementById('inputEquipo2').value = JSON.stringify(equipo2);
+            document.getElementById('inputNombreEquipo1').value = nombreEquipo1;
+            document.getElementById('inputNombreEquipo2').value = nombreEquipo2;
+
+            const fechaPartido = document.getElementById('fechaPartido').value;
+            if (!fechaPartido) {
+                alert("Por favor, selecciona una fecha para el partido.");
+                return;
+            }
+
+            document.getElementById('inputFecha').value = fechaPartido;
+
+            this.submit();
+        });
+
         renderEquipos();
     </script>
 </body>
