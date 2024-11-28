@@ -1,0 +1,152 @@
+@font-face {
+    font-family: 'Soccer Jersey';
+    src: url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap') format('woff2');
+  }
+  
+  body {
+    font-family: 'Bebas Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://img.freepik.com/free-photo/soccer-players-action-professional-stadium_654080-1820.jpg?t=st=1732824522~exp=1732828122~hmac=6322379031f76facbc8d8664544afce45ae0daf61a9ea35c3535c52a28a18f73&w=996');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    width: 80vw;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  h1 {
+    font-family: 'Soccer Jersey', 'Bebas Neue', sans-serif;
+    color: #2c3e50;
+    font-size: 4.5rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  h1 i {
+    margin-right: 10px;
+    color: #e74c3c;
+  }
+  
+  nav {
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  nav ul li a {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #27ae60;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav ul li a:hover {
+    background-color: #2ecc71;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  nav ul li a i {
+    margin-right: 8px;
+  }
+  
+  .soccer-ball {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: bounce 2s infinite;
+    bottom: 120px; /* Ajustado para que rebote sobre los botones */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  @keyframes bounce {
+    0%, 100% { 
+      bottom: 120px;
+      transform: translateX(-50%) scale(0.8);
+    }
+    50% { 
+      bottom: 300px; /* Altura máxima del rebote */
+      transform: translateX(-50%) scale(1);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      width: 90%;
+      padding: 2rem;
+      aspect-ratio: auto;
+      height: auto;
+      min-height: 60vh;
+    }
+  
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    nav ul {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    nav ul li a {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+    }
+  
+    .soccer-ball {
+      width: 40px;
+      height: 40px;
+      bottom: 100px; /* Ajustado para dispositivos móviles */
+    }
+  
+    @keyframes bounce {
+      0%, 100% { 
+        bottom: 100px; /* Posición inicial y final ajustada para móviles */
+        transform: translateX(-50%) scale(0.8);
+      }
+      50% { 
+        bottom: 160px; /* Altura máxima del rebote para móviles */
+        transform: translateX(-50%) scale(1);
+      }
+    }
+  }

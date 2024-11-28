@@ -18,6 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Configurar middleware de sesión
 app.use(session({
   secret: 'tu-secreto',  // Una cadena secreta para firmar la sesión
@@ -66,6 +67,13 @@ app.use('/gestionar_infracciones', gestionar_infraccionesRoutes);
 
 // Usar las rutas del módulo 'crear_partido.js'
 app.use('/crear_partido', crear_partidoRoutes);
+
+// Datos simulados
+const jugadoresMock = [
+  { nombre: "Juan Pérez", equipo: "Equipo A" },
+  { nombre: "María Gómez", equipo: "Equipo B" },
+  { nombre: "Carlos Díaz", equipo: "Equipo A" }
+];
 
 // Iniciar el servidor
 app.listen(port, () => {
