@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
     return res.status(400).json({ success: false, message: 'No se encuentra el id_usuario en la solicitud' });
   }
   
-  // Consulta para obtener el id_jugador, es_solidario y la suscripción actual
+  // Consulta para obtener el id_jugador y el campo es_solidario a partir del id_usuario
   const queryJugador = 'SELECT id_jugador, es_solidario, model_sel FROM Jugadores WHERE id_usuario = ?';
   
   db.query(queryJugador, [id_usuario], (err, results) => {
@@ -25,14 +25,14 @@ router.post('/', (req, res) => {
     
     const id_jugador = results[0].id_jugador;
     const es_solidario = results[0].es_solidario;
-    const suscripcionActual = results[0].model_sel;
+    const currentModelSel = results[0].model_sel;  // El valor actual de model_sel
     
     if (es_solidario === 1 && suscripcion === 'FRECUENTE') {
       // Si es jugador solidario y quiere cambiar a FRECUENTE
-      return res.status(400).json({
-        success: false,
+      return res.status(400).json({ 
+        success: false, 
         message: 'No puedes cambiar a FRECUENTE, tienes muchas infracciones. Actualmente eres un jugador solidario.',
-        suscripcionAnterior: suscripcionActual  // Pasamos la suscripción anterior para que el frontend la vuelva a seleccionar
+        currentModelSel // Devolver el modelo actual para mantenerlo seleccionado en el frontend
       });
     }
     
@@ -48,14 +48,14 @@ router.post('/', (req, res) => {
       queryActualizar = 'UPDATE Jugadores SET model_sel = ?, disponible = 1 WHERE id_jugador = ?';
       parametros = [suscripcion, id_jugador];
     } else {
-      return res.status(400).json({ success: false, message: 'Suscripción no válida' });
+      return res.status(400).json({ success: false, message: 'Suscripción no válida', currentModelSel });
     }
 
     // Ejecutar la actualización en la base de datos
     db.query(queryActualizar, parametros, (err) => {
       if (err) {
         console.error('Error al actualizar la suscripción:', err);
-        return res.status(500).json({ success: false, message: 'Error al actualizar la suscripción' });
+        return res.status(500).json({ success: false, message: 'Error al actualizar la suscripción', currentModelSel });
       }
       
       res.json({ success: true, message: 'Suscripción actualizada correctamente' });

@@ -18,6 +18,7 @@ const agregar_infraccionRoutes = require('./routes/agregar_infraccion');
 const eliminar_infraccionRoutes = require('./routes/eliminar_infraccion');
 const marcar_notificacion_leidaRoutes = require('./routes/marcar_notificacion_leida');
 const actualizar_suscripcionRoutes = require('./routes/actualizar_suscripcion');
+const consultar_infraccionesRoutes = require('./routes/consultar_infracciones');
 
 const app = express();
 const port = 3000;
@@ -44,21 +45,38 @@ app.use(express.json());
 
 // Ruta principal (index)
 app.get('/', (req, res) => {
-  const user = req.session.user
+  const user = req.session.user;
   if (user) {
     // Si el usuario está autenticado, mostrar la página principal
-    if (user.tipo === 'USER'){
-      const notificaciones = `SELECT * FROM Notificaciones
-                              INNER JOIN Jugadores ON Notificaciones.id_jugador = Jugadores.id_jugador
-                              INNER JOIN Usuarios ON Jugadores.id_usuario = Usuarios.id_usuario
-                              WHERE Usuarios.id_usuario = ? AND Notificaciones.leida = 0
-                              `
-      db.query(notificaciones, [user.id_usuario], (err, notificaciones) => {
+    if (user.tipo === 'USER') {
+      // Obtener las notificaciones
+      const notificacionesQuery = `
+        SELECT * FROM Notificaciones
+        INNER JOIN Jugadores ON Notificaciones.id_jugador = Jugadores.id_jugador
+        INNER JOIN Usuarios ON Jugadores.id_usuario = Usuarios.id_usuario
+        WHERE Usuarios.id_usuario = ? AND Notificaciones.leida = 0
+      `;
+      db.query(notificacionesQuery, [user.id_usuario], (err, notificaciones) => {
         if (err) {
           console.error('Error en la base de datos:', err);
           return res.status(500).send('Error al obtener las notificaciones');
         }
-        res.render('main_user', { user, notificaciones });
+
+        // Obtener el model_sel de la tabla Jugadores
+        const suscripcionQuery = 'SELECT model_sel, disponible FROM Jugadores WHERE id_usuario = ?';
+        db.query(suscripcionQuery, [user.id_usuario], (err, result) => {
+          if (err) {
+            console.error('Error al obtener el model_sel:', err);
+            return res.status(500).send('Error al obtener la suscripción del jugador');
+          }
+
+          const modelSel = result[0].model_sel; // Valor por defecto en caso de que no se encuentre
+          const disponible = result[0].disponible; // Valor por defecto en caso de que no se encuentre
+          //console.log(disponible,modelSel);
+
+          // Pasar los datos a la vista 'main_user'
+          res.render('main_user', { user, notificaciones, modelSel, disponible });
+        });
       });
     } else {
       res.render('main_admin', { user });
@@ -110,6 +128,9 @@ app.use('/marcar_notificacion_leida', marcar_notificacion_leidaRoutes);
 
 // Usar las rutas del módulo'actualizar_suscripcion.js'
 app.use('/actualizar_suscripcion', actualizar_suscripcionRoutes);
+
+// Usar las rutas del módulo 'consultar_infracciones.js'
+app.use('/consultar_infracciones', consultar_infraccionesRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {
