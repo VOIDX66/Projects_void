@@ -41,12 +41,12 @@ router.post('/', (req, res) => {
                     const id_equipo_2 = result.insertId;
 
                     const jugador_equipo = 'INSERT INTO Jugador_Equipo (id_equipo, id_jugador) VALUES (?, ?)';
-                    const notificacion = 'INSERT INTO Notificaciones (id_jugador, contenido) VALUES (?, ?)';
+                    const notificacion = 'INSERT INTO Notificaciones (id_jugador, contenido, fecha_partido) VALUES (?, ?, ?)';
 
                     // Asociar jugadores al equipo 1 y crear notificaciones
                     equipo_1.forEach(jugador => {
                         const id_jugador = jugador.id_jugador;
-                        const mensaje = `Has sido invitado al equipo ${nombre_equipo_1}`;
+                        const mensaje = `Has sido asignado al equipo ${nombre_equipo_1}`;
 
                         db.query(jugador_equipo, [id_equipo_1, id_jugador], (err) => {
                             if (err) {
@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
                             }
                         });
 
-                        db.query(notificacion, [id_jugador, mensaje], (err) => {
+                        db.query(notificacion, [id_jugador, mensaje, fecha], (err) => {
                             if (err) {
                                 console.error('Error al insertar notificación para el jugador:', err);
                             }
@@ -63,7 +63,7 @@ router.post('/', (req, res) => {
 
                     equipo_2.forEach(jugador => {
                         const id_jugador = jugador.id_jugador;
-                        const mensaje = `Has sido invitado al equipo ${nombre_equipo_2}`;
+                        const mensaje = `Has sido asignado al equipo ${nombre_equipo_2}`;
 
                         db.query(jugador_equipo, [id_equipo_2, id_jugador], (err) => {
                             if (err) {
@@ -71,7 +71,7 @@ router.post('/', (req, res) => {
                             }
                         });
 
-                        db.query(notificacion, [id_jugador, mensaje], (err) => {
+                        db.query(notificacion, [id_jugador, mensaje, fecha], (err) => {
                             if (err) {
                                 console.error('Error al insertar notificación para el jugador:', err);
                             }

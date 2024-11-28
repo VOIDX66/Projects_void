@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path'); // Para manejar rutas
+const db = require('./config/db');
 
 // Importar las rutas
 const registerRoutes = require('./routes/register');
@@ -15,6 +16,8 @@ const marcar_jugadoRoutes = require('./routes/marcar_jugado');
 const nueva_infraccionRoutes = require('./routes/nueva_infraccion');
 const agregar_infraccionRoutes = require('./routes/agregar_infraccion');
 const eliminar_infraccionRoutes = require('./routes/eliminar_infraccion');
+const marcar_notificacion_leidaRoutes = require('./routes/marcar_notificacion_leida');
+const actualizar_suscripcionRoutes = require('./routes/actualizar_suscripcion');
 
 const app = express();
 const port = 3000;
@@ -45,7 +48,18 @@ app.get('/', (req, res) => {
   if (user) {
     // Si el usuario está autenticado, mostrar la página principal
     if (user.tipo === 'USER'){
-      res.render('main_user', { user });
+      const notificaciones = `SELECT * FROM Notificaciones
+                              INNER JOIN Jugadores ON Notificaciones.id_jugador = Jugadores.id_jugador
+                              INNER JOIN Usuarios ON Jugadores.id_usuario = Usuarios.id_usuario
+                              WHERE Usuarios.id_usuario = ? AND Notificaciones.leida = 0
+                              `
+      db.query(notificaciones, [user.id_usuario], (err, notificaciones) => {
+        if (err) {
+          console.error('Error en la base de datos:', err);
+          return res.status(500).send('Error al obtener las notificaciones');
+        }
+        res.render('main_user', { user, notificaciones });
+      });
     } else {
       res.render('main_admin', { user });
     }
@@ -90,6 +104,12 @@ app.use('/agregar_infraccion', agregar_infraccionRoutes);
 
 // Usar las rutas del módulo'agregar_infraccion.js'
 app.use('/eliminar_infraccion', eliminar_infraccionRoutes);
+
+// Usar las rutas del módulo'marcar_notificacion_leida.js'
+app.use('/marcar_notificacion_leida', marcar_notificacion_leidaRoutes);
+
+// Usar las rutas del módulo'actualizar_suscripcion.js'
+app.use('/actualizar_suscripcion', actualizar_suscripcionRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {

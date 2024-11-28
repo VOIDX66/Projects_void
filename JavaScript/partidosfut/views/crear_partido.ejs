@@ -184,10 +184,23 @@
         document.querySelector('form').addEventListener('submit', function (event) {
             event.preventDefault();
 
+            const nombreEquipo1 = document.getElementById('nombreEquipo1').value.trim();
+            const nombreEquipo2 = document.getElementById('nombreEquipo2').value.trim();
+
+            if (!nombreEquipo1 || !nombreEquipo2) {
+                alert("Por favor, ingresa los nombres para ambos equipos antes de confirmar.");
+                return;
+            }
+
+            if (equipo1.length !== 5 || equipo2.length !== 5) {
+                alert("Ambos equipos deben tener exactamente 5 jugadores.");
+                return;
+            }
+
             document.getElementById('inputEquipo1').value = JSON.stringify(equipo1);
             document.getElementById('inputEquipo2').value = JSON.stringify(equipo2);
-            document.getElementById('inputNombreEquipo1').value = document.getElementById('nombreEquipo1').value;
-            document.getElementById('inputNombreEquipo2').value = document.getElementById('nombreEquipo2').value;
+            document.getElementById('inputNombreEquipo1').value = nombreEquipo1;
+            document.getElementById('inputNombreEquipo2').value = nombreEquipo2;
 
             const fechaPartido = document.getElementById('fechaPartido').value;
             if (!fechaPartido) {
