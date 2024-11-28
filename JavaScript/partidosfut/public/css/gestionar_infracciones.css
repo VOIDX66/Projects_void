@@ -1,0 +1,60 @@
+/* Estilo Global */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor principal */
+.container {
+    margin-top: 50px;
+}
+
+/* Estilo del encabezado */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #495057;
+}
+
+/* Estilos para la tabla */
+table {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+}
+
+/* Estilos de las celdas y encabezados */
+th, td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+/* Estilo de filas alternadas */
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f1f1f1;
+}
+
+/* Estilo de fila al pasar el mouse */
+.table-hover tbody tr:hover {
+    background-color: #e2e6ea;
+}
+
+/* Botón estilizado */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}

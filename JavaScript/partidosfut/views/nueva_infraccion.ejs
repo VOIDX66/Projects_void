@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Nueva Infracción</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS Personalizado (si lo necesitas) -->
+    <link rel="stylesheet" href="/css/gestionar_infracciones.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Registrar Nueva Infracción</h1>
+        
+        <!-- Formulario para agregar una nueva infracción -->
+        <form action="/agregar_infraccion" method="POST">
+            <input type="hidden" name="id_jugador" value="<%= idJugador %>">
+            <input type="hidden" name="id_partido" value="<%= idPartido %>">
+            
+            <div class="mb-3">
+                <label for="nombreJugador" class="form-label">Jugador</label>
+                <input type="text" class="form-control" id="nombreJugador" value="<%= nombreJugador %>" disabled>
+            </div>
+            
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción de la Infracción</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Registrar Infracción</button>
+        </form>
+        
+        <hr>
+        <button onclick="window.history.back();" class="btn btn-secondary mt-3">Volver Atrás</button>
+    </div>
+
+    <!-- Bootstrap JS (opcional, para funcionalidades como el modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
-
 router.post('/', (req, res) => {
     const query = 'SELECT id_jugador, nombre, puntuacion, model_sel FROM Jugadores INNER JOIN Usuarios ON Jugadores.id_usuario = Usuarios.id_usuario '
                 + 'WHERE disponible = 1';
