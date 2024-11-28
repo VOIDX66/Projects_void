@@ -1,0 +1,11 @@
+int main() {
+    // Prueba de printf
+    printf("Hola, %s! Tienes %d mensajes.\n", "Juan", 5);
+    printf("El valor de PI es aproximadamente %.2f.\n", 3.14159);
+
+    // Prueba de sprintf
+    string mensaje = format("Usuario: %s, Edad: %d, Saldo: %.2f", "Maria", 30, 1500.75);
+    printf("Resultado de sprintf: %s\n", mensaje);
+
+    return 0;
+}

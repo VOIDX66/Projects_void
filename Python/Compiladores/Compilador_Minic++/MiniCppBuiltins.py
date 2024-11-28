@@ -35,7 +35,7 @@ class BuiltinFunction(ABC):  # pragma: no cover
 # ----------------------------------------
 # Generals
 #
-class Chr(BuiltinFunction):
+class Chr(BuiltinFunction):  # Convierte un entero en su carácter Unicode correspondiente
   _shortname = "chr"
 
   @property
@@ -43,8 +43,6 @@ class Chr(BuiltinFunction):
     return 1
 
   def __call__(self, _, *args):
-    '''
-    '''
     if not isinstance(args[0], int):
       raise CallError(f"El argumento de '{self._shortname}' es incorrecto")
     return chr(args[0])
@@ -65,16 +63,37 @@ class Clock(BuiltinFunction):
     return time.time()
 
 
-class Format(BuiltinFunction):
+class Printf(BuiltinFunction):
+  _shortname = "printf"
+
+  @property
+  def arity(self) -> int:
+    return -1  # Acepta un número variable de argumentos
+
+  def __call__(self, _, *args):
+    if len(args) < 1:
+      raise CallError(f"Error en argumentos de '{self._shortname}'")
+    if not isinstance(args[0], str):
+      raise CallError("El primer argumento de 'printf' debe ser una cadena")
+    
+    # Formatear la cadena
+    format_str = args[0].replace('\\n', '\n').replace('\\t', '\t')
+    formatted = format_str % args[1:]
+    
+    # Imprimir la cadena formateada
+    print(formatted)
+    return None  # printf no devuelve nada
+
+
+# Básicamente, es un sprintf ˋ( ° ▽、° ) 
+class Format(BuiltinFunction):  # Formatea una cadena de acuerdo con un formato especificado
   _shortname = "format"
 
   @property
   def arity(self) -> int:
-    return -1
+    return -1  # Número variable de argumentos
 
   def __call__(self, _, *args):
-    '''
-    '''
     if len(args) < 2:
       raise CallError("Error en argumento de 'format'")
     if args[0].count('%') != len(args[1:]):
@@ -86,7 +105,7 @@ class Format(BuiltinFunction):
     return format % args[1:]
 
 
-class Input(BuiltinFunction):
+class Input(BuiltinFunction):  # Solicita al usuario una línea de entrada
   _shortname = "input"
 
   @property
@@ -107,7 +126,7 @@ class Input(BuiltinFunction):
     raise CallError(f"Error en argumentos de '{self._shortname}'")
 
 
-class Integer(BuiltinFunction):
+class Integer(BuiltinFunction):  # Convierte un número o una cadena en un entero
   _shortname = 'int'
 
   @property
@@ -123,7 +142,7 @@ class Integer(BuiltinFunction):
     return int(args[0])
 
 
-class Ord(BuiltinFunction):
+class Ord(BuiltinFunction):  # Convierte un carácter en su valor Unicode correspondiente
   _shortname = "ord"
 
   @property
@@ -141,7 +160,7 @@ class Ord(BuiltinFunction):
     return ord(args[0])
 
 
-class ReadText(BuiltinFunction):
+class ReadText(BuiltinFunction):  # Lee el contenido de un archivo de texto y lo devuelve como una cadena
   _shortname = "read_text"
 
   @property
@@ -156,7 +175,7 @@ class ReadText(BuiltinFunction):
     return Path(args[0]).read_text()
 
 
-class String(BuiltinFunction):
+class String(BuiltinFunction):  # Convierte un número en una cadena
   _shortname = 'str'
 
   @property
@@ -164,11 +183,10 @@ class String(BuiltinFunction):
     return 1
 
   def __call__(self, _, *args):
-    '''
-    '''
     if not isinstance(args[0], (int, float)):
       raise CallError(f"El argumento de '{self._shortname}' es incorrecto")
     return str(args[0])
+
 
 
 # ----------------------------------------

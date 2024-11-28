@@ -215,6 +215,18 @@ class NewArrayExpr(Expression):
     type_spec: str
     size: Expression
 
+@dataclass
+class PrintfExpr(Expression):
+    format_string: str      # "%d, %s, &f"
+    args: List[Expression]
+    
+@dataclass
+class SprintfExpr(Expression):
+    format_string: str      # "%d, %s, &f"
+    args: List[Expression]
+    destination: Expression 
+
+
 class MakeDot(Visitor):
     node_default = {
         'shape': 'box',
@@ -367,9 +379,7 @@ class MakeDot(Visitor):
         #    self.dot.edge(name, body_stmt.accept(self), label='body')
         self.dot.edge(name, n.then.accept(self), label='then_stmts')
         return name
-        
-        return name
-    
+            
     # Método para visitar el nodo BreakStmt
     def visit(self, n: BreakStmt):
         name = self.name()
