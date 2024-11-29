@@ -91,6 +91,10 @@ Rule 87    arg_list -> arg_list , expr
 Rule 88    arg_list -> expr
 Rule 89    empty -> <empty>
 
+Unused terminals:
+
+    SPRINTF
+
 Terminals, with rules where they appear:
 
 !                    : 70
@@ -134,6 +138,7 @@ PRINTF               : 44 45
 RETURN               : 52
 SCANF                : 43
 SIZE                 : 61
+SPRINTF              : 
 STRING_LIT           : 57
 VOID                 : 15 17
 WHILE                : 48

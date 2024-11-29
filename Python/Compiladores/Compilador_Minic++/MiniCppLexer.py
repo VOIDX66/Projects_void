@@ -4,7 +4,7 @@ from rich import print
 class Lexer(sly.Lexer):
     tokens = {
         #Palabras reservadas
-        VOID, BOOL, INT, FLOAT, DOUBLE, CHAR, WHILE, FOR, IF, ELSE, CONTINUE, BREAK, RETURN, SIZE, NEW, CLASS, PRINTF, SCANF,
+        VOID, BOOL, INT, FLOAT, DOUBLE, CHAR, WHILE, FOR, IF, ELSE, CONTINUE, BREAK, RETURN, SIZE, NEW, CLASS, PRINTF, SPRINTF, SCANF,
 
         #Operadores de relacion
         AND, OR, EQ, NE, GE, LE,
@@ -112,6 +112,7 @@ class Lexer(sly.Lexer):
     IDENT["new"] = NEW
     IDENT["class"] = CLASS
     IDENT["printf"] = PRINTF
+    IDENT["format"] = SPRINTF
     IDENT["scanf"] = SCANF
 
     #Operadores
@@ -127,6 +128,7 @@ def print_tokens():
     d = '''void main(void) {
         /*Esto es un comentario  //Comentario dentro del comentario sigue*/
         printf("Hola mundo\n");
+        string mensaje = format("Usuario: %s, Edad: %d, Saldo: %.2f", "Maria", 30, 1500.75);
         //Comentario
         /************************
         Este es otro comentario
@@ -142,5 +144,14 @@ def print_lexer(data):
         print(tok)
 
 if __name__ == '__main__':
-    data = open("isqrt.mcc", encoding='utf-8').read()
-    print_lexer(data)
+    #data = open("isqrt.mcc", encoding='utf-8').read()
+    #print_lexer(data)
+    print_lexer('''void main(void) {
+        /*Esto es un comentario  //Comentario dentro del comentario sigue*/
+        printf("Hola mundo\n");
+        string mensaje = format("Usuario: %s, Edad: %d, Saldo: %.2f", "Maria", 30, 1500.75);
+        //Comentario
+        /************************
+        Este es otro comentario
+        ************************/
+        }''')
