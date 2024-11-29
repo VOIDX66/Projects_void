@@ -28,7 +28,6 @@
         <label for="opciones">Opciones de generación:</label>
         <select id="opciones" class="form-select mb-3">
             <option value="1">Mejor Puntaje</option>
-            <option value="2">Más Frecuentes</option>
             <option value="3">Aleatorio</option>
         </select>
         <button class="btn btn-primary mb-3" onclick="generarEquipos()">Generar Equipos</button>
@@ -153,21 +152,40 @@
             const seleccionada = document.getElementById('opciones').value;
 
             if (seleccionada === "1") {
-                const sorted = [...disponibles].sort((a, b) => b.puntuacion - a.puntuacion);
-                equipo1 = sorted.slice(0, 5);
-                equipo2 = sorted.slice(5, 10);
-                disponibles = sorted.slice(10);
-            } else if (seleccionada === "2") {
-                const frecuentes = disponibles.filter(j => j.model_sel === "FRECUENTE");
-                if (frecuentes.length > 0) {
-                    const shuffled = shuffleArray(frecuentes);
-                    equipo1 = shuffled.slice(0, 5);
-                    equipo2 = shuffled.slice(5, 10);
-                    disponibles = disponibles.filter(j => !frecuentes.includes(j));
-                } else {
-                    alert("No hay jugadores frecuentes en la lista.");
+                // Ordenar jugadores por puntuación (mayor a menor)
+                const sortedFrequent = [...disponibles].filter(j => j.model_sel === "FRECUENTE").sort((a, b) => b.puntuacion - a.puntuacion);
+                const sortedOccasional = [...disponibles].filter(j => j.model_sel !== "FRECUENTE").sort((a, b) => b.puntuacion - a.puntuacion);
+
+                // Repartir jugadores frecuentes intercalados entre los dos equipos
+                for (let i = 0; i < sortedFrequent.length; i++) {
+                    if (equipo1.length < 5 && i % 2 === 0) {
+                        equipo1.push(sortedFrequent[i]);
+                    } else if (equipo2.length < 5 && i % 2 !== 0) {
+                        equipo2.push(sortedFrequent[i]);
+                    }
                 }
+
+                // Agregar los jugadores ocasionales
+                for (let i = 0; i < sortedOccasional.length; i++) {
+                    if (equipo1.length < 5 && i % 2 === 0) {
+                        equipo1.push(sortedOccasional[i]);
+                    } else if (equipo2.length < 5 && i % 2 !== 0) {
+                        equipo2.push(sortedOccasional[i]);
+                    }
+                }
+
+                // Filtrar jugadores frecuentes y ocasionales que no han sido asignados a los equipos
+                const jugadoresAsignados = [...equipo1, ...equipo2];
+
+                // Filtrar los jugadores que aún no están asignados
+                const disponiblesFrecuentes = sortedFrequent.filter(j => !jugadoresAsignados.includes(j));
+                const disponiblesOcasionales = sortedOccasional.filter(j => !jugadoresAsignados.includes(j));
+
+                // Los jugadores disponibles son los que no están en los equipos
+                disponibles = [...disponiblesFrecuentes, ...disponiblesOcasionales];
+
             } else if (seleccionada === "3") {
+                // Distribuir aleatoriamente jugadores
                 const shuffled = shuffleArray(disponibles);
                 equipo1 = shuffled.slice(0, 5);
                 equipo2 = shuffled.slice(5, 10);
@@ -186,6 +204,7 @@
 
             const nombreEquipo1 = document.getElementById('nombreEquipo1').value.trim();
             const nombreEquipo2 = document.getElementById('nombreEquipo2').value.trim();
+            const fechaPartido = document.getElementById('fechaPartido').value;
 
             if (!nombreEquipo1 || !nombreEquipo2) {
                 alert("Por favor, ingresa los nombres para ambos equipos antes de confirmar.");
@@ -193,26 +212,26 @@
             }
 
             if (equipo1.length !== 5 || equipo2.length !== 5) {
-                alert("Ambos equipos deben tener exactamente 5 jugadores.");
+                alert("Ambos equipos deben tener 5 jugadores.");
+                return;
+            }
+
+            // Verificar que se haya ingresado una fecha
+            if (!fechaPartido) {
+                alert("Por favor, selecciona una fecha y hora para el partido.");
                 return;
             }
 
             document.getElementById('inputEquipo1').value = JSON.stringify(equipo1);
             document.getElementById('inputEquipo2').value = JSON.stringify(equipo2);
+            document.getElementById('inputFecha').value = document.getElementById('fechaPartido').value;
             document.getElementById('inputNombreEquipo1').value = nombreEquipo1;
             document.getElementById('inputNombreEquipo2').value = nombreEquipo2;
-
-            const fechaPartido = document.getElementById('fechaPartido').value;
-            if (!fechaPartido) {
-                alert("Por favor, selecciona una fecha para el partido.");
-                return;
-            }
-
-            document.getElementById('inputFecha').value = fechaPartido;
 
             this.submit();
         });
 
+        // Inicializar los jugadores disponibles
         renderEquipos();
     </script>
 </body>

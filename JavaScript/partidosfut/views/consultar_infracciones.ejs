@@ -16,7 +16,6 @@
           <tr>
             <th>Partido</th>
             <th>Fecha</th>
-            <th>Usuario</th>
             <th>Infracción</th>
           </tr>
         </thead>
@@ -29,9 +28,6 @@
               <td>
                 <%= new Date(partido.fecha).toLocaleDateString('es-ES') %> 
                 <%= new Date(partido.fecha).toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'}) %>
-              </td>
-              <td>
-                <%= partido.nombre %> <!-- Nombre del usuario -->
               </td>
               <td>
                 <% if (partido.descripcion) { %>

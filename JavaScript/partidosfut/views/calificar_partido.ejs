@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificar Partidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">Partidos Jugados</h1>
+        <% if (partidos.length > 0) { %>
+            <table class="table table-striped table-hover mt-4">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Equipo 1</th>
+                        <th>Equipo 2</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% partidos.forEach(partido => { %>
+                        <tr>
+                            <td>
+                                <%= new Date(partido.fecha).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>, 
+                                <%= new Date(partido.fecha).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }) %>
+                            </td>
+                            <td><%= partido.NombreEquipo1 %></td>
+                            <td><%= partido.NombreEquipo2 %></td>
+                            <td>
+                                <!-- Formulario para enviar datos -->
+                                <form action="/calificar_jugadores" method="GET">
+                                    <input type="hidden" name="id_partido" value="<%= partido.id_partido %>">
+                                    <input type="hidden" name="id_jugador" value="<%= idJugador %>">
+                                    <button type="submit" class="btn btn-primary btn-sm">Calificar Jugadores</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>                
+            </table>
+        <% } else { %>
+            <div class="alert alert-warning text-center" role="alert">
+                No hay partidos jugados disponibles para calificar.
+            </div>
+        <% } %>
+    </div>
+    <button onclick="window.location.href='/';" class="btn btn-secondary mt-3">Volver Atrás</button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

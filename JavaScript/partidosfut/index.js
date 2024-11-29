@@ -19,6 +19,12 @@ const eliminar_infraccionRoutes = require('./routes/eliminar_infraccion');
 const marcar_notificacion_leidaRoutes = require('./routes/marcar_notificacion_leida');
 const actualizar_suscripcionRoutes = require('./routes/actualizar_suscripcion');
 const consultar_infraccionesRoutes = require('./routes/consultar_infracciones');
+const calificar_partidoRoutes = require('./routes/calificar_partido');
+const calificar_jugadoresRoutes = require('./routes/calificar_jugadores');
+const agregar_calificacionRoutes = require('./routes/agregar_calificacion');
+const gestionar_participacionRoutes = require('./routes/gestionar_participacion');
+const agregar_participacionRoutes = require('./routes/agregar_participacion');
+const dar_de_baja_participacionRoutes = require('./routes/dar_de_baja_participacion');
 
 const app = express();
 const port = 3000;
@@ -131,6 +137,24 @@ app.use('/actualizar_suscripcion', actualizar_suscripcionRoutes);
 
 // Usar las rutas del módulo 'consultar_infracciones.js'
 app.use('/consultar_infracciones', consultar_infraccionesRoutes);
+
+// Usar las rutas del módulo 'calificar_partido.js'
+app.use('/calificar_partido', calificar_partidoRoutes);
+
+//  Usar las rutas del módulo 'calificar_jugadores.js'
+app.use('/calificar_jugadores', calificar_jugadoresRoutes);
+
+//  Usar las rutas del módulo 'agregar_calificaciones.js'
+app.use('/agregar_calificacion', agregar_calificacionRoutes);
+
+// Usar las rutas del módulo 'gestionar_participacion.js'
+app.use('/gestionar_participacion', gestionar_participacionRoutes);
+
+// Usar las rutas del módulo 'agregar_participacion.js'
+app.use('/agregar_participacion', agregar_participacionRoutes);
+
+// Usar las rutas del módulo 'dar_de_baja_participacion.js'
+app.use('/dar_de_baja_participacion', dar_de_baja_participacionRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {

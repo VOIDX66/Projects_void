@@ -9,18 +9,17 @@ router.post('/', (req, res) => {
     // Consulta para obtener los partidos y las infracciones
     const queryPartidos = `
         SELECT 
-            Equipo1.nombre As NombreEquipo1,
-            Equipo2.nombre As NombreEquipo2,
             Partidos.fecha,
-            Usuarios.nombre,
-            Infracciones.descripcion
-        FROM Partidos
-        INNER JOIN Equipos AS Equipo1 ON Partidos.id_partido = Equipo1.id_partido
-        INNER JOIN Equipos AS Equipo2 ON Partidos.id_partido = Equipo2.id_partido
-        INNER JOIN Jugador_Equipo ON Equipo1.id_equipo  = Jugador_Equipo.id_equipo
-        INNER JOIN Jugadores ON Jugador_Equipo.id_jugador = Jugadores.id_jugador 
+            Usuarios.nombre AS NombreUsuario,
+            Infracciones.descripcion,
+            Equipo1.nombre AS NombreEquipo1,
+            Equipo2.nombre AS NombreEquipo2
+        FROM Infracciones
+        INNER JOIN Partidos ON Infracciones.id_partido = Partidos.id_partido
+        INNER JOIN Jugadores ON Infracciones.id_jugador = Jugadores.id_jugador
         INNER JOIN Usuarios ON Jugadores.id_usuario = Usuarios.id_usuario
-        INNER JOIN Infracciones ON Jugadores.id_jugador = Infracciones.id_jugador 
+        LEFT JOIN Equipos AS Equipo1 ON Partidos.id_partido = Equipo1.id_partido
+        LEFT JOIN Equipos AS Equipo2 ON Partidos.id_partido = Equipo2.id_partido
         WHERE Usuarios.id_usuario = ?
         AND Equipo1.id_equipo < Equipo2.id_equipo
         ORDER BY Partidos.fecha DESC
@@ -33,7 +32,6 @@ router.post('/', (req, res) => {
         }
 
         // Renderizamos la vista pasando la lista de partidos e infracciones
-        console.log(results)
         res.render('consultar_infracciones', { partidos: results });
     });
 });

@@ -48,13 +48,17 @@
     </select>
   </div>
 
-  <form action="/consultar_infracciones" method="post">
+  <form action="/consultar_infracciones" method="POST">
     <input type="hidden" name="id_usuario" value="<%= user.id_usuario %>">
     <button type="submit" class="btn btn-primary">Consultar Infracciones</button>
   </form>
 
-  <form action="#" method="post">
+  <form action="/gestionar_participacion" method="POST">
     <button type="submit" class="btn btn-primary">Gestionar Participación</button>
+  </form>
+
+  <form action="/calificar_partido" method="GET">
+    <button type="submit" class="btn btn-primary">Calificar Partido</button>
   </form>
 
   <a href="/logout">Cerrar sesión</a>

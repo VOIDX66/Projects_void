@@ -39,7 +39,6 @@ router.post('/', (req, res) => {
                                     OR Jugador_Equipo.id_equipo = Equipo2.id_equipo
         WHERE Jugador_Equipo.id_jugador = ?
         AND Equipo1.id_equipo < Equipo2.id_equipo
-
     `;
 
     // Ejecutar ambas consultas
