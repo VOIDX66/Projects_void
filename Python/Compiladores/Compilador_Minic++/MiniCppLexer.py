@@ -5,6 +5,7 @@ class Lexer(sly.Lexer):
     tokens = {
         #Palabras reservadas
         VOID, BOOL, INT, FLOAT, DOUBLE, CHAR, WHILE, FOR, IF, ELSE, CONTINUE, BREAK, RETURN, SIZE, NEW, CLASS, PRINTF, SPRINTF, SCANF,
+        VOID, BOOL, INT, FLOAT, DOUBLE, CHAR, WHILE, FOR, IF, ELSE, CONTINUE, BREAK, RETURN, SIZE, NEW, CLASS, PRINTF, SCANF, NULL,
 
         #Operadores de relacion
         AND, OR, EQ, NE, GE, LE,
@@ -114,6 +115,7 @@ class Lexer(sly.Lexer):
     IDENT["printf"] = PRINTF
     IDENT["format"] = SPRINTF
     IDENT["scanf"] = SCANF
+    IDENT['null'] = NULL
 
     #Operadores
     EQ = r'=='

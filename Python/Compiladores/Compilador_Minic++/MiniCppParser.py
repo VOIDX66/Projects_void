@@ -188,6 +188,10 @@ class Parser(sly.Parser):
     @_("IDENT")
     def expr(self, p):
         return VarExpr(p[0])
+    
+    @_("NULL")
+    def expr(self, p):
+        return LiteralExpr(None)
 
     @_("IDENT '=' expr")
     def expr(self, p):

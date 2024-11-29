@@ -1,5 +1,5 @@
 // Declaraciones de variables
-double x = 2.718;
+float x = 2.7;
 char letter = 'A';
 bool isActive = false;
 

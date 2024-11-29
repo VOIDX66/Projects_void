@@ -158,7 +158,7 @@ class Interpreter(Visitor):
 
   # Declarations
 
-  def visit(self, node: ClassDeclStmt):
+  def visit(self, node: ClassDecl):
     if node.sclass:
       sclass = node.sclass.accept(self)
       env = self.env.new_child()
@@ -191,7 +191,7 @@ class Interpreter(Visitor):
       stmt.accept(self)
     self.env = self.env.parents
 
-  def visit(self, node: Print):
+  def visit(self, node: PrintfExpr):
     expr = node.expr.accept(self)
     if isinstance(expr, str):
       expr = expr.replace('\\n', '\n')
@@ -214,10 +214,10 @@ class Interpreter(Visitor):
     elif node.else_stmt:
       node.else_stmt.accept(self)
 
-  def visit(self, node: Break):
+  def visit(self, node: BreakStmt):
     raise BreakException()
 
-  def visit(self, node: Continue):
+  def visit(self, node: ContinueStmt):
     raise ContinueException()
 
   def visit(self, node: ReturnStmt):
@@ -230,8 +230,8 @@ class Interpreter(Visitor):
 
   # Expressions
 
-  def visit(self, node: ConstStmt):
-    return node.value
+  #ef visit(self, node: ConstStmt):
+  #  return node.value
 
   def visit(self, node: BinaryOpExpr):
     left  = node.left.accept(self)
@@ -303,8 +303,8 @@ class Interpreter(Visitor):
     else:
       raise NotImplementedError(f"Mal operador {node.op}")
 
-  def visit(self, node: Grouping):
-    return node.expr.accept(self)
+  #def visit(self, node: Grouping):
+  #  return node.expr.accept(self)
 
   def visit(self, node: VarAssignmentExpr):
     expr = node.expr.accept(self)
@@ -320,24 +320,6 @@ class Interpreter(Visitor):
       self.env.maps[self.localmap[id(node)]][node.name] /= expr
     elif node.op == '%=':
       self.env.maps[self.localmap[id(node)]][node.name] %= expr
-
-  def visit(self, node: PreInc):
-    self.env.maps[self.localmap[id(node)]][node.name] += 1
-    return self.env.maps[self.localmap[id(node)]][node.name]
-
-  def visit(self, node: PreDec):
-    self.env.maps[self.localmap[id(node)]][node.name] -= 1
-    return self.env.maps[self.localmap[id(node)]][node.name]
-
-  def visit(self, node: PostInc):
-    ret = self.env.maps[self.localmap[id(node)]][node.name]
-    self.env.maps[self.localmap[id(node)]][node.name] += 1
-    return ret
-
-  def visit(self, node: PostDec):
-    ret = self.env.maps[self.localmap[id(node)]][node.name]
-    self.env.maps[self.localmap[id(node)]][node.name] -= 1
-    return ret
 
   def visit(self, node: CallExpr):
     callee = node.func.accept(self)
@@ -356,6 +338,25 @@ class Interpreter(Visitor):
 
   def visit(self, node: VarExpr):
     return self.env.maps[self.localmap[id(node)]][node.name]
+
+  '''
+  def visit(self, node: PreInc):
+    self.env.maps[self.localmap[id(node)]][node.name] += 1
+    return self.env.maps[self.localmap[id(node)]][node.name]
+
+  def visit(self, node: PreDec):
+    self.env.maps[self.localmap[id(node)]][node.name] -= 1
+    return self.env.maps[self.localmap[id(node)]][node.name]
+
+  def visit(self, node: PostInc):
+    ret = self.env.maps[self.localmap[id(node)]][node.name]
+    self.env.maps[self.localmap[id(node)]][node.name] += 1
+    return ret
+
+  def visit(self, node: PostDec):
+    ret = self.env.maps[self.localmap[id(node)]][node.name]
+    self.env.maps[self.localmap[id(node)]][node.name] -= 1
+    return ret
 
   def visit(self, node: Set):
     obj = node.obj.accept(self)
@@ -387,4 +388,4 @@ class Interpreter(Visitor):
     if not method:
       self.error(node.object, f'Propiedad indefinida {node.name!r}')
     return method.bind(this)
-
+  '''
