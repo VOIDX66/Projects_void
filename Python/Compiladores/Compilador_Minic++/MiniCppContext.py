@@ -11,6 +11,7 @@ from collections import ChainMap
 from MiniCppCaster    import Node
 from MiniCppLexer    import Lexer
 from MiniCppParser import Parser
+from MiniCppInterp import Interpreter
 
 class Context:
     def __init__(self):
@@ -25,18 +26,13 @@ class Context:
         self.have_errors = False
         self.source = source
         self.ast = self.parser.parse(self.lexer.tokenize(self.source))
-        #print(f"AST: {self.ast}")
-    
-    def run(self):
-        print(self.env)
-        if not self.have_errors:
-            main_function = self.env["main"]
+        #self.parser = self.parser
+        #self.lexer = Lexer(self)
+        self.interp = Interpreter(self)
 
-            # Ejecutar el cuerpo de `main`
-            print("[green]Ejecutando la función `main`...[/green]")
-            for stmt in main_function.body.stmts:
-                print(stmt)
-                #self.execute_statement(stmt)
+    def run(self):
+        if not self.have_errors:
+            return self.interp.interpret(self.ast)
     
     def find_source(self, node):
         indices = self.parser.index_position(node)

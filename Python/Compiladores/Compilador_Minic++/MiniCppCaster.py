@@ -131,6 +131,11 @@ class BinaryOpExpr(Expression):
     opr : str
     left : Expression
     right : Expression
+
+class LogicalOpExpr(Expression):
+    op  : str
+    left : Expression
+    right : Expression
 #----------------------------------------------------------------
 
 @dataclass

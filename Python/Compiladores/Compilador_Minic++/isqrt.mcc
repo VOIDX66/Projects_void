@@ -2,15 +2,6 @@
 
 int num;
 
-/* ********************************************* *
- * Función: Raiz cuadrada entera.                *
- *                                               *
- * Usa el metodo de Newton para calcular         *
- * iterativamente la sqrt(x).                    *
- * ********************************************* *
- */
-
-
  int isqrt(int x, int y, int z) {
     int guess;
     int xprev;
@@ -35,7 +26,8 @@ int num;
     int x;
     int i;
     //z = 10;
-    scanf("%d",num);
+    //scanf("%d",num);
+    num = 25;
     x = isqrt(num);
     printf("isqrt(%d) = %f\n", num, x);
     

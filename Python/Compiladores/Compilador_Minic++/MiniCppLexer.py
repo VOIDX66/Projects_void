@@ -4,7 +4,7 @@ from rich import print
 class Lexer(sly.Lexer):
     tokens = {
         #Palabras reservadas
-        VOID, BOOL, INT, FLOAT, DOUBLE, CHAR, WHILE, FOR, IF, ELSE, CONTINUE, BREAK, RETURN, SIZE, NEW, CLASS, PRINTF, SCANF,
+        VOID, BOOL, INT, FLOAT, DOUBLE, CHAR, WHILE, FOR, IF, ELSE, CONTINUE, BREAK, RETURN, SIZE, NEW, CLASS, PRINTF, SCANF, NULL,
 
         #Operadores de relacion
         AND, OR, EQ, NE, GE, LE,
@@ -113,6 +113,7 @@ class Lexer(sly.Lexer):
     IDENT["class"] = CLASS
     IDENT["printf"] = PRINTF
     IDENT["scanf"] = SCANF
+    IDENT['null'] = NULL
 
     #Operadores
     EQ = r'=='
