@@ -44,13 +44,45 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
+// Variable para habilitar o deshabilitar el uso de datos simulados
+const usarDatosSimulados = true;
+
+// Datos simulados
+const usuariosMock = [
+  { id_usuario: 1, nombre: "UsuarioDemo", tipo: "USER" },
+  { id_usuario: 2, nombre: "AdminDemo", tipo: "ADMIN" }
+];
+
+const notificacionesMock = [
+  { id: 1, mensaje: "Notificación 1", leida: 0 },
+  { id: 2, mensaje: "Notificación 2", leida: 0 }
+];
+
+const jugadoresMock = [
+  { id_usuario: 1, model_sel: "Plan Básico", disponible: true },
+  { id_usuario: 2, model_sel: "Plan Premium", disponible: false }
+];
+
 // Ruta principal (index)
 app.get('/', (req, res) => {
-  const user = req.session.user;/*
-  if (user) {
-    // Si el usuario está autenticado, mostrar la página principal
+  const user = req.session.user || usuariosMock[0]; // Usar un usuario simulado si no hay sesión activa
+
+  if (usarDatosSimulados) {
     if (user.tipo === 'USER') {
-      // Obtener las notificaciones
+      // Datos simulados para la vista del usuario
+      const notificaciones = notificacionesMock.filter(n => n.leida === 0);
+      const jugadorData = jugadoresMock.find(j => j.id_usuario === user.id_usuario);
+
+      const modelSel = jugadorData ? jugadorData.model_sel : "Plan Básico";
+      const disponible = jugadorData ? jugadorData.disponible : false;
+
+      res.render('main_user', { user, notificaciones, modelSel, disponible });
+    } else {
+      res.render('main_admin', { user });
+    }
+  } else {
+    // Lógica original con base de datos
+    if (user.tipo === 'USER') {
       const notificacionesQuery = `
         SELECT * FROM Notificaciones
         INNER JOIN Jugadores ON Notificaciones.id_jugador = Jugadores.id_jugador
@@ -63,7 +95,6 @@ app.get('/', (req, res) => {
           return res.status(500).send('Error al obtener las notificaciones');
         }
 
-        // Obtener el model_sel de la tabla Jugadores
         const suscripcionQuery = 'SELECT model_sel, disponible FROM Jugadores WHERE id_usuario = ?';
         db.query(suscripcionQuery, [user.id_usuario], (err, result) => {
           if (err) {
@@ -71,23 +102,18 @@ app.get('/', (req, res) => {
             return res.status(500).send('Error al obtener la suscripción del jugador');
           }
 
-          const modelSel = result[0].model_sel; // Valor por defecto en caso de que no se encuentre
-          const disponible = result[0].disponible; // Valor por defecto en caso de que no se encuentre
-          //console.log(disponible,modelSel);
+          const modelSel = result[0].model_sel;
+          const disponible = result[0].disponible;
 
-          // Pasar los datos a la vista 'main_user'
           res.render('main_user', { user, notificaciones, modelSel, disponible });
         });
       });
     } else {
       res.render('main_admin', { user });
     }
-  } else {
-    // Si no está autenticado, mostrar opciones de login y registro
-    res.render('index'); // Vista con opciones de login y registro
-  }*/
-  res.render('main_admin', { user });
+  }
 });
+
 
 // Usar las rutas del módulo 'registro.js'
 app.use('/register', registerRoutes);
@@ -107,12 +133,6 @@ app.use('/gestionar_infracciones', gestionar_infraccionesRoutes);
 // Usar las rutas del módulo 'crear_partido.js'
 app.use('/crear_partido', crear_partidoRoutes);
 
-// Datos simulados
-const jugadoresMock = [
-  { nombre: "Juan Pérez", equipo: "Equipo A" },
-  { nombre: "María Gómez", equipo: "Equipo B" },
-  { nombre: "Carlos Díaz", equipo: "Equipo A" }
-];
 // Usar las rutas del módulo 'confirmar_equipos.js'
 app.use('/confirmar_equipos', confirmar_equiposRoutes);
 
