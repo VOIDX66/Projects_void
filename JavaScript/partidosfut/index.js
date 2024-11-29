@@ -27,7 +27,7 @@ const agregar_participacionRoutes = require('./routes/agregar_participacion');
 const dar_de_baja_participacionRoutes = require('./routes/dar_de_baja_participacion');
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 // Configurar el motor de vistas
 app.set('view engine', 'ejs');
@@ -51,7 +51,7 @@ app.use(express.json());
 
 
 // Variable para habilitar o deshabilitar el uso de datos simulados
-const usarDatosSimulados = true;
+const usarDatosSimulados = false;
 
 // Datos simulados
 const usuariosMock = [
@@ -71,7 +71,7 @@ const jugadoresMock = [
 
 // Ruta principal (index)
 app.get('/', (req, res) => {
-  const user = req.session.user || usuariosMock[0]; // Usar un usuario simulado si no hay sesión activa
+  const user = req.session.user; //|| usuariosMock[0]; // Usar un usuario simulado si no hay sesión activa
 
   if (usarDatosSimulados) {
     if (user.tipo === 'USER') {
@@ -88,34 +88,38 @@ app.get('/', (req, res) => {
     }
   } else {
     // Lógica original con base de datos
-    if (user.tipo === 'USER') {
-      const notificacionesQuery = `
-        SELECT * FROM Notificaciones
-        INNER JOIN Jugadores ON Notificaciones.id_jugador = Jugadores.id_jugador
-        INNER JOIN Usuarios ON Jugadores.id_usuario = Usuarios.id_usuario
-        WHERE Usuarios.id_usuario = ? AND Notificaciones.leida = 0
-      `;
-      db.query(notificacionesQuery, [user.id_usuario], (err, notificaciones) => {
-        if (err) {
-          console.error('Error en la base de datos:', err);
-          return res.status(500).send('Error al obtener las notificaciones');
-        }
-
-        const suscripcionQuery = 'SELECT model_sel, disponible FROM Jugadores WHERE id_usuario = ?';
-        db.query(suscripcionQuery, [user.id_usuario], (err, result) => {
+    if (user){
+      if (user.tipo === 'USER') {
+        const notificacionesQuery = `
+          SELECT * FROM Notificaciones
+          INNER JOIN Jugadores ON Notificaciones.id_jugador = Jugadores.id_jugador
+          INNER JOIN Usuarios ON Jugadores.id_usuario = Usuarios.id_usuario
+          WHERE Usuarios.id_usuario = ? AND Notificaciones.leida = 0
+        `;
+        db.query(notificacionesQuery, [user.id_usuario], (err, notificaciones) => {
           if (err) {
-            console.error('Error al obtener el model_sel:', err);
-            return res.status(500).send('Error al obtener la suscripción del jugador');
+            console.error('Error en la base de datos:', err);
+            return res.status(500).send('Error al obtener las notificaciones');
           }
 
-          const modelSel = result[0].model_sel;
-          const disponible = result[0].disponible;
+          const suscripcionQuery = 'SELECT model_sel, disponible FROM Jugadores WHERE id_usuario = ?';
+          db.query(suscripcionQuery, [user.id_usuario], (err, result) => {
+            if (err) {
+              console.error('Error al obtener el model_sel:', err);
+              return res.status(500).send('Error al obtener la suscripción del jugador');
+            }
 
-          res.render('main_user', { user, notificaciones, modelSel, disponible });
+            const modelSel = result[0].model_sel;
+            const disponible = result[0].disponible;
+
+            res.render('main_user', { user, notificaciones, modelSel, disponible });
+          });
         });
-      });
+      } else {
+        res.render('main_admin', { user });
+      }
     } else {
-      res.render('main_admin', { user });
+      res.render('index');
     }
   }
 });
