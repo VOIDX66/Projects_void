@@ -51,6 +51,7 @@ label {
 }
 
 input {
+    font-family: 'Roboto', sans-serif;
     width: 100%;
     padding: 0.8rem;
     border: 2px solid #bdc3c7;
@@ -90,7 +91,7 @@ button:hover {
     font-size: 1rem;
     transition: color 0.3s ease;
     position: relative; /* Cambia esto para mantener el control visual */
-    top: 1rem; /* Ajusta la distancia vertical */
+    top: 1rem;
 }
 
 .register-link {

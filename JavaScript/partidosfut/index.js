@@ -46,7 +46,7 @@ app.use(express.json());
 
 // Ruta principal (index)
 app.get('/', (req, res) => {
-  const user = req.session.user;
+  const user = req.session.user;/*
   if (user) {
     // Si el usuario está autenticado, mostrar la página principal
     if (user.tipo === 'USER') {
@@ -85,7 +85,8 @@ app.get('/', (req, res) => {
   } else {
     // Si no está autenticado, mostrar opciones de login y registro
     res.render('index'); // Vista con opciones de login y registro
-  }
+  }*/
+  res.render('main_admin', { user });
 });
 
 // Usar las rutas del módulo 'registro.js'

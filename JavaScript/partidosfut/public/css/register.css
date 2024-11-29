@@ -51,6 +51,7 @@ label {
 }
 
 input {
+    font-family: 'Roboto', sans-serif;
     width: 100%;
     padding: 0.8rem;
     border: 2px solid #bdc3c7;
