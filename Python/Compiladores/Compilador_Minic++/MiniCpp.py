@@ -88,6 +88,14 @@ if __name__ == '__main__':
       source = file.read()
     context = Context()
     context.parse(source)
+    try:
+        symbol_table = Checker.check(context.ast, context.env)
+        context.env = symbol_table
+        print("\nTabla de símbolos generada exitosamente.\n")
+    except CheckError as e:
+        print(f"Error de chequeo: {e}")
+        exit(1)
+
 
     if args.lex:
       print_lexer(source)
@@ -116,15 +124,9 @@ if __name__ == '__main__':
 
     #Llamado de la tabla de simbolos
     if args.sym:
-      try:
-          symbol_table = Checker.check(context.ast, context.env)
-          print("\n")
-          for table in symbol_table:  # Asegúrate de recorrer correctamente la ChainMap
-            print(f"{table}\n")
-      except CheckError as e:
-          print(f"Error de chequeo: {e}")
+      for table in symbol_table:
+          print(f"{table}\n")
     else:
-      context.parse(source)
       context.run()
   else:
     context = Context()
