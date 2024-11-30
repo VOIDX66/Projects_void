@@ -41,18 +41,20 @@ router.get('/', (req, res) => {
         
         if (partidos.length === 0) {
             // No hay partidos jugados
-            db.query('SELECT id_jugador FROM Jugadores ON Jugadores.id_usuario = Usuarios.id_usuario WHERE id_usuario = ?', [usuario.id_usuario], (err, res) => {
+            db.query('SELECT Jugadores.id_jugador FROM Jugadores INNER JOIN Usuarios ON Jugadores.id_usuario = Usuarios.id_usuario WHERE Usuarios.id_usuario = ?', [usuario.id_usuario], (err, result) => {
                 if (err) {
                     console.error('Error al obtener el id_jugador:', err);
                     return res.status(500).send('Error al obtener el id_jugador');
                 }
-                idJugador = res.id_jugador;
-                return res.render('calificar_partido', { partidos: [], idJugador });
+                idJugador = result.id_jugador;
+                res.render('calificar_partido', { partidos: [], idJugador });
             });
             
             
         }
-        idJugador = partidos[0].id_jugador;
+        else{
+            idJugador = partidos[0].id_jugador;
+        }
 
         // Obtener los nombres de los equipos para cada partido
         const partidosConEquipos = [];
