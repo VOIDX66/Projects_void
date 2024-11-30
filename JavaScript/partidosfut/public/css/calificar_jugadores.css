@@ -1,0 +1,179 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://img.freepik.com/free-photo/soccer-players-action-professional-stadium_654080-1166.jpg?t=st=1732995535~exp=1732999135~hmac=c25cb6502348cf15552e8ebbac6b918810d6cd088188bcaade51609de3b8078e&w=996');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 800px;
+    margin-bottom: 120px;
+}
+
+h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 i {
+    color: #f39c12;
+    margin-right: 10px;
+}
+
+.btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn i {
+    margin-right: 5px;
+}
+
+.jugador-item {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.jugador-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.jugador-nombre {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.equipo-info {
+    color: #7f8c8d;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.calificaciones-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #34495e;
+    font-size: 1.4rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.calificaciones-list {
+    margin-bottom: 1.5rem;
+}
+
+.calificacion-item {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem;
+}
+
+.calificacion-puntuacion {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #f39c12;
+    margin-bottom: 0.25rem;
+}
+
+.calificacion-comentario {
+    font-style: italic;
+    color: #34495e;
+    margin-bottom: 0.25rem;
+}
+
+.calificacion-autor {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.no-calificaciones, .no-jugadores {
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.calificar-form {
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.calificacion-realizada, .calificacion-propia {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .jugador-nombre {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .soccer-field {
+        width: 240px;
+        height: 144px;
+    }
+
+    .center-circle {
+        width: 48px;
+        height: 48px;
+    }
+
+    .ball {
+        width: 8px;
+        height: 8px;
+    }
+
+    .player {
+        width: 16px;
+        height: 16px;
+    }
+}

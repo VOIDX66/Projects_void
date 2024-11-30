@@ -56,15 +56,15 @@
         <input type="hidden" name="id_usuario" value="<%= user.id_usuario %>">
         <button type="submit" class="btn btn-primary"><i class="fas fa-exclamation-triangle"></i> Consultar Infracciones</button>
       </form>
-
+    
       <form action="/gestionar_participacion" method="post">
         <button type="submit" class="btn btn-info"><i class="fas fa-calendar-check"></i> Gestionar Participación</button>
       </form>
-
+    
       <form action="/calificar_partido" method="GET">
-        <button type="submit" class="btn btn-primary">Calificar Partido</button>
+        <button type="submit" class="btn btn-warning"><i class="fas fa-star"></i> Calificar Partido</button>
       </form>
-
+    
       <a href="/logout" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
     </div>
 
