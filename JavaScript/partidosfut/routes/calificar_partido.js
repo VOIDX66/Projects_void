@@ -38,12 +38,12 @@ router.get('/', (req, res) => {
             console.error('Error en la base de datos:', err);
             return res.status(500).send('Error al obtener los partidos jugados');
         }
-        idJugador = partidos[0].id_jugador;
-
+        
         if (partidos.length === 0) {
             // No hay partidos jugados
             return res.render('calificar_partido', { partidos: [], idJugador });
         }
+        idJugador = partidos[0].id_jugador;
 
         // Obtener los nombres de los equipos para cada partido
         const partidosConEquipos = [];
