@@ -42,6 +42,10 @@ router.get('/', (req, res) => {
         if (partidos.length === 0) {
             // No hay partidos jugados
             db.query('SELECT id_jugador FROM Jugadores ON Jugadores.id_usuario = Usuarios.id_usuario WHERE id_usuario = ?', [usuario.id_usuario], (err, res) => {
+                if (err) {
+                    console.error('Error al obtener el id_jugador:', err);
+                    return res.status(500).send('Error al obtener el id_jugador');
+                }
                 idJugador = res.id_jugador;
                 return res.render('calificar_partido', { partidos: [], idJugador });
             });
