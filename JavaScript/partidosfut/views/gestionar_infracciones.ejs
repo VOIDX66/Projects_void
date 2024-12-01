@@ -3,72 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionar Infracciones</title>
+    <title>Gestionar Infracciones - Fútbol 5</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/gestionar_infracciones.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/gestionar_infracciones_admin.css">
 </head>
 <body>
-    <h1>Gestionar Infracciones de <%= jugador %></h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4"><i class="fas fa-exclamation-triangle"></i> Gestionar Infracciones de <%= jugador %></h1>
 
-    <% if (infracciones.length > 0) { %>
-        <h2>Infracciones:</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Descripción</th>
-                    <th>Fecha del Partido</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% infracciones.forEach(function(infraccion) { %>
-                    <tr>
-                        <td><%= infraccion.descripcion %></td>
-                        <td><%= new Date(infraccion.fecha).toLocaleDateString() %></td>
-                        <td>
-                            <!-- Formulario para eliminar la infracción -->
-                            <form action="/eliminar_infraccion" method="post" style="display:inline;">
-                                <input type="hidden" name="id_infraccion" value="<%= infraccion.id_infraccion %>">
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
-    <% } else { %>
-        <p>No hay infracciones para este jugador.</p>
-    <% } %>
+        <% if (infracciones.length > 0) { %>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title"><i class="fas fa-list"></i> Infracciones:</h2>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Fecha del Partido</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% infracciones.forEach(function(infraccion) { %>
+                                    <tr>
+                                        <td><%= infraccion.descripcion %></td>
+                                        <td><%= new Date(infraccion.fecha).toLocaleDateString() %></td>
+                                        <td>
+                                            <form action="/eliminar_infraccion" method="post" class="d-inline">
+                                                <input type="hidden" name="id_infraccion" value="<%= infraccion.id_infraccion %>">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle"></i> No hay infracciones para este jugador.
+            </div>
+        <% } %>
 
-    <h2>Partidos:</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Equipos</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% partidos.forEach(function(partido) { %>
-                <tr>
-                    <td><%= new Date(partido.fecha).toLocaleDateString('es-ES') + ' ' + new Date(partido.fecha).toLocaleTimeString('es-ES', { hour12: false }) %></td>
-                    <td><%= partido.estado %></td>
-                    <td><%= partido.equipo_1 %> vs <%= partido.equipo_2 %></td>
-                    <td>
-                        <!-- Formulario para agregar infracción -->
-                        <form action="/nueva_infraccion" method="post">
-                            <input type="hidden" name="id_partido" value="<%= partido.id_partido %>">
-                            <input type="hidden" name="id_jugador" value="<%= idJugador %>">
-                            <input type="hidden" name="nombre" value="<%= jugador %>">
-                            <button type="submit" class="btn btn-primary">Agregar Infracción</button>
-                        </form>
-                    </td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
-    <button onclick="window.history.back();" class="btn btn-secondary mt-3">Volver Atrás</button>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title"><i class="fas fa-futbol"></i> Partidos:</h2>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Equipos</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% partidos.forEach(function(partido) { %>
+                                <tr>
+                                    <td><%= new Date(partido.fecha).toLocaleDateString('es-ES') + ' ' + new Date(partido.fecha).toLocaleTimeString('es-ES', { hour12: false }) %></td>
+                                    <td><%= partido.estado %></td>
+                                    <td><%= partido.equipo_1 %> vs <%= partido.equipo_2 %></td>
+                                    <td>
+                                        <form action="/nueva_infraccion" method="post">
+                                            <input type="hidden" name="id_partido" value="<%= partido.id_partido %>">
+                                            <input type="hidden" name="id_jugador" value="<%= idJugador %>">
+                                            <input type="hidden" name="nombre" value="<%= jugador %>">
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-plus"></i> Agregar Infracción
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button onclick="window.history.back();" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver Atrás
+            </button>
+        </div>
+    </div>
+
+    <div class="soccer-field">
+        <div class="field-line center-line"></div>
+        <div class="center-circle"></div>
+        <div class="penalty-area-left"></div>
+        <div class="penalty-area-right"></div>
+        <div class="goal-left"></div>
+        <div class="goal-right"></div>
+        <div class="ball"></div>
+        <div class="referee"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
