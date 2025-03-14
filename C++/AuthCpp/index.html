@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+</head>
+<body>
+    <h1>Lista de Usuarios</h1>
+    <ul id="user-list"></ul>
+
+    <script>
+        async function fetchUsers() {
+            try {
+                let response = await fetch("http://localhost:4500/usuarios"); // Cambia la URL si es necesario
+                let data = await response.json();
+
+                let userList = document.getElementById("user-list");
+                userList.innerHTML = "";
+                
+                data.forEach(user => {
+                    let li = document.createElement("li");
+                    li.textContent = `ID: ${user.id}, Nombre: ${user.name}`;
+                    userList.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error al obtener usuarios:", error);
+            }
+        }
+
+        fetchUsers();
+    </script>
+</body>
+</html>
